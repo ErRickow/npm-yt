@@ -154,7 +154,7 @@ detectSystemInfo((error, architecture, platform) => {
 async function processOutput(args, tempFile, retries = 3) {
   await ensureExecutable(PathErDL);
 
-  const cobaEksekusi = (percobaan) =>
+  const cobaEksekusi = percobaan =>
     new Promise((resolve, reject) => {
       execFile(PathErDL, args, async (err, stdout, stderr) => {
         if (err) {
@@ -206,7 +206,7 @@ async function processOutput(args, tempFile, retries = 3) {
 //   const url = getVideoUrl(input);
 //   const output = path.join(tempPath, generateRandomName('m4a'));
 //   const validCookiePath = await findValidCookie();
-// 
+//
 //   const args = [
 //     '--no-cache-dir',
 //     '-f',
@@ -217,33 +217,37 @@ async function processOutput(args, tempFile, retries = 3) {
 //     output,
 //     url,
 //   ];
-// 
+//
 //   return await processOutput(args, output);
 // }
 
 // URL yang telah didecode
-const decodedUrl = Buffer.from('aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wMz91cmw9', 'base64').toString('utf-8');
+const decodedUrl = Buffer.from(
+  'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wMz91cmw9',
+  'base64',
+).toString('utf-8');
 
 function ermp3(url) {
-    const apiUrl = `${decodedUrl}?url=${url}`;
-    
-    axios.get(apiUrl)
-        .then(response => {
-            // Proses hasil response jika berhasil
-            return {
-                status: true,
-                judul: response.data.title,
-                url: response.data.dl,
-            };
-        })
-        .catch(error => {
-            // Menangani error jika terjadi
-            return {
-                status: false,
-                why: 'eror lah anjg',
-                terus_gmna: 'wait till im update',
-            }
-        });
+  const apiUrl = `${decodedUrl}?url=${url}`;
+
+  axios
+    .get(apiUrl)
+    .then(response => {
+      // Proses hasil response jika berhasil
+      return {
+        status: true,
+        judul: response.data.title,
+        url: response.data.dl,
+      };
+    })
+    .catch(error => {
+      // Menangani error jika terjadi
+      return {
+        status: false,
+        why: 'eror lah anjg',
+        terus_gmna: 'wait till im update',
+      };
+    });
 }
 
 async function ermp4(input) {
