@@ -226,14 +226,14 @@ const decodedUrl = atob(base64Url);
 
 async function ermp3(url) {
   const apiUrl = `${decodedUrl}${url}`;
-  
+
   try {
     const response = await axios.get(apiUrl);
     return {
       status: true,
       judul: response.data.data.title,
       url: response.data.data.dl,
-      from: "@er-npm/scraper"
+      from: '@er-npm/scraper',
     };
   } catch (error) {
     // Menangani error jika terjadi
@@ -250,40 +250,48 @@ async function ermp3(url) {
 // ermp3(url).then(result => console.log(result));
 
 async function ermp4(url) {
-    await clearSystemTempDir();  // Assuming this function is defined to clear the temp directory
-    
-    const sampah = path.join(tempPath, `${Math.floor(Math.random() * 100000)}_${Math.floor(Math.random() * 100000)}`);
-    const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s');
-    
-    const ur = 'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wND91cmw9';
-    const tob = atob(ur);
-    const apiUrl = `${tob}${url}`;
+  await clearSystemTempDir(); // Assuming this function is defined to clear the temp directory
 
-    try {
-        const response = await axios.get(apiUrl);
+  const sampah = path.join(
+    tempPath,
+    `${Math.floor(Math.random() * 100000)}_${Math.floor(Math.random() * 100000)}`,
+  );
+  const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s');
 
-        // Assuming response.data.data.dl contains the download URL, you can use the `sampah` variable for the download path
-        const filePath = path.join(sampah, `${response.data.data.title}_${Math.floor(Math.random() * 100000)}.mp4`);
-        
-        // Download and save the file to the 'sampah' directory
-        const writer = fs.createWriteStream(filePath);
-        const fileResponse = await axios.get(response.data.data.dl, { responseType: 'stream' });
-        fileResponse.data.pipe(writer);
+  const ur = 'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wND91cmw9';
+  const tob = atob(ur);
+  const apiUrl = `${tob}${url}`;
 
-        return {
-            status: true,
-            judul: response.data.data.title,
-            url: filePath,
-            from: "@er-npm/scraper"
-        };
-    } catch (error) {
-        // Handle errors
-        return {
-            status: false,
-            why: 'Error occurred.',
-            terus_gmna: 'Visit: t.me/chakszzz',
-        };
-    }
+  try {
+    const response = await axios.get(apiUrl);
+
+    // Assuming response.data.data.dl contains the download URL, you can use the `sampah` variable for the download path
+    const filePath = path.join(
+      sampah,
+      `${response.data.data.title}_${Math.floor(Math.random() * 100000)}.mp4`,
+    );
+
+    // Download and save the file to the 'sampah' directory
+    const writer = fs.createWriteStream(filePath);
+    const fileResponse = await axios.get(response.data.data.dl, {
+      responseType: 'stream',
+    });
+    fileResponse.data.pipe(writer);
+
+    return {
+      status: true,
+      judul: response.data.data.title,
+      url: filePath,
+      from: '@er-npm/scraper',
+    };
+  } catch (error) {
+    // Handle errors
+    return {
+      status: false,
+      why: 'Error occurred.',
+      terus_gmna: 'Visit: t.me/chakszzz',
+    };
+  }
 }
 
 async function alldl(input) {
