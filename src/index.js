@@ -64,7 +64,7 @@ async function testCookie(cookiePath) {
   return new Promise((resolve, reject) => {
     execFile(PathErDL, args, (error, stdout, stderr) => {
       if (error) {
-        if (PathErDL.includes('erdl_py')) {
+        if (PathErDL.includes('ErLib_py')) {
           execFile(
             'python',
             [PathErDL, ...args],
@@ -104,7 +104,7 @@ detectSystemInfo((error, architecture, platform) => {
       `❌ [ERROR] Gagal mendeteksi sistem: ${error.message}`,
     );
   if (platform === 'android') {
-    PathErDL = path.join(__dirname, '../bin/erdl_py');
+    PathErDL = path.join(__dirname, '../bin/ErLib_py');
     console.log(`📱 [PLATFORM] Sistem Android terdeteksi.`);
     console.log(
       `🚀 [@er-npm/scraper] Modul diinisialisasi dengan Python untuk Android.`,
@@ -157,7 +157,7 @@ async function processOutput(args, tempFile, retries = 3) {
     new Promise((resolve, reject) => {
       execFile(PathErDL, args, async (err, stdout, stderr) => {
         if (err) {
-          if (PathErDL.includes('erdl_py')) {
+          if (PathErDL.includes('ErLib_py')) {
             execFile(
               'python',
               [PathErDL, ...args],
