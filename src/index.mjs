@@ -87,7 +87,7 @@ detectSystemInfo((error, architecture, platform) => {
 
     console.log(`📱 [PLATFORM] Sistem Android terdeteksi.`);
 
-    console.log(`🚀 [@hiudyy/ytdl] Modul diinisialisasi dengan Python untuk Android.`);
+    console.log(`🚀 [@er-npm/scraper] Modul diinisialisasi dengan Python untuk Android.`);
     return;
   }
   if (platform !== 'linux' && platform !== 'win32') {
@@ -117,7 +117,7 @@ detectSystemInfo((error, architecture, platform) => {
       return;
   }
 
-  console.log(`✅ [@hiudyy/ytdl] Modul berhasil diinisialisasi pada arsitektur: ${architecture}.`);
+  console.log(`✅ [@er-npm/scraper] Modul berhasil diinisialisasi pada arsitektur: ${architecture}.`);
 });
 
 
