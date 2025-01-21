@@ -63,20 +63,20 @@ function getModelImage(modelim) {
 }
 
 async function imageGenV2(textin, model = 'dalle') {
-  if (!textin) throw new Error("Teks tidak disediakan.");
+  if (!textin) throw new Error("Falta fornecer um texto.");
   const modelOfc = getModelImage(model);
   const url = `https://hercai.onrender.com/${modelOfc}?prompt=${encodeURIComponent(textin)}&negative_prompt=${encodeURIComponent("Bad quality, missing body parts, deformed body, meaningless image, poor quality, Deformed body parts, missing limbs, extra limbs")}`;
   const response = await fetch(url, {
     method: 'GET',
     headers: { "Content-Type": "application/json", "Authorization": ApiKeyHercai }
   });
-  if (!response.ok) throw new Error(`Kesalahan HTTP! status: ${response.status}`);
+  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
   const apiResponse = await response.json();
   return { url: apiResponse.url, prompt: textin, model: model };
 }
 
 async function ia(text, model = 'gpt-4o', idChat = false) {
-  if (!text) throw new Error("Teks tidak disediakan.");
+  if (!text) throw new Error("Falta fornecer um texto.");
   const modelOfc = getModel(model);
 
   if (!idChat) {
@@ -102,7 +102,7 @@ async function ia(text, model = 'gpt-4o', idChat = false) {
 }
 
 async function textV2(input, model = "gpt-4", idChat = false) {
-  if (!input) throw new Error("Teks tidak disediakan.");
+  if (!input) throw new Error("Falta fornecer um texto.");
 
   if (!AiTempSave2[model]) AiTempSave2[model] = {};
   if (idChat && !AiTempSave2[model][idChat]) AiTempSave2[model][idChat] = [];
@@ -129,7 +129,7 @@ async function textV2(input, model = "gpt-4", idChat = false) {
 }
 
 async function textV3(input, model = "v3") {
-  if (!input) throw new Error("Teks tidak disediakan.");
+  if (!input) throw new Error("Falta fornecer um texto.");
 
   const url = `https://hercai.onrender.com/v3/hercai?question=${encodeURIComponent(input)}&model=${model}`;
   const response = await fetch(url, {
@@ -140,10 +140,11 @@ async function textV3(input, model = "v3") {
     }
   });
 
-  if (!response.ok) throw new Error(`Kesalahan: ${response.status}`);
+  if (!response.ok) throw new Error(`Erro: ${response.status}`);
   const result = await response.json();
   return result.reply
 };
+
 
 const ai = Object.assign(ia, {
   models,
