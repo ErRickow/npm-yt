@@ -1,32 +1,24 @@
-name: 'Bump Version'
+name: Prettier Formatting
 
 on:
   push:
     branches:
-      - 'master'
+      - master
 
 jobs:
-  bump-version:
-    name: 'Bump Version on master'
+  prettier:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Checkout source code'
-        uses: 'actions/checkout@v2'
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
-          ref: ${{ github.ref }}
-      - name: 'cat package.json'
-        run: cat ./package.json
-      - name: 'Automated Version Bump'
-        id: version-bump
-        uses: 'phips28/gh-action-bump-version@master'
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          token: ${{ secrets.TOKEN }}
+
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
         with:
-          tag-prefix: 'v'
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-      - name: 'cat package.json'
-        run: cat ./package.json
-      - name: 'Output Step'
-        env:
-          NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
-        run: echo "new tag $NEW_TAG"
+          prettier_options: '--write **/*.{js,ts,tsx,json,md,css}'
+          github_token: ${{ secrets.TOKEN }}
