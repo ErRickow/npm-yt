@@ -57,11 +57,11 @@ inputs:
   use_code_blocks:
     description: 'Enable code block documentation'
     required: false
-    default: 'false'
+    default: 'true'
   use_major_version:
     description: 'Use the major version of the repository tag e.g v1.0.0 -> v1'
     required: false
-    default: 'false'
+    default: 'v1'
 
 
 runs:
