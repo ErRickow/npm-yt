@@ -1,6 +1,6 @@
 {
   "name": "@er-npm/scraper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A comprehensive toolkit for downloading audio and video content from YouTube, social media platforms, and various streaming services. This tool integrates advanced AI functionalities for enhanced media processing.",
   "main": "src/index.js",
   "module": "src/index.mjs",
@@ -20,9 +20,5 @@
   },
   "devDependencies": {
     "typescript": "^5.7.2"
-  },
-  "scripts": {
-    "build": "tsc",
-    "lint": "eslint . -c .js,.mjs,.ts"
   }
 }
