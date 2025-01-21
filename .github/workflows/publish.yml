@@ -1,9 +1,9 @@
 name: Release
 
 on:
+  workflow_dispatch:
     branches:
       - master
-    workflow_dispatch:
 
 jobs:
   latest-tag:
