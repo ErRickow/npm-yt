@@ -360,6 +360,7 @@ async function alldl(input) {
   }
 
   return results;
+  }
 }
 
 async function convertToCompatibleVideo(inputPath, outputPath) {
