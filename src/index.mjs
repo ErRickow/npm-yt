@@ -181,7 +181,7 @@ async function alldl(input) {
     await ensureExecutable(PathErDL);
     const validCookiePath = await findValidCookie();
 
-    // Argumentos para listar formatos disponíveis
+    // Argument untuk daftar format yang tersedia
     const formatArgs = ["--no-cache-dir", "-F", "--cookies", validCookiePath, url];
 
     const formats = await new Promise((resolve, reject) => {
@@ -191,7 +191,7 @@ async function alldl(input) {
       });
     });
 
-    // Detecta tipos de arquivos suportados
+    // Deteksi jenis file yang didukung
     const hasAudio = /\.(mp3|m4a|aac|wav|flac|ogg|opus)$/i.test(formats) || formats.includes('audio');
     const hasVideo = /\.(mp4|mkv|avi|mov|wmv|flv|webm)$/i.test(formats) || formats.includes('video');
     const hasImages = /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(formats) || formats.includes('image');
@@ -199,12 +199,12 @@ async function alldl(input) {
 
     const downloadArgsList = [];
 
-    // Vídeo + Áudio com qualidade média
+    // Video + Audio dengan kualitas menengah
     if (hasVideo || !hasAudio) {
       downloadArgsList.push(["--no-cache-dir", "-f", "bestvideo+worstaudio/best", "--merge-output-format", "mp4", "--cookies", validCookiePath, "--output", outputTemplate, "--no-warnings"]);
     }
 
-    // Áudio com qualidade mais baixa e rápido
+    // Audio dengan kualitas lebih rendah dan cepat
     if (hasAudio) {
       downloadArgsList.push([
         "--no-cache-dir",
@@ -220,7 +220,7 @@ async function alldl(input) {
       ]);
     }
 
-    // Imagens
+    // Gambar
     if (hasImages) {
       downloadArgsList.push([
         "--no-cache-dir",
@@ -235,7 +235,7 @@ async function alldl(input) {
       ]);
     }
 
-    // Documentos
+    // Dokumen
     if (hasDocument) {
       downloadArgsList.push([
         "--no-cache-dir",
@@ -249,71 +249,92 @@ async function alldl(input) {
       ]);
     }
 
-    // Executa os downloads
+    // Menjalankan proses unduhan
     for (const args of downloadArgsList) {
-      await new Promise((resolve, reject) => {
-        execFile(PathErDL, args.concat(url), (error, stdout, stderr) => {
-          if (error) {
-            if (PathErDL.includes("erdl_py")) {
-              execFile("python", [PathErDL, ...args, url], (pyErr, pyStdout, pyStderr) => {
-                if (pyErr) return reject(`ErLib error: ${pyStderr || pyErr.message}`);
-                resolve(pyStdout.trim());
-              });
-            } else {
-                return reject(`ErLib error: ${stderr || error.message}`);
-            }
-          } else {
-            resolve(stdout.trim());
-          }
-        });
-      });
-    }
+      let attempt = 0;
+      let success = false;
 
-    // Processa os arquivos baixados
-    const files = fs.readdirSync(tempPathDl);
-    for (const file of files) {
-      const filePath = path.join(tempPathDl, file);
-      const extension = path.extname(file).toLowerCase();
-      const convertedFilePath = path.join(tempPathDl, `converted_${path.basename(file, extension)}.mp4`);
-
-      if ([".mp4", ".mkv", ".webm"].includes(extension)) {
+      while (attempt < 3 && !success) {
+        attempt++;
         try {
-          await convertToCompatibleVideo(filePath, convertedFilePath); // Converte o vídeo para formato compatível
-          const buffer = fs.readFileSync(convertedFilePath);
-          results.push({ type: "video", src: buffer, mimetype: "video/mp4" });
-          fs.unlinkSync(filePath); // Remove o arquivo original
-          fs.unlinkSync(convertedFilePath); // Remove o arquivo convertido
-        } catch (conversionError) {
-          console.error("Erro ao converter vídeo:", conversionError);
+          await new Promise((resolve, reject) => {
+            execFile(PathErDL, args.concat(url), async (error, stdout, stderr) => {
+              if (error) {
+                if (PathErDL.includes("erdl_py")) {
+                  execFile("python", [PathErDL, ...args, url], async (pyErr, pyStdout, pyStderr) => {
+                    if (pyErr) {
+                      return reject(`ErLib error (Python): ${pyStderr || pyErr.message}`);
+                    }
+                    resolve(pyStdout.trim());
+                  });
+                } else {
+                  return reject(`ErLib error: ${stderr || error.message}`);
+                }
+              } else {
+                resolve(stdout.trim());
+              }
+            });
+          });
+
+          // Jika tidak ada kesalahan, tandai sebagai berhasil
+          success = true;
+          console.log(`Percobaan ${attempt} berhasil untuk args: ${args}`);
+        } catch (err) {
+          console.log(`Percobaan ${attempt} gagal untuk args: ${args}. Kesalahan: ${err}`);
+          if (attempt === 3) {
+            await clearSystemTempDir();
+            console.error(`Kesalahan setelah 3 percobaan untuk args: ${args}.`);
+            throw new Error(err); // Lemparkan ulang kesalahan setelah 3 percobaan gagal
+          }
         }
-      } else if ([".mp3", ".m4a", ".opus"].includes(extension)) {
-        const buffer = fs.readFileSync(filePath);
-        results.push({ type: "audio", src: buffer, mimetype: "audio/mpeg" });
-        fs.unlinkSync(filePath);
-      } else if ([".jpg", ".jpeg", ".png", ".webp"].includes(extension)) {
-        const buffer = fs.readFileSync(filePath);
-        results.push({ type: "image", src: buffer, mimetype: "image/jpg" });
-        fs.unlinkSync(filePath);
-      } else if ([".pdf", ".doc", ".docx", ".xls", ".xlsx", ".txt", ".ppt", ".pptx"].includes(extension)) {
-        const buffer = fs.readFileSync(filePath);
-        results.push({ type: "document", src: buffer, mimetype: "application/octet-stream" });
-        fs.unlinkSync(filePath);
-      } else if ([".zip"].includes(extension)) {
-        const buffer = fs.readFileSync(filePath);
-        results.push({ type: "document", src: buffer, mimetype: "application/zip" });
-        fs.unlinkSync(filePath);
-      } else if ([".apk"].includes(extension)) {
-        const buffer = fs.readFileSync(filePath);
-        results.push({ type: "document", src: buffer, mimetype: "application/vnd.android.package-archive" });
-        fs.unlinkSync(filePath);
-      } else {
-        const buffer = fs.readFileSync(filePath);
-        results.push({ type: "unknown", src: buffer, mimetype: "application/octet-stream" });
-        fs.unlinkSync(filePath);
+      }
+
+      // Memproses file yang diunduh
+      const files = fs.readdirSync(tempPathDl);
+      for (const file of files) {
+        const filePath = path.join(tempPathDl, file);
+        const extension = path.extname(file).toLowerCase();
+        const convertedFilePath = path.join(tempPathDl, `converted_${path.basename(file, extension)}.mp4`);
+
+        if ([".mp4", ".mkv", ".webm"].includes(extension)) {
+          try {
+            await convertToCompatibleVideo(filePath, convertedFilePath); // Konversi video ke format yang kompatibel
+            const buffer = fs.readFileSync(convertedFilePath);
+            results.push({ type: "video", src: buffer, mimetype: "video/mp4" });
+            fs.unlinkSync(filePath); // Hapus file asli
+            fs.unlinkSync(convertedFilePath); // Hapus file yang telah dikonversi
+          } catch (conversionError) {
+            console.error("Kesalahan saat mengonversi video:", conversionError);
+          }
+        } else if ([".mp3", ".m4a", ".opus"].includes(extension)) {
+          const buffer = fs.readFileSync(filePath);
+          results.push({ type: "audio", src: buffer, mimetype: "audio/mpeg" });
+          fs.unlinkSync(filePath);
+        } else if ([".jpg", ".jpeg", ".png", ".webp"].includes(extension)) {
+          const buffer = fs.readFileSync(filePath);
+          results.push({ type: "image", src: buffer, mimetype: "image/jpg" });
+          fs.unlinkSync(filePath);
+        } else if ([".pdf", ".doc", ".docx", ".xls", ".xlsx", ".txt", ".ppt", ".pptx"].includes(extension)) {
+          const buffer = fs.readFileSync(filePath);
+          results.push({ type: "document", src: buffer, mimetype: "application/octet-stream" });
+          fs.unlinkSync(filePath);
+        } else if ([".zip"].includes(extension)) {
+          const buffer = fs.readFileSync(filePath);
+          results.push({ type: "document", src: buffer, mimetype: "application/zip" });
+          fs.unlinkSync(filePath);
+        } else if ([".apk"].includes(extension)) {
+          const buffer = fs.readFileSync(filePath);
+          results.push({ type: "document", src: buffer, mimetype: "application/vnd.android.package-archive" });
+          fs.unlinkSync(filePath);
+        } else {
+          const buffer = fs.readFileSync(filePath);
+          results.push({ type: "unknown", src: buffer, mimetype: "application/octet-stream" });
+          fs.unlinkSync(filePath);
+        }
       }
     }
   } catch (err) {
-    console.error("Eror sayang:", err);
+    console.error("Kesalahan saat mengunduh:", err);
   }
 
   return results;
