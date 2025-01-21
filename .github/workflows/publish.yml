@@ -1,10 +1,13 @@
 name: Release
+
 on:
   push:
     branches:
       - master
 
 jobs:
+  latest-tag:
+    name: Run latest-tag
     runs-on: ubuntu-latest
 
     steps:
@@ -16,21 +19,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-
   publish-npm:
     name: Publish on NPM
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Set up Node.js for NPM
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm install
-      - run: npm publish
+      - name: Install dependencies
+        run: npm install
+
+      - name: Publish package to NPM
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
