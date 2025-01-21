@@ -1,0 +1,106 @@
+name: auto-doc
+description: Document your github action or reusable workflow with ease
+author: jackton1
+inputs:
+  filename:
+    description: 'Path to the yaml file'
+    required: false
+    default: action.yml
+  col_max_width:
+    description: 'Max width of a column'
+    required: false
+    default: '1000'
+  col_max_words:
+    description: 'Max number of words per line in a column'
+    required: false
+    default: '5'
+  output:
+    description: 'Path to the output file'
+    required: false
+    default: README.md
+  bin_path:
+    description: 'Optionally pass a path to the auto-doc binary'
+    required: false
+  input_columns:
+    description: 'List of action.yml **input** columns names to display, default (display all columns)'
+    required: false
+  output_columns:
+    description: 'List of action.yml **output** column names to display, default (display all columns)'
+    required: false
+  reusable_output_columns:
+    description: 'List of reusable workflow **output** column names to display, default (display all columns)'
+    required: false
+  reusable_input_columns:
+    description: 'List of reusable workflow **input** column names to display, default (display all columns)'
+    required: false
+  reusable_secret_columns:
+    description: 'List of reusable workflow **secret** column names to display, default (display all columns)'
+    required: false
+  reusable:
+    description: 'Boolean Indicating whether the file is a reusable workflow'
+    required: false
+  version:
+    description: 'The version number to run'
+    required: false
+  markdown_links:
+    description: 'Boolean indicating whether to output input, output and secret names as markdown links'
+    required: false
+    default: 'true'
+  repository:
+    description: 'Repository name with owner. For example, tj-actions/auto-doc'
+    required: false
+    default: ${{ github.repository }}
+  token:
+    description: 'GitHub token or Personal Access Token used to fetch the repository latest tag.'
+    required: false
+    default: ${{ github.token }}
+  use_code_blocks:
+    description: 'Enable code block documentation'
+    required: false
+    default: 'false'
+  use_major_version:
+    description: 'Use the major version of the repository tag e.g v1.0.0 -> v1'
+    required: false
+    default: 'false'
+
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup bin
+      if: inputs.bin_path == ''
+      uses: tj-actions/setup-bin@v1
+      id: setup-bin-go
+      with:
+        repository-owner: tj-actions
+        repository: auto-doc
+        version: v3.5.0
+        language-type: 'go'
+    - run: |
+        bash $GITHUB_ACTION_PATH/entrypoint.sh
+      id: autodoc
+      shell: bash
+      env:
+        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
+        # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
+        INPUT_FILENAME: ${{ inputs.filename }}
+        INPUT_COL_MAX_WIDTH: ${{ inputs.col_max_width }}
+        INPUT_COL_MAX_WORDS: ${{ inputs.col_max_words }}
+        INPUT_OUTPUT: ${{ inputs.output }}
+        INPUT_BIN_PATH: ${{ inputs.bin_path || steps.setup-bin-go.outputs.binary_path }}
+        INPUT_INPUT_COLUMNS: ${{ inputs.input_columns }}
+        INPUT_OUTPUT_COLUMNS: ${{ inputs.output_columns }}
+        INPUT_REUSABLE_OUTPUT_COLUMNS: ${{ inputs.reusable_output_columns }}
+        INPUT_REUSABLE_INPUT_COLUMNS: ${{ inputs.reusable_input_columns }}
+        INPUT_REUSABLE_SECRET_COLUMNS: ${{ inputs.reusable_secret_columns }}
+        INPUT_REUSABLE: ${{ inputs.reusable }}
+        INPUT_VERSION: ${{ inputs.version }}
+        INPUT_MARKDOWN_LINKS: ${{ inputs.markdown_links }}
+        INPUT_REPOSITORY: ${{ inputs.repository }}
+        INPUT_TOKEN: ${{ inputs.token }}
+        INPUT_USE_CODE_BLOCKS: ${{ inputs.use_code_blocks }}
+        INPUT_USE_MAJOR_VERSION: ${{ inputs.use_major_version }}
+
+branding:
+  icon: file-text
+  color: white
