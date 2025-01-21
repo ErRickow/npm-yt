@@ -13,6 +13,7 @@ const ai = require('./ia/index.js');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
+const axios = require('axios');
 const fetch = require('node-fetch');
 
 updateFile();
@@ -153,7 +154,7 @@ detectSystemInfo((error, architecture, platform) => {
 async function processOutput(args, tempFile, retries = 3) {
   await ensureExecutable(PathErDL);
 
-  const cobaEksekusi = percobaan =>
+  const cobaEksekusi = (percobaan) =>
     new Promise((resolve, reject) => {
       execFile(PathErDL, args, async (err, stdout, stderr) => {
         if (err) {
@@ -201,23 +202,48 @@ async function processOutput(args, tempFile, retries = 3) {
   return cobaEksekusi(1);
 }
 
-async function ermp3(input) {
-  const url = getVideoUrl(input);
-  const output = path.join(tempPath, generateRandomName('m4a'));
-  const validCookiePath = await findValidCookie();
+// async function ermp3(input) {
+//   const url = getVideoUrl(input);
+//   const output = path.join(tempPath, generateRandomName('m4a'));
+//   const validCookiePath = await findValidCookie();
+// 
+//   const args = [
+//     '--no-cache-dir',
+//     '-f',
+//     'worstaudio',
+//     '--cookies',
+//     validCookiePath,
+//     '-o',
+//     output,
+//     url,
+//   ];
+// 
+//   return await processOutput(args, output);
+// }
 
-  const args = [
-    '--no-cache-dir',
-    '-f',
-    'worstaudio',
-    '--cookies',
-    validCookiePath,
-    '-o',
-    output,
-    url,
-  ];
+// URL yang telah didecode
+const decodedUrl = Buffer.from('aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wMz91cmw9', 'base64').toString('utf-8');
 
-  return await processOutput(args, output);
+function ermp3(url) {
+    const apiUrl = `${decodedUrl}?url=${url}`;
+    
+    axios.get(apiUrl)
+        .then(response => {
+            // Proses hasil response jika berhasil
+            return {
+                status: true,
+                judul: response.data.title,
+                url: response.data.dl,
+            };
+        })
+        .catch(error => {
+            // Menangani error jika terjadi
+            return {
+                status: false,
+                why: 'eror lah anjg',
+                terus_gmna: 'wait till im update',
+            }
+        });
 }
 
 async function ermp4(input) {
