@@ -5,14 +5,14 @@
   "main": "src/index.js",
   "module": "src/index.mjs",
   "exports": {
-    "require": "./src/index.js", 
+    "require": "./src/index.js",
     "import": "./src/index.mjs"
   },
   "author": "ErNewDev0",
   "license": "MIT",
   "dependencies": {
-    "path": "^0.12.7", 
-    "youtubei.js": "latest", 
+    "path": "^0.12.7",
+    "youtubei.js": "latest",
     "os": "latest",
     "unlimited-ai": "latest",
     "node-fetch": "^2.6.11",
