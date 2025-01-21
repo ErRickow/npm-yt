@@ -16,4 +16,4 @@ jobs:
       run: yarn install # Bisa diganti dengan npm install jika Anda menggunakan npm
 
     - name: Run ESLint
-      run: npx eslint . -c .js,.jsx,.ts,.tsx
+      run: npx eslint . --ext .js,.jsx,.ts,.tsx
