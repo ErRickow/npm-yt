@@ -28,5 +28,8 @@ jobs:
       - name: Super-linter
         uses: super-linter/super-linter@v7.2.1 # x-release-please-version
         env:
+          FIX_JAVASCRIPT_STANDARD: true
+          FIX_JAVASCRIPT_ES: true
+          FIX_JAVASCRIPT_PRETTIER: true
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
