@@ -1,13 +1,16 @@
-name: Tests
-
 on: [push]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
+    name: Check Tests
     steps:
-    - uses: actions/checkout@v1
-    - name: Run Jest
-      uses: stefanoeb/jest-action@1.0.3
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: testomatio/check-tests@stable
+        with:
+          framework: # REQUIRED - testing framework
+          tests: # REQUIRED - glob pattern to match test files
+          token: ${{ secrets.TOKEN }}
+
