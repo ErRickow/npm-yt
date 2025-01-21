@@ -1,106 +1,113 @@
-name: auto-doc
-description: Document your github action or reusable workflow with ease
-author: jackton1
-inputs:
-  filename:
-    description: 'Path to the yaml file'
-    required: false
-    default: action.yml
-  col_max_width:
-    description: 'Max width of a column'
-    required: false
-    default: '1000'
-  col_max_words:
-    description: 'Max number of words per line in a column'
-    required: false
-    default: '5'
-  output:
-    description: 'Path to the output file'
-    required: false
-    default: README.md
-  bin_path:
-    description: 'Optionally pass a path to the auto-doc binary'
-    required: false
-  input_columns:
-    description: 'List of action.yml **input** columns names to display, default (display all columns)'
-    required: false
-  output_columns:
-    description: 'List of action.yml **output** column names to display, default (display all columns)'
-    required: false
-  reusable_output_columns:
-    description: 'List of reusable workflow **output** column names to display, default (display all columns)'
-    required: false
-  reusable_input_columns:
-    description: 'List of reusable workflow **input** column names to display, default (display all columns)'
-    required: false
-  reusable_secret_columns:
-    description: 'List of reusable workflow **secret** column names to display, default (display all columns)'
-    required: false
-  reusable:
-    description: 'Boolean Indicating whether the file is a reusable workflow'
-    required: false
-  version:
-    description: 'The version number to run'
-    required: false
-  markdown_links:
-    description: 'Boolean indicating whether to output input, output and secret names as markdown links'
-    required: false
-    default: 'true'
-  repository:
-    description: 'Repository name with owner. For example, tj-actions/auto-doc'
-    required: false
-    default: ${{ github.repository }}
-  token:
-    description: 'GitHub token or Personal Access Token used to fetch the repository latest tag.'
-    required: false
-    default: ${{ github.token }}
-  use_code_blocks:
-    description: 'Enable code block documentation'
-    required: false
-    default: 'true'
-  use_major_version:
-    description: 'Use the major version of the repository tag e.g v1.0.0 -> v1'
-    required: false
-    default: 'v1'
-
-
-runs:
-  using: 'composite'
-  steps:
-    - name: Setup bin
-      if: inputs.bin_path == ''
-      uses: tj-actions/setup-bin@v1
-      id: setup-bin-go
-      with:
-        repository-owner: tj-actions
-        repository: auto-doc
-        version: v3.5.0
-        language-type: 'go'
-    - run: |
-        bash $GITHUB_ACTION_PATH/entrypoint.sh
-      id: autodoc
-      shell: bash
-      env:
-        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
-        # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
-        INPUT_FILENAME: ${{ inputs.filename }}
-        INPUT_COL_MAX_WIDTH: ${{ inputs.col_max_width }}
-        INPUT_COL_MAX_WORDS: ${{ inputs.col_max_words }}
-        INPUT_OUTPUT: ${{ inputs.output }}
-        INPUT_BIN_PATH: ${{ inputs.bin_path || steps.setup-bin-go.outputs.binary_path }}
-        INPUT_INPUT_COLUMNS: ${{ inputs.input_columns }}
-        INPUT_OUTPUT_COLUMNS: ${{ inputs.output_columns }}
-        INPUT_REUSABLE_OUTPUT_COLUMNS: ${{ inputs.reusable_output_columns }}
-        INPUT_REUSABLE_INPUT_COLUMNS: ${{ inputs.reusable_input_columns }}
-        INPUT_REUSABLE_SECRET_COLUMNS: ${{ inputs.reusable_secret_columns }}
-        INPUT_REUSABLE: ${{ inputs.reusable }}
-        INPUT_VERSION: ${{ inputs.version }}
-        INPUT_MARKDOWN_LINKS: ${{ inputs.markdown_links }}
-        INPUT_REPOSITORY: ${{ inputs.repository }}
-        INPUT_TOKEN: ${{ inputs.token }}
-        INPUT_USE_CODE_BLOCKS: ${{ inputs.use_code_blocks }}
-        INPUT_USE_MAJOR_VERSION: ${{ inputs.use_major_version }}
+name: GitHub Actions Auto-Docs
+author: Pierre Nicolas Durette
+description: A GitHub Action for generating GitHub Actions documentation
 
 branding:
+  color: yellow
   icon: file-text
-  color: white
+
+inputs:
+  action_yaml_file:
+    description: The path to the GitHub Action's `action.yml` file
+    required: false
+    default: ./action.yml
+  include_inputs:
+    description: Whenever to document the action's inputs
+    required: false
+    default: "true"
+  include_outputs:
+    description: Whenever to document the action's outputs
+    required: false
+    default: "true"
+  heading_size:
+    description: |
+      The Markdown heading size to use for the documented
+      sections (i.e. number of `#`)
+    required: false
+    default: "3"
+  template_file:
+    description: The file used as template
+    required: false
+    default: ./README.md
+  target_file:
+    description: |
+      The resulting file of the template substitution.
+      To update in-place, this can be the same as `template_file`.
+    required: false
+    default: ./README.md
+  marker_start:
+    description: |
+      The opening marker from which the template substitution
+      will take place
+    required: false
+    default: "<!--doc_begin-->"
+  marker_end:
+    description: |
+      The closing marker to which the template substitution
+      will take place
+    required: false
+    default: "<!--doc_end-->"
+  git_push:
+    description: |
+      Whenever to commit and push changes changes to `target_file`
+    required: false
+    default: "true"
+  git_push_user_name:
+    description: The git user name to commit with
+    required: false
+    default: "github-actions[bot]"
+  git_push_user_email:
+    description: The git user email to commit with
+    required: false
+    default: "github-actions[bot]@users.noreply.github.com"
+  git_commit_message:
+    description: The git commit message
+    required: false
+    default: "GitHub Action Auto-Docs"
+  git_commit_signoff:
+    description: Whenever to sign-off the git commit
+    required: false
+    default: "false"
+
+runs:
+  using: "composite"
+  steps:
+    # Setup Python
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    # Install ActionDocs
+    - shell: bash
+      run: |
+        pip install --upgrade pip 
+        pip install ${GITHUB_ACTION_PATH}
+    # Run ActionDocs
+    - shell: bash
+      env:
+        ACTION_YAML_FILE: ${{ inputs.action_yaml_file }}
+        INCLUDE_INPUTS: ${{ inputs.include_inputs }}
+        INCLUDE_OUTPUTS: ${{ inputs.include_outputs }}
+        HEADING_SIZE: ${{ inputs.heading_size }}
+        TEMPLATE_FILE: ${{ inputs.template_file }}
+        TARGET_FILE: ${{ inputs.target_file }}
+        MARKER_START: ${{ inputs.marker_start }}
+        MARKER_END: ${{ inputs.marker_end }}
+      run: python -m actiondocs
+    # Git Push
+    # Requires the use of actions/checkout
+    # with "ref: ${{ github.event.pull_request.head.ref }}"
+    # (See: https://github.com/actions/checkout)
+    - shell: bash
+      if: ${{ fromJSON(inputs.git_push) }}
+      env:
+        GIT_PUSH_USER_NAME: ${{ inputs.git_push_user_name }}
+        GIT_PUSH_USER_EMAIL: ${{ inputs.git_push_user_email }}
+        GIT_COMMIT_MESSAGE: ${{ inputs.git_commit_message }}
+        GIT_COMMIT_SIGNOFF: ${{ fromJSON(inputs.git_commit_signoff) && '-s' || '' }}
+        TARGET_FILE: ${{ inputs.target_file }}
+      run: |
+        git config user.name "${GIT_PUSH_USER_NAME}"
+        git config user.email "${GIT_PUSH_USER_EMAIL}"
+        git add "${TARGET_FILE}"
+        git commit ${GIT_COMMIT_SIGNOFF} -m "${GIT_COMMIT_MESSAGE}" || true
+        git push || true
