@@ -10,13 +10,11 @@ function detectSystemInfo(callback) {
    callback(null, architecture, platform);
 };
 
-
 function generateRandomName(extension) {
   const timestamp = Date.now();
   const random = Math.floor(Math.random() * 100000);
   return `${timestamp}_${random}.${extension}`;
 }
-
 
 function getYouTubeID(input) {
 if (!input) return null;
@@ -39,25 +37,22 @@ if (url.pathname.startsWith('/playlist') && url.searchParams.has('list')) return
 return input;
 };
 
-
 function getVideoUrl(ajsjj) {
 const idzz = getYouTubeID(ajsjj) ;
 return `https://www.youtube.com/watch?v=${idzz}`;
 };
 
-
 function ensureExecutable(filePath) {
 fs.chmodSync(filePath, 0o755)
 };
 
-
 function handleFile(tempFile, resolve, reject) {
 fs.readFile(tempFile, (readErr, buffer) => {
 if (readErr) {
-reject(`Error reading file: ${readErr.message}`);
+reject(`❌ [EROR] Gagal membaca file: ${readErr.message}`);
 } else {
 fs.unlink(tempFile, (unlinkErr) => {
-if (unlinkErr) console.error(`Error deleting file: ${unlinkErr.message}`);
+if (unlinkErr) console.error(`⚠️ [INFO] Gagal menghapus file: ${unlinkErr.message}`);
 });
 resolve(buffer);
 }})};
@@ -94,7 +89,7 @@ async function updateFile() {
       const localVersion = fs.existsSync(versionFile) ? fs.readFileSync(versionFile, "utf8").trim() : null;
 
       if (localVersion === latestVersion) {
-        console.log(`✅ [INFO] A versão local (${localVersion}) já está atualizada.`);
+        console.log(`✅ [INFO] Versi lokal (${localVersion}) sudah yang terbaru.`);
         continue;
       }
 
@@ -107,7 +102,7 @@ async function updateFile() {
       }
 
       if (!selectedFile) {
-        console.error(`❌ [ERRO] Nenhum binário compatível encontrado para a plataforma ${platform} (${arch}).`);
+        console.error(`❌ [EROR] Tidak ada binari yang cocok untuk platform ${platform} (${arch}).`);
         continue;
       }
 
@@ -115,7 +110,7 @@ async function updateFile() {
       const asset = assets.find(a => a.name.endsWith(suffix));
 
       if (!asset) {
-        console.error(`❌ [ERRO] Asset não encontrado para o binário: ${suffix}`);
+        console.error(`❌ [EROR] Asset tidak ditemukan untuk binari: ${suffix}`);
         continue;
       }
 
@@ -125,7 +120,7 @@ async function updateFile() {
         if (file !== name) fs.unlinkSync(path.join(binPath, file));
       });
 
-      console.log(`⚠️ [INFO] Baixando o binário da nova versão...`);
+      console.log(`⚠️ [INFO] Mengunduh binari versi terbaru...`);
       await fetch(asset.browser_download_url).then(r => {
         const stream = fs.createWriteStream(filePath);
         r.body.pipe(stream);
@@ -135,11 +130,11 @@ async function updateFile() {
         });
       });
 
-      // Atualize o arquivo de versão
+      // Perbarui file versi
       fs.writeFileSync(versionFile, latestVersion);
-      console.log(`✅ [SUCESSO] Atualizado para a versão: ${latestVersion}`);
+      console.log(`✅ [SUKSES] Berhasil diperbarui ke versi: ${latestVersion}`);
     } catch (error) {
-      console.error(`❌ [ERRO] Falha ao atualizar o repositório ${repo}: ${error.message}`);
+      console.error(`❌ [EROR] Gagal memperbarui repositori ${repo}: ${error.message}`);
     }
   }
 }
