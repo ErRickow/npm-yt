@@ -1,16 +1,32 @@
-on: [push]
+name: 'Bump Version'
+
+on:
+  push:
+    branches:
+      - 'master'
 
 jobs:
-  test:
+  bump-version:
+    name: 'Bump Version on master'
     runs-on: ubuntu-latest
-    name: Check Tests
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: testomatio/check-tests@stable
-        with:
-          framework: # REQUIRED - testing framework
-          tests: # REQUIRED - glob pattern to match test files
-          token: ${{ secrets.TOKEN }}
 
+    steps:
+      - name: 'Checkout source code'
+        uses: 'actions/checkout@v2'
+        with:
+          ref: ${{ github.ref }}
+      - name: 'cat package.json'
+        run: cat ./package.json
+      - name: 'Automated Version Bump'
+        id: version-bump
+        uses: 'phips28/gh-action-bump-version@master'
+        with:
+          tag-prefix: 'v'
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      - name: 'cat package.json'
+        run: cat ./package.json
+      - name: 'Output Step'
+        env:
+          NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
+        run: echo "new tag $NEW_TAG"
