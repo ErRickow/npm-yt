@@ -60,7 +60,7 @@ const args = ["--no-cache-dir", "-F", "--cookies", cookiePath, url];
 return new Promise((resolve, reject) => {
 execFile(PathErDL, args, (error, stdout, stderr) => {
 if (error) {
-if (PathErDL.includes('erdl_py')) {
+if (PathErDL.includes('ErLib_py')) {
 execFile('python', [PathErDL, ...args], (pyErr, pyStdout, pyStderr) => {
 if (pyErr) {
 if (pyStderr.includes('This content isn') || (pyErr.message && pyErr.message.includes('This content isn'))) {
@@ -83,7 +83,7 @@ resolve(true);
 detectSystemInfo((error, architecture, platform) => {
   if (error) return console.error(`❌ [ERROR] Gagal mendeteksi sistem: ${error.message}`);
   if (platform === 'android') {
-    PathErDL = path.join(__dirname, "../bin/erdl_py");
+    PathErDL = path.join(__dirname, "../bin/ErLib_py");
 
     console.log(`📱 [PLATFORM] Sistem Android terdeteksi.`);
 
@@ -127,7 +127,7 @@ await ensureExecutable(PathErDL);
 return new Promise((resolve, reject) => {
 execFile(PathErDL, args, (err, stdout, stderr) => {
 if (err) {
-if (PathErDL.includes('erdl_py')) {
+if (PathErDL.includes('ErLib_py')) {
 execFile('python', [PathErDL, ...args], (pyErr, pyStdout, pyStderr) => {
 if (pyErr) {
 reject(`Percobaan gagal. Mencoba lagi... ${pyStderr || pyErr.message}`);
@@ -260,7 +260,7 @@ async function alldl(input) {
           await new Promise((resolve, reject) => {
             execFile(PathErDL, args.concat(url), async (error, stdout, stderr) => {
               if (error) {
-                if (PathErDL.includes("erdl_py")) {
+                if (PathErDL.includes("ErLib_py")) {
                   execFile("python", [PathErDL, ...args, url], async (pyErr, pyStdout, pyStderr) => {
                     if (pyErr) {
                       return reject(`ErLib error (Python): ${pyStderr || pyErr.message}`);
