@@ -17,19 +17,19 @@ updateFile();
 
 const tempPath = path.join(__dirname, "../temp");
 const tempDirSystem = os.tmpdir();
-let HiudyyDLPath = '';
+let PathErDL = '';
 
 async function clearSystemTempDir() {
   try {
     const command = "rm -rf " + tempDirSystem + "/*";
     exec(command, (err) => {
       if (err) {
-        console.error('Erro ao limpar diretório temporário:', err.message);
+        console.error('Gagal membersihkan direktori sementara:', err.message);
       } else {
       }
     });
   } catch (err) {
-    console.error('Erro geral:', err.message);
+    console.error('Kesalahan umum:', err.message);
   }
 }
 
@@ -51,17 +51,17 @@ testedCookies.add(cookie);
 if (isValid) {
 return tempCookiePath;
 }}
-throw new Error('❌ [ERRO] Nenhum cookie válido foi encontrado.');
+throw new Error('❌ [ERROR] Tidak ada cookie valid yang ditemukan');
 };
 
 async function testCookie(cookiePath) {
 const url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
 const args = ["--no-cache-dir", "-F", "--cookies", cookiePath, url];
 return new Promise((resolve, reject) => {
-execFile(HiudyyDLPath, args, (error, stdout, stderr) => {
+execFile(PathErDL, args, (error, stdout, stderr) => {
 if (error) {
-if (HiudyyDLPath.includes('hiudyydl_py')) {
-execFile('python', [HiudyyDLPath, ...args], (pyErr, pyStdout, pyStderr) => {
+if (PathErDL.includes('erdl_py')) {
+execFile('python', [PathErDL, ...args], (pyErr, pyStdout, pyStderr) => {
 if (pyErr) {
 if (pyStderr.includes('This content isn') || (pyErr.message && pyErr.message.includes('This content isn'))) {
 resolve(false);
@@ -81,59 +81,60 @@ resolve(true);
 }
 
 detectSystemInfo((error, architecture, platform) => {
-  if (error) return console.error(`❌ [ERRO] Ao detectar o sistema: ${error.message}`);
+  if (error) return console.error(`❌ [ERROR] Gagal mendeteksi sistem: ${error.message}`);
   if (platform === 'android') {
-    HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_py");
-    console.log(`📱 [PLATAFORMA] Sistema Android detectado.`);
-    console.log(`🚀 [@hiudyy/ytdl] Módulo inicializado com Python para Android.`);
+    PathErDL = path.join(__dirname, "../bin/erdl_py");
+
+    console.log(`📱 [PLATFORM] Sistem Android terdeteksi.`);
+
+    console.log(`🚀 [@hiudyy/ytdl] Modul diinisialisasi dengan Python untuk Android.`);
     return;
   }
   if (platform !== 'linux' && platform !== 'win32') {
-    return console.error(`❌ [PLATAFORMA] Este módulo é compatível apenas com sistemas Linux, Android e Windows.`);
+    return console.error(`❌ [PLATFORM] Modul ini hanya kompatibel dengan sistem Linux, Android, dan Windows.`);
   }
-  console.log(`✅ [PLATAFORMA] Sistema detectado: ${platform}.`);
+  console.log(`✅ [PLATFORM] Sistem terdeteksi: ${platform}.`);
 
   switch (architecture) {
     case 'x64':
-      HiudyyDLPath = path.join(__dirname, platform === 'win32' ? "../bin/hiudyydl_win_x64.zip" : "../bin/hiudyydl");
-      console.log(`💻 [ARQUITETURA] Arquitetura x64 detectada.`);
+      PathErDL = path.join(__dirname, platform === 'win32' ? "../bin/ErLib_win_x64.zip" : "../bin/ErLib");
+      console.log(`💻 [ARSITEKTUR] Arsitektur x64 terdeteksi.`);
       break;
     case 'arm':
-      HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_v7");
-      console.log(`🤖 [ARQUITETURA] Arquitetura ARM detectada.`);
+      PathErDL = path.join(__dirname, "../bin/ErLib_v7");
+      console.log(`🤖 [ARSITEKTUR] Arsitektur ARM terdeteksi.`);
       break;
     case 'arm64':
-      HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_64");
-      console.log(`🔧 [ARQUITETURA] Arquitetura ARM64 detectada.`);
+      PathErDL = path.join(__dirname, "../bin/ErLib_64");
+      console.log(`🔧 [ARSITEKTUR] Arsitektur ARM64 terdeteksi.`);
       break;
     case 'x86':
-      HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_win_x86.zip");
-      console.log(`💻 [ARQUITETURA] Arquitetura x86 detectada.`);
+      PathErDL = path.join(__dirname, "../bin/ErLib_win_x86.zip");
+      console.log(`💻 [ARSITEKTUR] Arsitektur x86 terdeteksi.`);
       break;
     default:
-      console.error(`❌ [ARQUITETURA] Arquitetura não suportada: ${architecture}`);
+      console.error(`❌ [ARSITEKTUR] Arsitektur tidak didukung: ${architecture}`);
       return;
   }
 
-  console.log(`✅ [@hiudyy/ytdl] Módulo inicializado com sucesso na arquitetura: ${architecture}.`);
+  console.log(`✅ [@hiudyy/ytdl] Modul berhasil diinisialisasi pada arsitektur: ${architecture}.`);
 });
 
 
 
-
 async function processOutput(args, tempFile) {
-await ensureExecutable(HiudyyDLPath);
+await ensureExecutable(PathErDL);
 return new Promise((resolve, reject) => {
-execFile(HiudyyDLPath, args, (err, stdout, stderr) => {
+execFile(PathErDL, args, (err, stdout, stderr) => {
 if (err) {
-if (HiudyyDLPath.includes('hiudyydl_py')) {
-execFile('python', [HiudyyDLPath, ...args], (pyErr, pyStdout, pyStderr) => {
+if (PathErDL.includes('erdl_py')) {
+execFile('python', [PathErDL, ...args], (pyErr, pyStdout, pyStderr) => {
 if (pyErr) {
-reject(`Erro ao executar com Python: ${pyStderr || pyErr.message}`);
+reject(`Percobaan gagal. Mencoba lagi... ${pyStderr || pyErr.message}`);
 } else {
 handleFile(tempFile, resolve, reject);
 }})} else {
-reject(`Hiudyydl error: ${stderr || err.message}`);
+reject(`ErLib error: ${stderr || err.message}`);
 }} else {
 handleFile(tempFile, resolve, reject);
 }})})};
@@ -177,14 +178,14 @@ async function alldl(input) {
   const outputTemplate = path.join(tempPathDl, "%(title)s_%(id)s.%(ext)s");
 
   try {
-    await ensureExecutable(HiudyyDLPath);
+    await ensureExecutable(PathErDL);
     const validCookiePath = await findValidCookie();
 
     // Argumentos para listar formatos disponíveis
     const formatArgs = ["--no-cache-dir", "-F", "--cookies", validCookiePath, url];
 
     const formats = await new Promise((resolve, reject) => {
-      execFile(HiudyyDLPath, formatArgs, (error, stdout) => {
+      execFile(PathErDL, formatArgs, (error, stdout) => {
         if (error) return reject(error);
         resolve(stdout.trim());
       });
@@ -251,15 +252,15 @@ async function alldl(input) {
     // Executa os downloads
     for (const args of downloadArgsList) {
       await new Promise((resolve, reject) => {
-        execFile(HiudyyDLPath, args.concat(url), (error, stdout, stderr) => {
+        execFile(PathErDL, args.concat(url), (error, stdout, stderr) => {
           if (error) {
-            if (HiudyyDLPath.includes("hiudyydl_py")) {
-              execFile("python", [HiudyyDLPath, ...args, url], (pyErr, pyStdout, pyStderr) => {
-                if (pyErr) return reject(`Hiudyydl error: ${pyStderr || pyErr.message}`);
+            if (PathErDL.includes("erdl_py")) {
+              execFile("python", [PathErDL, ...args, url], (pyErr, pyStdout, pyStderr) => {
+                if (pyErr) return reject(`ErLib error: ${pyStderr || pyErr.message}`);
                 resolve(pyStdout.trim());
               });
             } else {
-              return reject(`Hiudyydl error: ${stderr || error.message}`);
+                return reject(`ErLib error: ${stderr || error.message}`);
             }
           } else {
             resolve(stdout.trim());
@@ -312,7 +313,7 @@ async function alldl(input) {
       }
     }
   } catch (err) {
-    console.error("Erro ao baixar:", err);
+    console.error("Eror sayang:", err);
   }
 
   return results;
