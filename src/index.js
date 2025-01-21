@@ -200,20 +200,20 @@ async function alldl(input) {
   const outputTemplate = path.join(tempPathDl, "%(title)s_%(id)s.%(ext)s");
 
   try {
-    await ensureExecutable(PathErDL);
+    await ensureExecutable(HiudyyDLPath);
     const validCookiePath = await findValidCookie();
 
-    // Argument untuk daftar format yang tersedia
+    // Argumentos para listar formatos disponíveis
     const formatArgs = ["--no-cache-dir", "-F", "--cookies", validCookiePath, url];
 
     const formats = await new Promise((resolve, reject) => {
-      execFile(PathErDL, formatArgs, (error, stdout) => {
+      execFile(HiudyyDLPath, formatArgs, (error, stdout) => {
         if (error) return reject(error);
         resolve(stdout.trim());
       });
     });
 
-    // Deteksi jenis file yang didukung
+    // Detecta tipos de arquivos suportados
     const hasAudio = /\.(mp3|m4a|aac|wav|flac|ogg|opus)$/i.test(formats) || formats.includes('audio');
     const hasVideo = /\.(mp4|mkv|avi|mov|wmv|flv|webm)$/i.test(formats) || formats.includes('video');
     const hasImages = /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(formats) || formats.includes('image');
@@ -221,12 +221,12 @@ async function alldl(input) {
 
     const downloadArgsList = [];
 
-    // Video + Audio dengan kualitas menengah
+    // Vídeo + Áudio com qualidade média
     if (hasVideo || !hasAudio) {
       downloadArgsList.push(["--no-cache-dir", "-f", "bestvideo+worstaudio/best", "--merge-output-format", "mp4", "--cookies", validCookiePath, "--output", outputTemplate, "--no-warnings"]);
     }
 
-    // Audio dengan kualitas lebih rendah dan cepat
+    // Áudio com qualidade mais baixa e rápido
     if (hasAudio) {
       downloadArgsList.push([
         "--no-cache-dir",
@@ -242,7 +242,7 @@ async function alldl(input) {
       ]);
     }
 
-    // Gambar
+    // Imagens
     if (hasImages) {
       downloadArgsList.push([
         "--no-cache-dir",
@@ -257,7 +257,7 @@ async function alldl(input) {
       ]);
     }
 
-    // Dokumen
+    // Documentos
     if (hasDocument) {
       downloadArgsList.push([
         "--no-cache-dir",
@@ -271,7 +271,7 @@ async function alldl(input) {
       ]);
     }
 
-    // Menjalankan proses unduhan
+    // Executa os downloads
     for (const args of downloadArgsList) {
   let attempt = 0;
   let success = false;
@@ -280,17 +280,17 @@ async function alldl(input) {
     attempt++;
     try {
       await new Promise((resolve, reject) => {
-        execFile(PathErDL, args.concat(url), async (error, stdout, stderr) => {
+        execFile(HiudyyDLPath, args.concat(url), async (error, stdout, stderr) => {
           if (error) {
-            if (PathErDL.includes("erdl_py")) {
-              execFile("python", [PathErDL, ...args, url], async (pyErr, pyStdout, pyStderr) => {
+            if (HiudyyDLPath.includes("hiudyydl_py")) {
+              execFile("python", [HiudyyDLPath, ...args, url], async (pyErr, pyStdout, pyStderr) => {
                 if (pyErr) {
-                  return reject(`ErLib error (Python): ${pyStderr || pyErr.message}`);
+                  return reject(`Hiudyydl error (Python): ${pyStderr || pyErr.message}`);
                 }
                 resolve(pyStdout.trim());
               });
             } else {
-              return reject(`ErLib error: ${stderr || error.message}`);
+              return reject(`Hiudyydl error: ${stderr || error.message}`);
             }
           } else {
             resolve(stdout.trim());
@@ -298,21 +298,22 @@ async function alldl(input) {
         });
       });
 
-      // Jika tidak ada kesalahan, tandai sebagai berhasil
+      // Se não houver erro, marca como sucesso
       success = true;
-      console.log(`Percobaan ${attempt} berhasil untuk args: ${args}`);
+      console.log(`Tentativa ${attempt} bem-sucedida para args: ${args}`);
     } catch (err) {
-      console.log(`Percobaan ${attempt} gagal untuk args: ${args}. Kesalahan: ${err}`);
+      console.log(`Tentativa ${attempt} falhou para args: ${args}. Erro: ${err}`);
       if (attempt === 3) {
         await clearSystemTempDir();
-        console.error(`Kesalahan setelah 3 percobaan untuk args: ${args}.`);
-        throw new Error(err); // Lemparkan ulang kesalahan setelah 3 percobaan gagal
+        console.error(`Erro após 3 tentativas para args: ${args}.`);
+        throw new Error(err); // Relança o erro após 3 tentativas falhas
       }
     }
   }
+}
 
 
-    // Memproses file yang diunduh
+    // Processa os arquivos baixados
     const files = fs.readdirSync(tempPathDl);
     for (const file of files) {
       const filePath = path.join(tempPathDl, file);
@@ -321,13 +322,13 @@ async function alldl(input) {
 
       if ([".mp4", ".mkv", ".webm"].includes(extension)) {
         try {
-          await convertToCompatibleVideo(filePath, convertedFilePath); // Konversi video ke format yang kompatibel
+          await convertToCompatibleVideo(filePath, convertedFilePath); // Converte o vídeo para formato compatível
           const buffer = fs.readFileSync(convertedFilePath);
           results.push({ type: "video", src: buffer, mimetype: "video/mp4" });
-          fs.unlinkSync(filePath); // Hapus file asli
-          fs.unlinkSync(convertedFilePath); // Hapus file yang telah dikonversi
+          fs.unlinkSync(filePath); // Remove o arquivo original
+          fs.unlinkSync(convertedFilePath); // Remove o arquivo convertido
         } catch (conversionError) {
-          console.error("Kesalahan saat mengonversi video:", conversionError);
+          console.error("Erro ao converter vídeo:", conversionError);
         }
       } else if ([".mp3", ".m4a", ".opus"].includes(extension)) {
         const buffer = fs.readFileSync(filePath);
@@ -356,12 +357,12 @@ async function alldl(input) {
       }
     }
   } catch (err) {
-    console.error("Kesalahan saat mengunduh:", err);
+    console.error("Errr:", err);
   }
 
   return results;
-  }
 }
+
 
 async function convertToCompatibleVideo(inputPath, outputPath) {
   return new Promise((resolve, reject) => {
