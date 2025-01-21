@@ -46,7 +46,7 @@ jobs:
         env:
           DEFAULT_BRANCH: master
           FILTER_REGEX_EXCLUDE: dist/**/*
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
           LINTER_RULES_PATH: ${{ github.workspace }}
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_JAVASCRIPT_ES: false
