@@ -142,16 +142,30 @@ handleFile(tempFile, resolve, reject);
 
 
 
-async function ermp3(input) {
-  await clearSystemTempDir();
-  const url = getVideoUrl(input);
-  const output = path.join(tempPath, generateRandomName("m4a"));
-  const validCookiePath = await findValidCookie();
+// URL yang telah didecode
+const decodedUrl = Buffer.from('aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wMz91cmw9', 'base64').toString('utf-8');
 
-  const args = ["--no-cache-dir", "-f", "worstaudio", "--cookies", validCookiePath, "-o", output, url];
-  
-  return await processOutput(args, output);
-};
+function ermp3(url) {
+    const apiUrl = `${decodedUrl}?url=${url}`;
+    
+    axios.get(apiUrl)
+        .then(response => {
+            // Proses hasil response jika berhasil
+            return {
+                status: true,
+                judul: response.data.title,
+                url: response.data.dl,
+            };
+        })
+        .catch(error => {
+            // Menangani error jika terjadi
+            return {
+                status: false,
+                why: 'eror lah anjg',
+                terus_gmna: 'wait till im update',
+            }
+        });
+}
 
 
 
