@@ -1,14 +1,14 @@
 {
-  "name": "@hiudyy/ytdl",
-  "version": "0.2.1",
-  "description": "Universal Audio and Video Downloader: Download content effortlessly from YouTube, social media platforms, and various streaming sites.",
+  "name": "@ErLib/Tools",
+  "version": "0.1",
+  "description": "A comprehensive toolkit for downloading audio and video content from YouTube, social media platforms, and various streaming services. This tool integrates advanced AI functionalities for enhanced media processing.",
   "main": "src/index.js",
   "module": "src/index.mjs",
   "exports": {
     "require": "./src/index.js", 
     "import": "./src/index.mjs"
   },
-  "author": "Hiudy",
+  "author": "ErNewDev0",
   "license": "MIT",
   "dependencies": {
     "path": "^0.12.7", 
