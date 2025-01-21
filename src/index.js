@@ -7,13 +7,7 @@ const fs = require("fs");
 const os = require("os");
 const fetch = require('node-fetch');
 
-
-
-
 updateFile();
-
-
-
 
 const tempPath = path.join(__dirname, "../temp");
 const tempDirSystem = os.tmpdir();
@@ -24,98 +18,104 @@ async function clearSystemTempDir() {
     const command = "rm -rf " + tempDirSystem + "/*";
     exec(command, (err) => {
       if (err) {
-        console.error('Erro ao limpar diretório temporário:', err.message);
+        console.error('Gagal membersihkan direktori sementara:', err.message);
       } else {
+        console.log('✅ Direktori sementara berhasil dibersihkan.');
       }
     });
   } catch (err) {
-    console.error('Erro geral:', err.message);
+    console.error('Kesalahan umum:', err.message);
   }
 }
 
 function loadAndShuffleCookies() {
-const cookiesPath = path.join(__dirname, "../dist/cookies.json");
-const cookiesArray = JSON.parse(fs.readFileSync(cookiesPath, 'utf8'));
-return cookiesArray.sort(() => Math.random() - 0.5);
-};
+  const cookiesPath = path.join(__dirname, "../dist/cookies.json");
+  const cookiesArray = JSON.parse(fs.readFileSync(cookiesPath, 'utf8'));
+  return cookiesArray.sort(() => Math.random() - 0.5);
+}
 
 async function findValidCookie() {
-const cookiesArray = loadAndShuffleCookies();
-const testedCookies = new Set();
-for (const cookie of cookiesArray) {
-if (testedCookies.has(cookie)) continue;
-const tempCookiePath = path.join(__dirname, '../dist/cookie.txt');
-fs.writeFileSync(tempCookiePath, cookie);
-const isValid = await testCookie(tempCookiePath);
-testedCookies.add(cookie);
-if (isValid) {
-return tempCookiePath;
-}}
-throw new Error('❌ [ERRO] Nenhum cookie válido foi encontrado.');
-};
+  const cookiesArray = loadAndShuffleCookies();
+  const testedCookies = new Set();
+  for (const cookie of cookiesArray) {
+    if (testedCookies.has(cookie)) continue;
+    const tempCookiePath = path.join(__dirname, '../dist/cookie.txt');
+    fs.writeFileSync(tempCookiePath, cookie);
+    const isValid = await testCookie(tempCookiePath);
+    testedCookies.add(cookie);
+    if (isValid) {
+      return tempCookiePath;
+    }
+  }
+  throw new Error('❌ [ERROR] Tidak ada cookie valid yang ditemukan.');
+}
 
 async function testCookie(cookiePath) {
-const url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-const args = ["--no-cache-dir", "-F", "--cookies", cookiePath, url];
-return new Promise((resolve, reject) => {
-execFile(HiudyyDLPath, args, (error, stdout, stderr) => {
-if (error) {
-if (HiudyyDLPath.includes('hiudyydl_py')) {
-execFile('python', [HiudyyDLPath, ...args], (pyErr, pyStdout, pyStderr) => {
-if (pyErr) {
-if (pyStderr.includes('This content isn') || (pyErr.message && pyErr.message.includes('This content isn'))) {
-resolve(false);
-} else {
-resolve(true);
-}} else {
-resolve(true);
-}});
-} else if (stderr.includes('This content isn') || (error.message && error.message.includes('This content isn'))) {
-resolve(false);
-} else {
-resolve(true);
-}} else {
-resolve(true);
-}});
-});
+  const url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+  const args = ["--no-cache-dir", "-F", "--cookies", cookiePath, url];
+  return new Promise((resolve, reject) => {
+    execFile(HiudyyDLPath, args, (error, stdout, stderr) => {
+      if (error) {
+        if (HiudyyDLPath.includes('hiudyydl_py')) {
+          execFile('python', [HiudyyDLPath, ...args], (pyErr, pyStdout, pyStderr) => {
+            if (pyErr) {
+              if (pyStderr.includes('This content isn') || (pyErr.message && pyErr.message.includes('This content isn'))) {
+                resolve(false);
+              } else {
+                resolve(true);
+              }
+            } else {
+              resolve(true);
+            }
+          });
+        } else if (stderr.includes('This content isn') || (error.message && error.message.includes('This content isn'))) {
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      } else {
+        resolve(true);
+      }
+    });
+  });
 }
 
 detectSystemInfo((error, architecture, platform) => {
-  if (error) return console.error(`❌ [ERRO] Ao detectar o sistema: ${error.message}`);
+  if (error) return console.error(`❌ [ERROR] Gagal mendeteksi sistem: ${error.message}`);
   if (platform === 'android') {
     HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_py");
-    console.log(`📱 [PLATAFORMA] Sistema Android detectado.`);
-    console.log(`🚀 [@hiudyy/ytdl] Módulo inicializado com Python para Android.`);
+    console.log(`📱 [PLATFORM] Sistem Android terdeteksi.`);
+    console.log(`🚀 [@hiudyy/ytdl] Modul diinisialisasi dengan Python untuk Android.`);
     return;
   }
   if (platform !== 'linux' && platform !== 'win32') {
-    return console.error(`❌ [PLATAFORMA] Este módulo é compatível apenas com sistemas Linux, Android e Windows.`);
+    return console.error(`❌ [PLATFORM] Modul ini hanya kompatibel dengan sistem Linux, Android, dan Windows.`);
   }
-  console.log(`✅ [PLATAFORMA] Sistema detectado: ${platform}.`);
+  console.log(`✅ [PLATFORM] Sistem terdeteksi: ${platform}.`);
 
   switch (architecture) {
     case 'x64':
       HiudyyDLPath = path.join(__dirname, platform === 'win32' ? "../bin/hiudyydl_win_x64.zip" : "../bin/hiudyydl");
-      console.log(`💻 [ARQUITETURA] Arquitetura x64 detectada.`);
+      console.log(`💻 [ARSITEKTUR] Arsitektur x64 terdeteksi.`);
       break;
     case 'arm':
       HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_v7");
-      console.log(`🤖 [ARQUITETURA] Arquitetura ARM detectada.`);
+      console.log(`🤖 [ARSITEKTUR] Arsitektur ARM terdeteksi.`);
       break;
     case 'arm64':
       HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_64");
-      console.log(`🔧 [ARQUITETURA] Arquitetura ARM64 detectada.`);
+      console.log(`🔧 [ARSITEKTUR] Arsitektur ARM64 terdeteksi.`);
       break;
     case 'x86':
       HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_win_x86.zip");
-      console.log(`💻 [ARQUITETURA] Arquitetura x86 detectada.`);
+      console.log(`💻 [ARSITEKTUR] Arsitektur x86 terdeteksi.`);
       break;
     default:
-      console.error(`❌ [ARQUITETURA] Arquitetura não suportada: ${architecture}`);
+      console.error(`❌ [ARSITEKTUR] Arsitektur tidak didukung: ${architecture}`);
       return;
   }
 
-  console.log(`✅ [@hiudyy/ytdl] Módulo inicializado com sucesso na arquitetura: ${architecture}.`);
+  console.log(`✅ [@hiudyy/ytdl] Modul berhasil diinisialisasi pada arsitektur: ${architecture}.`);
 });
 
 
@@ -124,33 +124,33 @@ detectSystemInfo((error, architecture, platform) => {
 async function processOutput(args, tempFile, retries = 3) {
   await ensureExecutable(HiudyyDLPath);
 
-  const tryExecution = (attempt) =>
+  const cobaEksekusi = (percobaan) =>
     new Promise((resolve, reject) => {
       execFile(HiudyyDLPath, args, async (err, stdout, stderr) => {
         if (err) {
           if (HiudyyDLPath.includes('hiudyydl_py')) {
             execFile('python', [HiudyyDLPath, ...args], async (pyErr, pyStdout, pyStderr) => {
               if (pyErr) {
-                if (attempt < retries) {
-                  console.log(`Tentativa ${attempt} falhou. Retentando...`);
+                if (percobaan < retries) {
+                  console.log(`Percobaan ${percobaan} gagal. Mencoba lagi...`);
                   await clearSystemTempDir();
-                  resolve(await tryExecution(attempt + 1));
+                  resolve(await cobaEksekusi(percobaan + 1));
                 } else {
                   await clearSystemTempDir();
-                  reject(`Erro ao executar com Python após ${retries} tentativas: ${pyStderr || pyErr.message}`);
+                  reject(`Terjadi kesalahan saat menjalankan dengan Python setelah ${retries} percobaan: ${pyStderr || pyErr.message}`);
                 }
               } else {
                 handleFile(tempFile, resolve, reject);
               }
             });
           } else {
-            if (attempt < retries) {
-              console.log(`Tentativa ${attempt} falhou. Retentando...`);
+            if (percobaan < retries) {
+              console.log(`Percobaan ${percobaan} gagal. Mencoba lagi...`);
               await clearSystemTempDir();
-              resolve(await tryExecution(attempt + 1));
+              resolve(await cobaEksekusi(percobaan + 1));
             } else {
               await clearSystemTempDir();
-              reject(`Hiudyydl error após ${retries} tentativas: ${stderr || err.message}`);
+              reject(`Kesalahan Hiudyydl setelah ${retries} percobaan: ${stderr || err.message}`);
             }
           }
         } else {
@@ -159,7 +159,7 @@ async function processOutput(args, tempFile, retries = 3) {
       });
     });
 
-  return tryExecution(1);
+  return cobaEksekusi(1);
 }
 
 
@@ -203,7 +203,7 @@ async function alldl(input) {
     await ensureExecutable(HiudyyDLPath);
     const validCookiePath = await findValidCookie();
 
-    // Argumentos para listar formatos disponíveis
+    // Argument untuk daftar format yang tersedia
     const formatArgs = ["--no-cache-dir", "-F", "--cookies", validCookiePath, url];
 
     const formats = await new Promise((resolve, reject) => {
@@ -213,7 +213,7 @@ async function alldl(input) {
       });
     });
 
-    // Detecta tipos de arquivos suportados
+    // Deteksi jenis file yang didukung
     const hasAudio = /\.(mp3|m4a|aac|wav|flac|ogg|opus)$/i.test(formats) || formats.includes('audio');
     const hasVideo = /\.(mp4|mkv|avi|mov|wmv|flv|webm)$/i.test(formats) || formats.includes('video');
     const hasImages = /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(formats) || formats.includes('image');
@@ -221,12 +221,12 @@ async function alldl(input) {
 
     const downloadArgsList = [];
 
-    // Vídeo + Áudio com qualidade média
+    // Video + Audio dengan kualitas menengah
     if (hasVideo || !hasAudio) {
       downloadArgsList.push(["--no-cache-dir", "-f", "bestvideo+worstaudio/best", "--merge-output-format", "mp4", "--cookies", validCookiePath, "--output", outputTemplate, "--no-warnings"]);
     }
 
-    // Áudio com qualidade mais baixa e rápido
+    // Audio dengan kualitas lebih rendah dan cepat
     if (hasAudio) {
       downloadArgsList.push([
         "--no-cache-dir",
@@ -242,7 +242,7 @@ async function alldl(input) {
       ]);
     }
 
-    // Imagens
+    // Gambar
     if (hasImages) {
       downloadArgsList.push([
         "--no-cache-dir",
@@ -257,7 +257,7 @@ async function alldl(input) {
       ]);
     }
 
-    // Documentos
+    // Dokumen
     if (hasDocument) {
       downloadArgsList.push([
         "--no-cache-dir",
@@ -271,7 +271,7 @@ async function alldl(input) {
       ]);
     }
 
-    // Executa os downloads
+    // Menjalankan proses unduhan
     for (const args of downloadArgsList) {
   let attempt = 0;
   let success = false;
@@ -298,22 +298,21 @@ async function alldl(input) {
         });
       });
 
-      // Se não houver erro, marca como sucesso
+      // Jika tidak ada kesalahan, tandai sebagai berhasil
       success = true;
-      console.log(`Tentativa ${attempt} bem-sucedida para args: ${args}`);
+      console.log(`Percobaan ${attempt} berhasil untuk args: ${args}`);
     } catch (err) {
-      console.log(`Tentativa ${attempt} falhou para args: ${args}. Erro: ${err}`);
+      console.log(`Percobaan ${attempt} gagal untuk args: ${args}. Kesalahan: ${err}`);
       if (attempt === 3) {
         await clearSystemTempDir();
-        console.error(`Erro após 3 tentativas para args: ${args}.`);
-        throw new Error(err); // Relança o erro após 3 tentativas falhas
+        console.error(`Kesalahan setelah 3 percobaan untuk args: ${args}.`);
+        throw new Error(err); // Lemparkan ulang kesalahan setelah 3 percobaan gagal
       }
     }
   }
-}
 
 
-    // Processa os arquivos baixados
+    // Memproses file yang diunduh
     const files = fs.readdirSync(tempPathDl);
     for (const file of files) {
       const filePath = path.join(tempPathDl, file);
@@ -322,13 +321,13 @@ async function alldl(input) {
 
       if ([".mp4", ".mkv", ".webm"].includes(extension)) {
         try {
-          await convertToCompatibleVideo(filePath, convertedFilePath); // Converte o vídeo para formato compatível
+          await convertToCompatibleVideo(filePath, convertedFilePath); // Konversi video ke format yang kompatibel
           const buffer = fs.readFileSync(convertedFilePath);
           results.push({ type: "video", src: buffer, mimetype: "video/mp4" });
-          fs.unlinkSync(filePath); // Remove o arquivo original
-          fs.unlinkSync(convertedFilePath); // Remove o arquivo convertido
+          fs.unlinkSync(filePath); // Hapus file asli
+          fs.unlinkSync(convertedFilePath); // Hapus file yang telah dikonversi
         } catch (conversionError) {
-          console.error("Erro ao converter vídeo:", conversionError);
+          console.error("Kesalahan saat mengonversi video:", conversionError);
         }
       } else if ([".mp3", ".m4a", ".opus"].includes(extension)) {
         const buffer = fs.readFileSync(filePath);
@@ -357,7 +356,7 @@ async function alldl(input) {
       }
     }
   } catch (err) {
-    console.error("Erro ao baixar:", err);
+    console.error("Kesalahan saat mengunduh:", err);
   }
 
   return results;
@@ -368,7 +367,7 @@ async function convertToCompatibleVideo(inputPath, outputPath) {
     const ffmpegCommand = `ffmpeg -i "${inputPath}" -c:v libx264 -preset fast -crf 23 -c:a aac -b:a 128k -movflags +faststart "${outputPath}"`;
     exec(ffmpegCommand, (error, stdout, stderr) => {
       if (error) {
-        console.error("FFmpeg error:", stderr || error.message);
+        console.error("Kesalahan FFmpeg:", stderr || error.message);
         return reject(error);
       }
       resolve();
