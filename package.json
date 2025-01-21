@@ -23,6 +23,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "lint": "eslint . --ext .js,.mjs,.ts"
+    "lint": "eslint . -c .js,.mjs,.ts"
   }
 }
