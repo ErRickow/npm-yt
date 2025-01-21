@@ -1,1 +1,11 @@
-npx eslint --init
+{
+  "extends": "eslint:recommended",
+  "overrides": [
+    {
+      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      "rules": {
+        // Aturan linting di sini
+      }
+    }
+  ]
+}
