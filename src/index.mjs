@@ -142,7 +142,7 @@ handleFile(tempFile, resolve, reject);
 
 
 
-async function ytmp3(input) {
+async function ermp3(input) {
   await clearSystemTempDir();
   const url = getVideoUrl(input);
   const output = path.join(tempPath, generateRandomName("m4a"));
@@ -156,7 +156,7 @@ async function ytmp3(input) {
 
 
 
-async function ytmp4(input) {
+async function ermp4(input) {
   await clearSystemTempDir();
   const url = getVideoUrl(input);
   const output = path.join(tempPath, generateRandomName("mp4"));
@@ -346,10 +346,10 @@ return search;
 
 
 const expotszz = {
-ytmp3: ytmp3, 
-ytmp4: ytmp4,
-ytadl: ytmp3, 
-ytvdl: ytmp4, 
+ermp3: ermp3, 
+ermp4: ermp4,
+ytadl: ermp3, 
+ytvdl: ermp4, 
 alldl: alldl, 
 yts: yts, 
 ai: ai,
