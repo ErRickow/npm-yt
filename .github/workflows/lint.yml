@@ -1,55 +1,32 @@
-name: Lint Codebase
+name: Lint
 
-on:
-  pull_request:
-    branches:
-      - master
-  push:
-    branches:
-      - master
+on: # yamllint disable-line rule:truthy
+  push: null
+  pull_request: null
 
-permissions:
-  contents: read
-  packages: read
-  statuses: write
+permissions: {}
 
 jobs:
-  lint:
-    name: Lint Codebase
+  build:
+    name: Lint
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
+
     steps:
-      # Checkout the repository.
-      - name: Checkout
-        id: checkout
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
           fetch-depth: 0
 
-      # Setup Node.js using the version specified in `.node-version`.
-      - name: Setup Node.js
-        id: setup-node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .node-version
-          cache: npm
-
-      # Install dependencies using `npm ci`.
-      - name: Install Dependencies
-        id: install
-        run: npm ci
-
-      # Lint the codebase using the `super-linter/super-linter` action.
-      - name: Lint Codebase
-        id: super-linter
-        uses: super-linter/super-linter/slim@v7
+      - name: Super-linter
+        uses: super-linter/super-linter@v7.2.1 # x-release-please-version
         env:
-          DEFAULT_BRANCH: master
-          FILTER_REGEX_EXCLUDE: dist/**/*
+          # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          LINTER_RULES_PATH: ${{ github.workspace }}
-          VALIDATE_ALL_CODEBASE: true
-          VALIDATE_JAVASCRIPT_ES: false
-          VALIDATE_JAVASCRIPT_STANDARD: false
-          VALIDATE_JSCPD: false
-          VALIDATE_JSON: false
