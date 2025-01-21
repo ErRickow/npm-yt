@@ -11,7 +11,7 @@ updateFile();
 
 const tempPath = path.join(__dirname, "../temp");
 const tempDirSystem = os.tmpdir();
-let HiudyyDLPath = '';
+let PathErDL = '';
 
 async function clearSystemTempDir() {
   try {
@@ -54,10 +54,10 @@ async function testCookie(cookiePath) {
   const url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
   const args = ["--no-cache-dir", "-F", "--cookies", cookiePath, url];
   return new Promise((resolve, reject) => {
-    execFile(HiudyyDLPath, args, (error, stdout, stderr) => {
+    execFile(PathErDL, args, (error, stdout, stderr) => {
       if (error) {
-        if (HiudyyDLPath.includes('hiudyydl_py')) {
-          execFile('python', [HiudyyDLPath, ...args], (pyErr, pyStdout, pyStderr) => {
+        if (PathErDL.includes('erdl_py')) {
+          execFile('python', [PathErDL, ...args], (pyErr, pyStdout, pyStderr) => {
             if (pyErr) {
               if (pyStderr.includes('This content isn') || (pyErr.message && pyErr.message.includes('This content isn'))) {
                 resolve(false);
@@ -83,7 +83,7 @@ async function testCookie(cookiePath) {
 detectSystemInfo((error, architecture, platform) => {
   if (error) return console.error(`❌ [ERROR] Gagal mendeteksi sistem: ${error.message}`);
   if (platform === 'android') {
-    HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_py");
+    PathErDL = path.join(__dirname, "../bin/erdl_py");
     console.log(`📱 [PLATFORM] Sistem Android terdeteksi.`);
     console.log(`🚀 [@hiudyy/ytdl] Modul diinisialisasi dengan Python untuk Android.`);
     return;
@@ -95,19 +95,19 @@ detectSystemInfo((error, architecture, platform) => {
 
   switch (architecture) {
     case 'x64':
-      HiudyyDLPath = path.join(__dirname, platform === 'win32' ? "../bin/hiudyydl_win_x64.zip" : "../bin/hiudyydl");
+      PathErDL = path.join(__dirname, platform === 'win32' ? "../bin/ErLib_win_x64.zip" : "../bin/ErLib");
       console.log(`💻 [ARSITEKTUR] Arsitektur x64 terdeteksi.`);
       break;
     case 'arm':
-      HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_v7");
+      PathErDL = path.join(__dirname, "../bin/ErLib_v7");
       console.log(`🤖 [ARSITEKTUR] Arsitektur ARM terdeteksi.`);
       break;
     case 'arm64':
-      HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_64");
+      PathErDL = path.join(__dirname, "../bin/ErLib_64");
       console.log(`🔧 [ARSITEKTUR] Arsitektur ARM64 terdeteksi.`);
       break;
     case 'x86':
-      HiudyyDLPath = path.join(__dirname, "../bin/hiudyydl_win_x86.zip");
+      PathErDL = path.join(__dirname, "../bin/ErLib_win_x86.zip");
       console.log(`💻 [ARSITEKTUR] Arsitektur x86 terdeteksi.`);
       break;
     default:
@@ -122,14 +122,14 @@ detectSystemInfo((error, architecture, platform) => {
 
 
 async function processOutput(args, tempFile, retries = 3) {
-  await ensureExecutable(HiudyyDLPath);
+  await ensureExecutable(PathErDL);
 
   const cobaEksekusi = (percobaan) =>
     new Promise((resolve, reject) => {
-      execFile(HiudyyDLPath, args, async (err, stdout, stderr) => {
+      execFile(PathErDL, args, async (err, stdout, stderr) => {
         if (err) {
-          if (HiudyyDLPath.includes('hiudyydl_py')) {
-            execFile('python', [HiudyyDLPath, ...args], async (pyErr, pyStdout, pyStderr) => {
+          if (PathErDL.includes('erdl_py')) {
+            execFile('python', [PathErDL, ...args], async (pyErr, pyStdout, pyStderr) => {
               if (pyErr) {
                 if (percobaan < retries) {
                   console.log(`Percobaan ${percobaan} gagal. Mencoba lagi...`);
@@ -150,7 +150,7 @@ async function processOutput(args, tempFile, retries = 3) {
               resolve(await cobaEksekusi(percobaan + 1));
             } else {
               await clearSystemTempDir();
-              reject(`Kesalahan Hiudyydl setelah ${retries} percobaan: ${stderr || err.message}`);
+              reject(`Kesalahan ErLib setelah ${retries} percobaan: ${stderr || err.message}`);
             }
           }
         } else {
@@ -166,7 +166,7 @@ async function processOutput(args, tempFile, retries = 3) {
 
 
 
-async function ytmp3(input) {
+async function ermp3(input) {
   const url = getVideoUrl(input);
   const output = path.join(tempPath, generateRandomName("m4a"));
   const validCookiePath = await findValidCookie();
@@ -179,7 +179,7 @@ async function ytmp3(input) {
 
 
 
-async function ytmp4(input) {
+async function ermp4(input) {
   const url = getVideoUrl(input);
   const output = path.join(tempPath, generateRandomName("mp4"));
   const validCookiePath = await findValidCookie();
@@ -200,14 +200,14 @@ async function alldl(input) {
   const outputTemplate = path.join(tempPathDl, "%(title)s_%(id)s.%(ext)s");
 
   try {
-    await ensureExecutable(HiudyyDLPath);
+    await ensureExecutable(PathErDL);
     const validCookiePath = await findValidCookie();
 
     // Argument untuk daftar format yang tersedia
     const formatArgs = ["--no-cache-dir", "-F", "--cookies", validCookiePath, url];
 
     const formats = await new Promise((resolve, reject) => {
-      execFile(HiudyyDLPath, formatArgs, (error, stdout) => {
+      execFile(PathErDL, formatArgs, (error, stdout) => {
         if (error) return reject(error);
         resolve(stdout.trim());
       });
@@ -280,17 +280,17 @@ async function alldl(input) {
     attempt++;
     try {
       await new Promise((resolve, reject) => {
-        execFile(HiudyyDLPath, args.concat(url), async (error, stdout, stderr) => {
+        execFile(PathErDL, args.concat(url), async (error, stdout, stderr) => {
           if (error) {
-            if (HiudyyDLPath.includes("hiudyydl_py")) {
-              execFile("python", [HiudyyDLPath, ...args, url], async (pyErr, pyStdout, pyStderr) => {
+            if (PathErDL.includes("erdl_py")) {
+              execFile("python", [PathErDL, ...args, url], async (pyErr, pyStdout, pyStderr) => {
                 if (pyErr) {
-                  return reject(`Hiudyydl error (Python): ${pyStderr || pyErr.message}`);
+                  return reject(`ErLib error (Python): ${pyStderr || pyErr.message}`);
                 }
                 resolve(pyStdout.trim());
               });
             } else {
-              return reject(`Hiudyydl error: ${stderr || error.message}`);
+              return reject(`ErLib error: ${stderr || error.message}`);
             }
           } else {
             resolve(stdout.trim());
@@ -389,10 +389,10 @@ return search;
 
 
 module.exports = { 
-ytmp3, 
-ytmp4,
-ytadl: ytmp3, 
-ytvdl: ytmp4, 
+ermp3, 
+ermp4,
+ytadl: ermp3, 
+ytvdl: ermp4, 
 alldl, 
 yts, 
 ai: ai,
