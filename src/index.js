@@ -153,7 +153,7 @@ detectSystemInfo((error, architecture, platform) => {
 async function processOutput(args, tempFile, retries = 3) {
   await ensureExecutable(PathErDL);
 
-  const cobaEksekusi = (percobaan) =>
+  const cobaEksekusi = percobaan =>
     new Promise((resolve, reject) => {
       execFile(PathErDL, args, async (err, stdout, stderr) => {
         if (err) {
