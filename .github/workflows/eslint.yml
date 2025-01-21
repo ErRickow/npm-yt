@@ -4,8 +4,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16' # Ganti versi sesuai dengan kebutuhan proyek Anda
+
     - name: Install modules
-      run: yarn
+      run: yarn install # Bisa diganti dengan npm install jika Anda menggunakan npm
+
     - name: Run ESLint
-      run: eslint . --ext .js,.jsx,.ts,.tsx
+      run: npx eslint . --ext .js,.jsx,.ts,.tsx
