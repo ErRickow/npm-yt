@@ -8,7 +8,7 @@ module.exports = {
       files: ['*.js', '*.jsx', '*.ts', '*.tsx'], // Tentukan ekstensi di sini
       rules: {
         // Aturan khusus untuk file tertentu
-      }
-    }
-  ]
-}
+      },
+    },
+  ],
+};
