@@ -221,52 +221,69 @@ async function processOutput(args, tempFile, retries = 3) {
 //   return await processOutput(args, output);
 // }
 
-// URL yang telah didecode
-const decodedUrl = Buffer.from(
-  'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wMz91cmw9',
-  'base64',
-).toString('utf-8');
+const base64Url = 'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wMz91cmw9';
+const decodedUrl = atob(base64Url);
 
-function ermp3(url) {
-  const apiUrl = `${decodedUrl}?url=${url}`;
-
-  axios
-    .get(apiUrl)
-    .then(response => {
-      // Proses hasil response jika berhasil
-      return {
-        status: true,
-        judul: response.data.title,
-        url: response.data.dl,
-      };
-    })
-    .catch(error => {
-      // Menangani error jika terjadi
-      return {
-        status: false,
-        why: 'eror lah anjg',
-        terus_gmna: 'wait till im update',
-      };
-    });
+async function ermp3(url) {
+  const apiUrl = `${decodedUrl}${url}`;
+  
+  try {
+    const response = await axios.get(apiUrl);
+    return {
+      status: true,
+      judul: response.data.data.title,
+      url: response.data.data.dl,
+      from: "@er-npm/scraper"
+    };
+  } catch (error) {
+    // Menangani error jika terjadi
+    return {
+      status: false,
+      why: 'eror njing.',
+      terus_gmna: 'visit: t.me/chakszzz',
+    };
+  }
 }
 
-async function ermp4(input) {
-  const url = getVideoUrl(input);
-  const output = path.join(tempPath, generateRandomName('mp4'));
-  const validCookiePath = await findValidCookie();
+//Contoh penggunaan
+// const url = "https://www.youtube.com/watch?v=vx2u5uUu3DE";
+// ermp3(url).then(result => console.log(result));
 
-  const args = [
-    '--no-cache-dir',
-    '-f',
-    'bestvideo+worstaudio[ext=mp4]/mp4',
-    '--cookies',
-    validCookiePath,
-    '-o',
-    output,
-    url,
-  ];
+async function ermp4(url) {
+    await clearSystemTempDir();  // Assuming this function is defined to clear the temp directory
+    
+    const sampah = path.join(tempPath, `${Math.floor(Math.random() * 100000)}_${Math.floor(Math.random() * 100000)}`);
+    const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s');
+    
+    const ur = 'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wND91cmw9';
+    const tob = atob(ur);
+    const apiUrl = `${tob}${url}`;
 
-  return await processOutput(args, output);
+    try {
+        const response = await axios.get(apiUrl);
+
+        // Assuming response.data.data.dl contains the download URL, you can use the `sampah` variable for the download path
+        const filePath = path.join(sampah, `${response.data.data.title}_${Math.floor(Math.random() * 100000)}.mp4`);
+        
+        // Download and save the file to the 'sampah' directory
+        const writer = fs.createWriteStream(filePath);
+        const fileResponse = await axios.get(response.data.data.dl, { responseType: 'stream' });
+        fileResponse.data.pipe(writer);
+
+        return {
+            status: true,
+            judul: response.data.data.title,
+            url: filePath,
+            from: "@er-npm/scraper"
+        };
+    } catch (error) {
+        // Handle errors
+        return {
+            status: false,
+            why: 'Error occurred.',
+            terus_gmna: 'Visit: t.me/chakszzz',
+        };
+    }
 }
 
 async function alldl(input) {
