@@ -1,15 +1,25 @@
-name: generator docs
+# .github/workflows/docs.yml
+name: Generate docs
+
 on:
   push:
     branches:
       - master
 
 jobs:
-  thedocs:
+  generate-docs:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Build
-      uses: andstor/jsdoc-action@v1
-      with:
-        recurse: true
+      - uses: actions/checkout@v3
+      - name: Generate docs
+        uses: eutiveumsonho/jsdoc-builder-action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.TOKEN }}
+        with:
+          jsdoc-input-files: "./src/ia/ ./dist/ ./src/ ./package.json"
+          destination-github-username: "ErRickow"
+          destination-repository-name: "npm-yt"
+          user-name: ErNewDev0
+          user-email: ryppain@gmail.com
+          target-branch: master
+          commit-message: "docs: update docs ORIGIN_COMMIT"
