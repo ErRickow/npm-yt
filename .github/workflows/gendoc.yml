@@ -1,29 +1,31 @@
-# .github/workflows/docs.yml
-name: Generate docs
+name: Build and Deploy Documentation
 
 on:
-  push:
-    branches:
-      - master
+    push:
+        branches:
+            - master
+
+permissions:
+    contents: write
 
 jobs:
-  generate-docs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: brunokrauss/jsdoc-action@1
-        with:
-          jsdoc-path: 'src'
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
 
-      - uses: actions/checkout@v3
-      - name: Generate docs
-        uses: eutiveumsonho/jsdoc-builder-action@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.TOKEN }}
-        with:
-          jsdoc-input-files: "./src/ia/ ./dist/ ./src/ ./package.json"
-          destination-github-username: "ErRickow"
-          destination-repository-name: "npm-yt"
-          user-name: ErNewDev0
-          user-email: ryppain@gmail.com
-          target-branch: master
-          commit-message: "docs: update docs ORIGIN_COMMIT"
+            - name: Build
+              uses: andstor/jsdoc-action@v1
+              with:
+                  source_dir: ./
+                  output_dir: ./docs
+                  recurse: true
+                  template: minami
+                  front_page: README.md
+
+            - name: Deploy
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.TOKEN }}
+                  publish_dir: ./docs
