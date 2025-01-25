@@ -1,0 +1,1 @@
+.. js:autofunction:: ia(foo, bar[, baz])
