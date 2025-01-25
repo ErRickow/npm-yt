@@ -1,0 +1,1 @@
+npm install @er-npm/scraper --save
