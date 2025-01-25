@@ -549,6 +549,10 @@ async function convertToCompatibleVideo(inputPath, outputPath) {
   });
 }
 
+/**
+ * Overview documentation for a yts.
+ * @module yts
+ */
 async function yts(query) {
   await clearSystemTempDir();
   const yt = await Innertube.create({ cache: new UniversalCache() });
