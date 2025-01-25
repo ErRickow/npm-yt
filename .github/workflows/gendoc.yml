@@ -1,31 +1,26 @@
-name: Build and Deploy Documentation
-
+name: Generate Docs
 on:
-    push:
-        branches:
-            - master
-
-permissions:
-    contents: write
-
+  push:
+    branches:
+      - master
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-
-            - name: Build
-              uses: andstor/jsdoc-action@v1
-              with:
-                  source_dir: ./
-                  output_dir: ./docs
-                  recurse: true
-                  template: minami
-                  front_page: README.md
-
-            - name: Deploy
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.TOKEN }}
-                  publish_dir: ./docs
+  generate_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: npm install
+      - name: Generate Docs
+        run: npx jsdoc -c jsdoc.json
+      - name: Commit Docs
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Generate Docs"
+      - name: Push Docs
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.TOKEN }}
+          branch: gh-pages
+          force: true
