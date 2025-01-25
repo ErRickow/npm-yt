@@ -1,5 +1,5 @@
-testing
-##input
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=./install.js) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!--doc_begin_-->
-<!--doc_end_-->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=./instalation.sh) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
