@@ -550,8 +550,10 @@ async function convertToCompatibleVideo(inputPath, outputPath) {
 }
 
 /**
- * Overview documentation for a yts.
- * @module yts
+ * Export an image from the given canvas and save it to the disk.
+ *
+ * @param {string} query - strings yang akan di gunakan
+ * @returns {number} the output
  */
 async function yts(query) {
   await clearSystemTempDir();
