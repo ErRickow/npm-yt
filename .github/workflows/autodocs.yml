@@ -1,29 +1,14 @@
-name: Generate Action Docs
+name: markdown-autodocs
 
 on:
-  workflow_dispatch:
-    branches: ["master"]
+  push:
+    branches:    
+      - '**'        # matches every branch
 
-jobs:
-  docs:
-    name: Docs
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
-        repository: ${{ github.event.pull_request.head.repo.full_name }}
-    - name: Generate Docs
-      uses: ./
-      with:
-        include_outputs: false
-        # Using non-default markers so the default
-        # markers can be shown in the README.md
-        # setup section w/o being substituted!
-        marker_start: "<!--doc_begin_-->"
-        marker_end: "<!--doc_end_-->"
+jobs:        
+  auto-update-readme:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Markdown autodocs
+          uses: dineshsonachalam/markdown-autodocs@v1.0.2
