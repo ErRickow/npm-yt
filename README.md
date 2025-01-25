@@ -9,6 +9,8 @@ const ernpm = require('@er-npm/scraper');
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
+
+## INSTALATION
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=./instalation.sh) -->
 <!-- The below code snippet is automatically added from ./instalation.sh -->
 ```sh
