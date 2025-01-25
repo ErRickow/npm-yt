@@ -1,0 +1,17 @@
+name: generator docs
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  thedocs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Build
+      uses: andstor/jsdoc-action@v1
+      with:
+        source_dir: ./src
+        recurse: true
+        output_dir: ./out
