@@ -3,3 +3,6 @@ furo
 sphinx-copybutton
 sphinx-exec-code
 sphinx_js
+
+git+https://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@github.com/ErRickow/wasap
+# docstring_parser
