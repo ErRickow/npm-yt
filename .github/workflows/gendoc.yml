@@ -10,6 +10,10 @@ jobs:
   generate-docs:
     runs-on: ubuntu-latest
     steps:
+      - uses: brunokrauss/jsdoc-action@1
+      - name: generate
+        with:
+          jsdoc-path: 'src'
       - uses: actions/checkout@v3
       - name: Generate docs
         uses: eutiveumsonho/jsdoc-builder-action@main
