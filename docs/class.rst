@@ -1,10 +1,7 @@
-.. _class:
+.. _method:
 
-
-Classes
-=======
-
-Connection API
---------------
+Parameter API
+-------------
 
 .. autofunction:: ermp3
+.. autofunction:: ermp4
