@@ -1,7 +1,5 @@
 version: 2
 
-# Set the version of Python and other tools you might needMenambahkan Node.js untuk mendukung typedoc
-
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
   builder: html
