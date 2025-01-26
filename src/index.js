@@ -265,6 +265,15 @@ async function ermp3(url) {
  * @param {string} url - The Youtube url
  * @return {Promise<string>} The data from the URL.
  */
+ 
+ /**
+ * result ermp4
+ * @example &lt;caption>Example usage of ermp4.&lt;/caption>
+ * // returns 1
+ * await ermp4(url="https://yt.com/id");
+ * @returns {string} Returns the value of x for the equation.
+ */
+
 async function ermp4(url) {
   await clearSystemTempDir(); // Assuming this function is defined to clear the temp directory
 
