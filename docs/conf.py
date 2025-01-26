@@ -15,6 +15,9 @@
 # sys.path.insert(0, os.path.abspath('.'))
 import json
 
+js_source_path = '../src/'
+primary_domain = 'js'
+
 project = 'Documentation for Er-NPM'
 copyright = '2025, er'
 author = 'ErNewdev0'
@@ -32,15 +35,7 @@ master_doc = 'index'
 
 extensions = [
     "sphinx_js",
-    "sphinx.ext.autosummary",
-    "sphinx.ext.autodoc",
-    "sphinx.ext.napoleon",
-    "sphinx_copybutton",
-    "sphinx_exec_code",
 ]
-js_language = 'typescript'
-js_source_path = '../src/*'
-primary_domain = 'js'
 
 
 templates_path = ['_templates']
