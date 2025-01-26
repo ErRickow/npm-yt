@@ -1,1 +1,11 @@
-.. js:autofunction:: ia(foo, bar[, baz])
+.. _class:
+
+
+Classes
+=======
+
+Connection API
+--------------
+
+.. autofunction:: ermp3
+.. autofunction:: ermp4
