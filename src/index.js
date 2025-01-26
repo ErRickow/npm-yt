@@ -225,12 +225,12 @@ const base64Url = 'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wMz91cmw9';
 const decodedUrl = atob(base64Url);
 
 /**
- * Return the ratio of the inline text length of the links in an element to
- * the inline text length of the entire element.
+ * Method ErMp3
+ * this is how the parameter
  *
- * @param {Node} url - Types or not: either works.
- * @throws {PartyError|Hearty} Multiple types work fine.
- * @returns {Number} Types and descriptions are both supported.
+ * @param {str} url - url youtube yang akan di unduh
+ * @throws {error} pesan error, jika terjadi kesalahan
+ * @returns {str} result dari ermp3
  */
 async function ermp3(url) {
   const apiUrl = `${decodedUrl}${url}`;
@@ -256,7 +256,15 @@ async function ermp3(url) {
 //Contoh penggunaan
 // const url = "https://www.youtube.com/watch?v=vx2u5uUu3DE";
 // ermp3(url).then(result => console.log(result));
-
+/**
+ * Export an image from the given canvas and save it to the disk.
+ *
+ * @param {Object} options Output options
+ * @param {string} options.judul The output format (``jpeg``,  ``png``, or
+ *     ``webp``)
+ * @param {string} options.status The output quality when format is
+ *     ``jpeg`` or ``webp`` (from ``0.00`` to ``1.00``)
+ */
 async function ermp4(url) {
   await clearSystemTempDir(); // Assuming this function is defined to clear the temp directory
 
