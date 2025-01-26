@@ -270,7 +270,7 @@ async function ermp3(url) {
  * const url = "https://Youtube.com/watch"
  * await ermp4(url).then(result => console.log(result)) //ini bakal menampilka resultnya
  * @returns {string} Returns data ErMp4
- * 
+ *
  * @author ErNewDev0 &lt;ryppain@gmail.com>
  */
 
