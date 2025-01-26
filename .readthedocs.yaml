@@ -19,6 +19,6 @@ python:
     - requirements: docs/req.txt
 
 # Install Node.js and typedoc
-nodejs:
+node:
   install:
     - npm install -g typedoc
