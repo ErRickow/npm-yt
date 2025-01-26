@@ -265,8 +265,8 @@ async function ermp3(url) {
  * @param {string} url - The Youtube url
  * @return {Promise<string>} The data from the URL.
  */
- 
- /**
+
+/**
  * result ermp4
  * @example &lt;caption>Example usage of ermp4.&lt;/caption>
  * // returns 1
