@@ -13,7 +13,7 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.10"
-    nodejs: "14"
+    nodejs: "latest"
   commands:
-    - pip install docs/req.txt
+    - pip install -r docs/req.txt
     - npm install -g typedoc
