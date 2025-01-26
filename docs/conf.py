@@ -18,7 +18,7 @@ import json
 js_source_path = '../src/'
 primary_domain = 'js'
 
-project = 'Documentation for Er-NPM'
+project = 'Er-NPM'
 copyright = '2025, er'
 author = 'ErNewdev0'
 release = '1.0'
