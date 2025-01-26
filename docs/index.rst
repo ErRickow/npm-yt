@@ -20,4 +20,4 @@ Installation
    :maxdepth: 1
    :caption: Contents:
 
-   class
+   table
