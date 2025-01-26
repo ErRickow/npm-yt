@@ -13,5 +13,6 @@ build:
     python: "3.10"
     nodejs: "latest"
   commands:
+    - mkdir -p $READTHEDOCS_OUTPUT/html/
     - pip install -r docs/req.txt
     - npm install -g typedoc
