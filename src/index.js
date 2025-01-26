@@ -221,17 +221,19 @@ async function processOutput(args, tempFile, retries = 3) {
 //   return await processOutput(args, output);
 // }
 
+
+
 const base64Url = 'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wMz91cmw9';
 const decodedUrl = atob(base64Url);
 
 /**
- * this is example
- * @typedef {object} ermp3
- * @param {string} - the strings url
- * @returns {string} - return str
+ * Return the ratio of the inline text length of the links in an element to
+ * the inline text length of the entire element.
+ *
+ * @param {Node} url - Types or not: either works.
+ * @throws {PartyError|Hearty} Multiple types work fine.
+ * @returns {Number} Types and descriptions are both supported.
  */
-
-/** @type {ermp3} */
 async function ermp3(url) {
   const apiUrl = `${decodedUrl}${url}`;
 
