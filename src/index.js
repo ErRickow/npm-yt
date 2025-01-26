@@ -264,11 +264,13 @@ async function ermp3(url) {
  * @function ermp4
  * @param {string} url - The Youtube url
  * @return {Promise<string>} The data from the URL.
- *
- * @example &lt;caption>Example usage of ermp4.&lt;/caption>
- * // returns 1
- * await ermp4(url="https://yt.com/id");
- * @returns {string} Returns the value of x for the equation.
+ * 
+ * @example <caption>Example usage of ermp4</caption>
+ * // define the URL
+ * const url = "https://Youtube.com/watch"
+ * await ermp4(url).then(result => console.log(result)) //ini bakal menampilka resultnya
+ * 
+ * @returns {string} Returns data ErMp4
  */
 
 async function ermp4(url) {
