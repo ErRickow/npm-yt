@@ -1,7 +1,15 @@
-.. _method:
+.. _ermp3:
 
-Parameter API
--------------
+ErMp3
+=====
 
 .. autofunction:: ermp3
-.. autofunction:: ermp4
+
+Contoh
+^^^^^^
+
+Panggil Fungsi ErMp3
+""""""""""""""""""""
+
+.. literalinclude:: exam/ermp3.js
+   :language: javascript
