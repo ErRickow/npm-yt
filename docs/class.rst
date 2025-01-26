@@ -7,4 +7,4 @@ Classes
 Connection API
 --------------
 
-.. autofunction:: ermp3
+.. autofunction:: someFunction
