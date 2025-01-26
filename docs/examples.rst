@@ -1,4 +1,4 @@
-.. _Contoh Penggunaannya:
+.. _Contohnya:
   
 Contoh
 ^^^^^^
