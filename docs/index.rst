@@ -15,6 +15,20 @@ Installation
 
 .. important :: 
    still many error
+ 
+Penggunaan
+^^^^^^^^^^
+
+.. code-block:: javascript
+
+    //import module
+    const { ermp3, ermp4, yts, alldl, ai } = require("@er-npm/scraper");
+    
+    (async () => {
+    const prompt = 'hai cantik!';
+    const res = await ai(prompt);
+    console.log(response);
+    })();
 
 .. toctree::
    :maxdepth: 1
