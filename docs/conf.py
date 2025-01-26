@@ -50,3 +50,9 @@ html_theme = 'furo'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
+
+napoleon_include_special_with_doc = False
+napoleon_use_rtype = False
+napoleon_use_param = True
+html_show_copyright = True
+html_show_sphinx = False
