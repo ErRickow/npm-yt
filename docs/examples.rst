@@ -3,6 +3,9 @@
 Contoh
 ^^^^^^
 
+.. toctree::
+   :maxdepth: 2
+
 Panggil Fungsi ErMp3
 ____________________
 
