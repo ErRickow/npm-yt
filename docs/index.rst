@@ -2,9 +2,9 @@ Welcome this is still testing
 =============================
 
 Introduction
-============
+------------
 
-``itoolkit`` is a Node.js library to interacting with Various Apis
+``@er-npm/scraper`` is a Node.js library to interacting with Various Apis
 
 Installation
 ^^^^^^^^^^^^
@@ -13,7 +13,7 @@ Installation
 
    $ npm install @er-npm/scraper
 
-.. NOTE::
+.. important :: 
    still many error
 
 .. toctree::
@@ -21,10 +21,3 @@ Installation
    :caption: Contents:
 
    class
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`
