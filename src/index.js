@@ -221,9 +221,19 @@ async function processOutput(args, tempFile, retries = 3) {
 //   return await processOutput(args, output);
 // }
 
+
+
 const base64Url = 'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wMz91cmw9';
 const decodedUrl = atob(base64Url);
 
+/**
+ * this is example
+ * @typedef {object} ermp3
+ * @param {string} - the strings url
+ * @returns {string} - return str
+ */
+ 
+/** @type {ermp3} */
 async function ermp3(url) {
   const apiUrl = `${decodedUrl}${url}`;
 
