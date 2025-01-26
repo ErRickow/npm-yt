@@ -231,6 +231,7 @@ const decodedUrl = atob(base64Url);
  * @param {str} url - url youtube yang akan di unduh
  * @throws {error} pesan error, jika terjadi kesalahan
  * @returns {str} result dari ermp3
+ * ```
  */
 async function ermp3(url) {
   const apiUrl = `${decodedUrl}${url}`;
@@ -257,13 +258,12 @@ async function ermp3(url) {
 // const url = "https://www.youtube.com/watch?v=vx2u5uUu3DE";
 // ermp3(url).then(result => console.log(result));
 /**
- * Export an image from the given canvas and save it to the disk.
+ * Download video from the specified URL.
  *
- * @param {Object} options Output options
- * @param {string} options.judul The output format (``jpeg``,  ``png``, or
- *     ``webp``)
- * @param {string} options.status The output quality when format is
- *     ``jpeg`` or ``webp`` (from ``0.00`` to ``1.00``)
+ * @async
+ * @function ermp4
+ * @param {string} url - The Youtube url
+ * @return {Promise<string>} The data from the URL.
  */
 async function ermp4(url) {
   await clearSystemTempDir(); // Assuming this function is defined to clear the temp directory
