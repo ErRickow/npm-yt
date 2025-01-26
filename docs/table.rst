@@ -1,10 +1,11 @@
-.. _Er Tables:
+.. _ErTables:
 
 
-Methods
-=======
+Er Tables
+=========
 
 .. toctree::
    :maxdepth: 1
 
-   class
+   contohnya
+   met
