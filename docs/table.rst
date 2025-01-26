@@ -1,10 +1,11 @@
-.. _methods:
+.. _Er Tables:
 
 
-Methods
-=======
+.. list-table:: **All Function & Examples**
+   :widths: 25 25 50
+   :header-rows: 1
 
-.. toctree::
-   :maxdepth: 1
-
-   class
+   * - Er Tables
+     - Function
+   * - _Er Tables
+     - class
