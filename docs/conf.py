@@ -35,6 +35,7 @@ master_doc = 'index'
 
 extensions = [
     "sphinx_js",
+    "sphinx_copybutton",
 ]
 
 
