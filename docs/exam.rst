@@ -6,6 +6,8 @@ Cara Penggunaan
 .. toctree::
    :maxdepth: 1
 
+.. _contohnya:
+
 +-------------+------------+
 | Nama        | Deskripsi  |
 +=============+============+
