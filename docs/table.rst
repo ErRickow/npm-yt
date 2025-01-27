@@ -7,5 +7,5 @@ Er Tables
 .. toctree::
    :maxdepth: 1
 
-   examples
    exam
+   methods
