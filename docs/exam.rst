@@ -5,8 +5,8 @@ Cara Penggunaan
 
    Contoh penggunaan setiap fungsi
 
-.. toctree::
-   :maxdepth: 1
-   
-   :ref:`ermp3`
-   :ref:`alldl`
++------------+------------+
+| ermp3      | alldl      |
++============+============+
+| :ref:`alldl` | :ref:`ermp3` |
++------------+------------+
