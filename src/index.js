@@ -231,7 +231,7 @@ const decodedUrl = atob(base64Url);
  * @param {``str``} url - url youtube yang akan di unduh
  * @throws {``error``} pesan error, jika terjadi kesalahan
  * @returns {``str``} result dari ermp3
- * 
+ *
  */
 async function ermp3(url) {
   const apiUrl = `${decodedUrl}${url}`;
