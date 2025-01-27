@@ -3,10 +3,13 @@
 Cara Penggunaan
 ===============
 
-   Contoh penggunaan setiap fungsi
+.. toctree::
+   :maxdepth: 1
 
-  +-------------+------------+
-  | ermp3       | alldl      |
-  +=============+============+
-  | :ref:`alldl`|:ref:`ermp3` |
-  +-------------+------------+
++-------------+------------+
+| Nama        | Deskripsi  |
++=============+============+
+| :ref:`ermp3` | Modul ermp3 |
++-------------+------------+
+| :ref:`alldl`| Modul alldl |
++-------------+------------+
