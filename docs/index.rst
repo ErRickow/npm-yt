@@ -30,13 +30,6 @@ Penggunaan
     console.log(response);
     })();
 
-+------------+------------+
-| Method     | Tutorial   |
-+============+============+
-| :ref:`met` | :ref:`Con` |
-+------------+------------+
-
-
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
