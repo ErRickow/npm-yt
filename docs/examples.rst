@@ -1,4 +1,4 @@
-.. _Contohnya:
+.. _Con:
   
 Contoh
 ======
