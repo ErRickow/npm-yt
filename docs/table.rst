@@ -8,4 +8,4 @@ Er Tables
    :maxdepth: 1
 
    examples
-   methods
+   exam
