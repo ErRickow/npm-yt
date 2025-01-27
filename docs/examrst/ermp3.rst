@@ -1,4 +1,4 @@
-.. _ermp3:
+.. _tut:
 
 Panggil Fungsi ErMp3
 ____________________
@@ -6,7 +6,7 @@ ____________________
 .. literalinclude:: exam/ermp3.js
    :language: javascript
 
-.. _alldl:
+.. _tut:
 
 Panggil Fungsi AllDL
 ____________________
