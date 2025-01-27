@@ -226,7 +226,7 @@ const decodedUrl = atob(base64Url);
 
 /**
  * Method ErMp3
- * this is how the parameter
+ * Fungsi `ermp3` digunakan untuk mengambil URL audio dari video YouTube. Fungsi ini membutuhkan URL video YouTube sebagai parameter dan akan mengembalikan URL audio dalam bentuk string.
  *
  * @param {str} url - url youtube yang akan di unduh
  * @throws {error} pesan error, jika terjadi kesalahan
