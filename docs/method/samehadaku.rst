@@ -1,0 +1,4 @@
+Search Samehadaku
+=================
+
+.. autofunction:: samehadakuSearch
