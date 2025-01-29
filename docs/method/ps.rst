@@ -1,4 +1,4 @@
-Fungsi Ai
-=========
+Fungsi Playstore Search
+=======================
 
-.. autofunction:: ai
+.. autofunction:: playstore
