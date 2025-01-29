@@ -260,45 +260,45 @@ async function ermp3(url) {
  * @returns {Promise<Object>} Objek yang berisi daftar aplikasi atau pesan kesalahan.
  */
 async function playstore(query) {
-  const url = `https://api.siputzx.my.id/api/apk/playstore?query=${query}`;
-  try {
-    const res = await axios.get(url);
-    const data = res.data.data;
+    const url = `https://api.siputzx.my.id/api/apk/playstore?query=${query}`;
+    try {
+        const res = await axios.get(url);
+        const data = res.data.data;
+        
+        if (!Array.isArray(data) || data.length === 0) {
+            return {
+                status: false,
+                why: "Aplikasi tidak ditemukan.",
+                terus_gmna: "Kunjungi: t.me/chakszzz",
+            };
+        }
 
-    if (!Array.isArray(data) || data.length === 0) {
-      return {
-        status: false,
-        why: 'Aplikasi tidak ditemukan.',
-        terus_gmna: 'Kunjungi: t.me/chakszzz',
-      };
+        return {
+            status: true,
+            /**
+             * @property {Array<Object>} results - Daftar aplikasi yang ditemukan di Play Store.
+             * @property {string} results[].nama - Nama aplikasi.
+             * @property {string} results[].link - Link Play Store aplikasi.
+             * @property {string} results[].thumb - URL ikon aplikasi.
+             * @property {string} results[].dev - Nama pengembang aplikasi.
+             * @property {string} results[].rating - Rating aplikasi.
+             */
+            results: data.map(app => ({
+                nama: app.nama,
+                link: app.link,
+                thumb: app.img,
+                dev: app.developer,
+                rating: app.rate2,
+            })),
+            from: "@er-npm/scraper",
+        };
+    } catch (error) {
+        return {
+            status: false,
+            why: "Terjadi kesalahan.",
+            terus_gmna: "Kunjungi: t.me/chakszzz",
+        };
     }
-
-    return {
-      status: true,
-      /**
-       * @property {Array<Object>} results - Daftar aplikasi yang ditemukan di Play Store.
-       * @property {string} results[].nama - Nama aplikasi.
-       * @property {string} results[].link - Link Play Store aplikasi.
-       * @property {string} results[].thumb - URL ikon aplikasi.
-       * @property {string} results[].dev - Nama pengembang aplikasi.
-       * @property {string} results[].rating - Rating aplikasi.
-       */
-      results: data.map(app => ({
-        nama: app.nama,
-        link: app.link,
-        thumb: app.img,
-        dev: app.developer,
-        rating: app.rate2,
-      })),
-      from: '@er-npm/scraper',
-    };
-  } catch (error) {
-    return {
-      status: false,
-      why: 'Terjadi kesalahan.',
-      terus_gmna: 'Kunjungi: t.me/chakszzz',
-    };
-  }
 }
 
 /**
@@ -648,47 +648,48 @@ async function yts(query) {
   return search;
 }
 
+
 /**
  * Mencari anime di Samehadaku berdasarkan query.
  * @param {string} query - Kata kunci anime yang ingin dicari.
  * @returns {Promise<Object>} Hasil pencarian anime.
  */
 async function samehadakuSearch(query) {
-  const url = `https://api.siputzx.my.id/api/anime/samehadaku/search?query=${encodeURIComponent(query)}`;
-  try {
-    const res = await axios.get(url);
-    const data = res.data.data; // Ambil array data anime
+    const url = `https://api.siputzx.my.id/api/anime/samehadaku/search?query=${encodeURIComponent(query)}`;
+    try {
+        const res = await axios.get(url);
+        const data = res.data.data; // Ambil array data anime
 
-    if (!Array.isArray(data) || data.length === 0) {
-      return {
-        status: false,
-        why: 'Anime tidak ditemukan.',
-        terus_gmna: 'visit: t.me/chakszzz',
-      };
+        if (!Array.isArray(data) || data.length === 0) {
+            return {
+                status: false,
+                why: "Anime tidak ditemukan.",
+                terus_gmna: "visit: t.me/chakszzz",
+            };
+        }
+
+        return {
+            status: true,
+            results: data.map(anime => ({
+                title: anime.title,
+                id: anime.id,
+                thumbnail: anime.thumbnail,
+                description: anime.description,
+                genre: anime.genre.join(", "), // Gabungkan array genre jadi string
+                type: anime.type.join(", "), // Gabungkan array type jadi string
+                rating: anime.star,
+                views: anime.views,
+                link: anime.link,
+            })),
+            from: "@er-npm/scraper",
+        };
+    } catch (error) {
+        return {
+            status: false,
+            why: "Error njing.",
+            terus_gmna: "visit: t.me/chakszzz",
+        };
     }
-
-    return {
-      status: true,
-      results: data.map(anime => ({
-        title: anime.title,
-        id: anime.id,
-        thumbnail: anime.thumbnail,
-        description: anime.description,
-        genre: anime.genre.join(', '), // Gabungkan array genre jadi string
-        type: anime.type.join(', '), // Gabungkan array type jadi string
-        rating: anime.star,
-        views: anime.views,
-        link: anime.link,
-      })),
-      from: '@er-npm/scraper',
-    };
-  } catch (error) {
-    return {
-      status: false,
-      why: 'Error njing.',
-      terus_gmna: 'visit: t.me/chakszzz',
-    };
-  }
 }
 
 /**
@@ -704,45 +705,41 @@ async function samehadakuSearch(query) {
  *   .catch(err => console.error(err));
  */
 async function samehadakuDL(url) {
-  const apiUrl = `https://api.siputzx.my.id/api/anime/samehadaku/download?url=${encodeURIComponent(url)}`;
+    const apiUrl = `https://api.siputzx.my.id/api/anime/samehadaku/download?url=${encodeURIComponent(url)}`;
+    
+    try {
+        const res = await axios.get(apiUrl);
+        const data = res.data.data; // Mengambil objek data utama
 
-  try {
-    const res = await axios.get(apiUrl);
-    const data = res.data.data; // Mengambil objek data utama
+        // Cek apakah data valid dan memiliki link download
+        if (!data || !Array.isArray(data.downloads) || data.downloads.length === 0) {
+            return {
+                status: false,
+                why: "Link download tidak ditemukan.",
+                terus_gmna: "visit: t.me/chakszzz",
+            };
+        }
 
-    // Cek apakah data valid dan memiliki link download
-    if (
-      !data ||
-      !Array.isArray(data.downloads) ||
-      data.downloads.length === 0
-    ) {
-      return {
-        status: false,
-        why: 'Link download tidak ditemukan.',
-        terus_gmna: 'visit: t.me/chakszzz',
-      };
+        // Mapping hasil download ke format yang lebih sederhana
+        return {
+            status: true,
+            title: data.title, // Judul anime
+            link: data.link, // Link halaman anime
+            downloads: data.downloads.map(dl => ({
+                name: dl.name, // Nama sumber download
+                type: dl.type, // Jenis format download
+                quality: dl.nume, // Kualitas video
+                download_link: dl.link, // URL download
+            })),
+            from: "@er-npm/scraper", // Sumber data
+        };
+    } catch (error) {
+        return {
+            status: false,
+            why: "Error njing.",
+            terus_gmna: "visit: t.me/chakszzz",
+        };
     }
-
-    // Mapping hasil download ke format yang lebih sederhana
-    return {
-      status: true,
-      title: data.title, // Judul anime
-      link: data.link, // Link halaman anime
-      downloads: data.downloads.map(dl => ({
-        name: dl.name, // Nama sumber download
-        type: dl.type, // Jenis format download
-        quality: dl.nume, // Kualitas video
-        download_link: dl.link, // URL download
-      })),
-      from: '@er-npm/scraper', // Sumber data
-    };
-  } catch (error) {
-    return {
-      status: false,
-      why: 'Error njing.',
-      terus_gmna: 'visit: t.me/chakszzz',
-    };
-  }
 }
 
 module.exports = {
@@ -752,6 +749,7 @@ module.exports = {
   ytvdl: ermp4,
   alldl,
   yts,
+  playstore,
   samehadakuDL,
   samehadakuSearch,
   ai: ai,
