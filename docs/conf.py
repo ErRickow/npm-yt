@@ -22,6 +22,7 @@ project = 'Er-NPM'
 copyright = '2025, er'
 author = 'ErNewdev0'
 release = '1.0'
+html_title = f"Documentations Er-NPM"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
