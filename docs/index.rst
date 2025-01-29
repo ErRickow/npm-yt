@@ -1,37 +1,45 @@
-Welcome this is still testing
+Selamat Datang di Pengujian
 =============================
 
-Introduction
+Pendahuluan
 ------------
 
-``@er-npm/scraper`` is a Node.js library to interacting with Various Apis
+``@er-npm/scraper`` adalah pustaka Node.js untuk berinteraksi dengan berbagai API.
 
-Installation
-^^^^^^^^^^^^
+Instalasi
+---------
+
+Untuk menginstal pustaka ini, jalankan perintah berikut:
 
 .. code-block:: bash
 
    $ npm install @er-npm/scraper
 
-.. important :: 
-   still many error
- 
+.. important::
+
+   Harap dicatat bahwa masih ada beberapa kesalahan yang perlu diperbaiki.
+
 Penggunaan
-^^^^^^^^^^
+----------
+
+Berikut adalah contoh cara menggunakan pustaka ini:
 
 .. code-block:: javascript
 
-    //import module
+    // Impor modul
     const { ermp3, ermp4, yts, alldl, ai } = require("@er-npm/scraper");
-    
+
     (async () => {
-    const prompt = 'hai cantik!';
-    const res = await ai(prompt);
-    console.log(response);
+        const prompt = 'hai cantik!';
+        const response = await ai(prompt);
+        console.log(response);
     })();
+
+Daftar Isi
+----------
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
+   :caption: Daftar Isi
 
    table
