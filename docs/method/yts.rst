@@ -1,0 +1,4 @@
+YouTube Search
+==============
+
+.. autofunction:: yts
