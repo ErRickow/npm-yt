@@ -254,6 +254,52 @@ async function ermp3(url) {
   }
 }
 
+/**
+ * Mengambil informasi aplikasi dari Play Store berdasarkan kata kunci pencarian.
+ * @param {string} query - Kata kunci pencarian aplikasi di Play Store.
+ * @returns {Promise<Object>} Objek yang berisi daftar aplikasi atau pesan kesalahan.
+ */
+async function playstore(query) {
+    const url = `https://api.siputzx.my.id/api/apk/playstore?query=${query}`;
+    try {
+        const res = await axios.get(url);
+        const data = res.data.data;
+        
+        if (!Array.isArray(data) || data.length === 0) {
+            return {
+                status: false,
+                why: "Aplikasi tidak ditemukan.",
+                terus_gmna: "Kunjungi: t.me/chakszzz",
+            };
+        }
+
+        return {
+            status: true,
+            /**
+             * @property {Array<Object>} results - Daftar aplikasi yang ditemukan di Play Store.
+             * @property {string} results[].nama - Nama aplikasi.
+             * @property {string} results[].link - Link Play Store aplikasi.
+             * @property {string} results[].thumb - URL ikon aplikasi.
+             * @property {string} results[].dev - Nama pengembang aplikasi.
+             * @property {string} results[].rating - Rating aplikasi.
+             */
+            results: data.map(app => ({
+                nama: app.nama,
+                link: app.link,
+                thumb: app.img,
+                dev: app.developer,
+                rating: app.rate2,
+            })),
+            from: "@er-npm/scraper",
+        };
+    } catch (error) {
+        return {
+            status: false,
+            why: "Terjadi kesalahan.",
+            terus_gmna: "Kunjungi: t.me/chakszzz",
+        };
+    }
+}
 //Contoh penggunaan
 // const url = "https://www.youtube.com/watch?v=vx2u5uUu3DE";
 // ermp3(url).then(result => console.log(result));
