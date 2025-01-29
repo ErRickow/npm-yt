@@ -27,7 +27,7 @@ Berikut adalah contoh cara menggunakan pustaka ini:
 .. code-block:: javascript
 
     // Impor modul
-    const { ermp3, ermp4, yts, alldl, ai } = require("@er-npm/scraper");
+    const { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai } = require("@er-npm/scraper");
 
     (async () => {
         const prompt = 'hai cantik!';
