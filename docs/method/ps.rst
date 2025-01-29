@@ -1,0 +1,4 @@
+Fungsi Ai
+=========
+
+.. autofunction:: ai
