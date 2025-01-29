@@ -258,19 +258,19 @@ async function ermp3(url) {
 // const url = "https://www.youtube.com/watch?v=vx2u5uUu3DE";
 // ermp3(url).then(result => console.log(result));
 /**
- * Download video from the specified URL.
+ * Mengunduh video dari URL YouTube yang diberikan.
  *
  * @async
  * @function ermp4
- * @param {string} url - The Youtube url
- * @return {Promise<string>} The data from the URL.
+ * @param {string} url - URL video YouTube.
+ * @returns {Promise<string>} Sebuah promise yang mengembalikan data hasil unduhan.
  *
- * @example <caption>Example usage of ermp4</caption>
- * // define the URL
- * const url = "https://Youtube.com/watch"
- * await ermp4(url).then(result => console.log(result)) //ini bakal menampilka resultnya
+ * @example
+ * // Contoh penggunaan ermp4:
+ * const url = "https://youtube.com/watch?v=contoh";
+ * ermp4(url).then(result => console.log(result)); // Menampilkan hasil unduhan
  *
- * @author ErNewDev0 &lt;ryppain@gmail.com>
+ * @author ErNewDev0 <ryppain@gmail.com>
  */
 
 async function ermp4(url) {
@@ -318,6 +318,15 @@ async function ermp4(url) {
   }
 }
 
+/**
+ * Mengunduh video dari URL Tiktok DLL, Menggunakan Fungsi AllDl
+ *
+ * @async
+ * @function alldl
+ * @param {``string``} url - URL.
+ * @returns {``Promise<string>``} Sebuah promise yang mengembalikan data hasil unduhan.
+ *
+ */
 async function alldl(input) {
   await clearSystemTempDir();
   const url = input;
@@ -574,10 +583,19 @@ async function convertToCompatibleVideo(inputPath, outputPath) {
 }
 
 /**
- * Export an image from the given canvas and save it to the disk.
+ * Mencari video di YouTube berdasarkan query pencarian.
  *
- * @param {string} query - strings yang akan di gunakan
- * @returns {number} the output
+ * @async
+ * @function yts
+ * @param {string} query - Kata kunci untuk mencari video di YouTube.
+ * @returns {Promise<Object>} Sebuah promise yang mengembalikan hasil pencarian YouTube.
+ *
+ * @example
+ * // Contoh penggunaan yts:
+ * const query = "lofi hip hop";
+ * yts(query).then(result => console.log(result)); // Menampilkan hasil pencarian
+ *
+ * @author ErNewDev0 <ryppain@gmail.com>
  */
 async function yts(query) {
   await clearSystemTempDir();
