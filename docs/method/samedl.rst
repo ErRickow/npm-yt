@@ -1,0 +1,4 @@
+Download Samehadaku
+===================
+
+.. autofunction:: samehadakuDL
