@@ -1,8 +1,8 @@
-Selamat Datang di Pengujian
-=============================
+Selamat Datang di Er-NPM
+========================
 
 Pendahuluan
-------------
+-----------
 
 ``@er-npm/scraper`` adalah pustaka Node.js untuk berinteraksi dengan berbagai API.
 
