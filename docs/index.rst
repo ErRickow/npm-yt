@@ -35,9 +35,6 @@ Berikut adalah contoh cara menggunakan pustaka ini:
         console.log(response);
     })();
 
-Daftar Isi
-----------
-
 .. toctree::
    :maxdepth: 1
    :caption: Daftar Isi
