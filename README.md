@@ -16,4 +16,10 @@ const ernpm = require('@er-npm/scraper');
 ```sh
 npm install @er-npm/scraper --save
 ```
-<!-- MARKDOWN-AUTO-DOCS:END -->
+<!-- MARKD
+> This Project is Licensed under [GNU General Public License](https://github.com/ErRickow/ApiNyaEr/blob/Er/LICENSE)OWN-AUTO-DOCS:END -->
+
+> Full Dokumentasi dibawah:
+[Read The Docs](http://er-npm.rtfd.io/)
+
+> This Project is Licensed under [Unlicense License](https://github.com/ErRickow/npm-yt/blob/master/license.txt)
