@@ -1,32 +1,27 @@
-on:
-  push:
-    # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+name: "Dependabot Automerge - Action"
 
-name: Create Release
+on:
+  pull_request:
 
 jobs:
-  build:
-    name: Create Release
+  worker:
     runs-on: ubuntu-latest
+
+    if: github.actor == 'dependabot[bot]'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: automerge
+        uses: actions/github-script@0.2.0
         with:
-          fetch-depth: 0
-      - name: Changelog
-        uses: scottbrenner/generate-changelog-action@master
-        id: Changelog
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            ${{ steps.Changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
+          script: |
+            github.pullRequests.createReview({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number,
+              event: 'APPROVE'
+            })
+            github.pullRequests.merge({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number
+            })
+          github-token: ${{ secrets.TOKEN }}
