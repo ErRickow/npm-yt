@@ -767,4 +767,4 @@ module.exports = {
   update: updateFile,
   clear: clearSystemTempDir,
 };
-module.exports.download = require('./bkp/scrape')
+module.exports.dl = require('./bkp/scrape')
