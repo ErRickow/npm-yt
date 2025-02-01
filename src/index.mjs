@@ -2,6 +2,7 @@ import { detectSystemInfo, generateRandomName, getYouTubeID, ensureExecutable, h
 import { Innertube, UniversalCache } from "youtubei.js";
 import { execFile } from "child_process";
 import ai from './ia/index.js';
+import bkp from './bkp/scrape.js'
 import path from "path";
 import fs from "fs";
 import os from 'os';
@@ -422,7 +423,9 @@ ytvdl: ermp4,
 alldl: alldl, 
 yts: yts, 
 ai: ai,
-update: updateFile
+update: updateFile,
+bkp,
+bokep: bkp
 };
 
 export default expotszz;
