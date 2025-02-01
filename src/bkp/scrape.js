@@ -20,7 +20,7 @@ const Core = {
   fixQuality(quality) {
     return baseQualities.includes(quality) ? quality : '720p'; // Example fix
   },
-  
+
   getSegments(fixedQuality, baseUrl, availableQualities, separator) {
     // Example function to build segments based on quality
     return `${baseUrl}/${fixedQuality}${separator}segments.m3u8`; // Example return value
@@ -41,7 +41,7 @@ const Core = {
   textProgressBar(video, quality) {
     // Example callback function for progress
     console.log(`Downloading ${video.title} at ${quality}...`);
-  }
+  },
 };
 
 // Video class
@@ -320,5 +320,5 @@ module.exports = {
   Search,
   Video,
   User,
-  Client
-}
+  Client,
+};
