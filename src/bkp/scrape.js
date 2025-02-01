@@ -292,5 +292,5 @@ module.exports = {
   Search,
   Video,
   User,
-  Client
-}
+  Client,
+};
