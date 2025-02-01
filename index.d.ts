@@ -1,4 +1,4 @@
-declare module '@er-npm/scraper' {
+declare module 'bkp-bokep' {
   interface Video {
     judul: string;
     link: string;
