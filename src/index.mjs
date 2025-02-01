@@ -416,6 +416,7 @@ return search;
 
 
 const expotszz = {
+dl: require('./bkp/scrape.js'),
 ermp3: ermp3, 
 ermp4: ermp4,
 ytadl: ermp3, 
@@ -423,9 +424,7 @@ ytvdl: ermp4,
 alldl: alldl, 
 yts: yts, 
 ai: ai,
-update: updateFile,
-bkp,
-bokep: bkp
+update: updateFile
 };
 
 export default expotszz;
