@@ -770,5 +770,5 @@ module.exports = {
   Search,
   Video,
   Client,
-  User
+  User,
 };
