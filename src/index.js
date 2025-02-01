@@ -754,7 +754,6 @@ async function samehadakuDL(url) {
 }
 
 module.exports = {
-  dl: require('./bkp/scrape.js'),
   ermp3,
   ermp4,
   ytadl: ermp3,
@@ -768,3 +767,4 @@ module.exports = {
   update: updateFile,
   clear: clearSystemTempDir,
 };
+module.exports.download = require('./bkp/scrape')
