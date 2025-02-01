@@ -17,7 +17,7 @@ const baseQualities = [
 ];
 
 // Video class
-export class Video {
+class Video {
   constructor(url) {
     this.url = url;
     this.availableM3u8Urls = null;
@@ -165,7 +165,7 @@ export class Video {
 }
 
 // Search class
-export class Search {
+class Search {
   constructor(query, uploadTime, length, searchingQuality, limit = 5) {
     this.query = this.validateQuery(query);
     this.uploadTime = uploadTime;
@@ -204,7 +204,7 @@ export class Search {
 }
 
 // User class
-export class User {
+class User {
   constructor(url, limit = 5) {
     this.url = url;
     this.limit = limit;
@@ -237,7 +237,7 @@ export class User {
 }
 
 // Client class
-export class Client {
+class Client {
   static getVideo(url) {
     return new Video(url);
   }
@@ -287,3 +287,10 @@ async function main() {
 }
 
 main().catch(error => console.error(error));
+
+module.exports = {
+  Search,
+  Video,
+  User,
+  Client
+}
