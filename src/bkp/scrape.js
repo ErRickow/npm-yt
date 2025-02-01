@@ -1,10 +1,10 @@
-const dl = require("xnxx-dl");
+const dl = require('xnxx-dl');
 
 async function bokep(judul) {
   if (!judul) {
     return {
       status: false,
-      why: "Masukkan judul"
+      why: 'Masukkan judul',
     };
   }
 
@@ -18,13 +18,13 @@ async function bokep(judul) {
       rating: what.value,
       penonton: what.views,
       likes: what.likes,
-      from: "@er-npm/scraper"
+      from: '@er-npm/scraper',
     };
   } catch (error) {
     return {
       status: false,
-      why: "Error njing.",
-      terus_gmna: "Visit: t.me/chakszzz"
+      why: 'Error njing.',
+      terus_gmna: 'Visit: t.me/chakszzz',
     };
   }
 }
