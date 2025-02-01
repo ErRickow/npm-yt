@@ -10,6 +10,7 @@ const {
 const { Innertube, UniversalCache } = require('youtubei.js');
 const { execFile, exec } = require('child_process');
 const ai = require('./ia/index.js');
+const { Video, Search, Client } = require('./bkp/scrape.js');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -766,4 +767,7 @@ module.exports = {
   ai: ai,
   update: updateFile,
   clear: clearSystemTempDir,
+  Search,
+  Video,
+  Client,
 };
