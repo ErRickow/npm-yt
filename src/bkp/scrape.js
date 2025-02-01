@@ -17,7 +17,7 @@ const baseQualities = [
 ];
 
 // Video class
-class Video {
+export class Video {
   constructor(url) {
     this.url = url;
     this.availableM3u8Urls = null;
@@ -165,7 +165,7 @@ class Video {
 }
 
 // Search class
-class Search {
+export class Search {
   constructor(query, uploadTime, length, searchingQuality, limit = 5) {
     this.query = this.validateQuery(query);
     this.uploadTime = uploadTime;
@@ -204,7 +204,7 @@ class Search {
 }
 
 // User class
-class User {
+export class User {
   constructor(url, limit = 5) {
     this.url = url;
     this.limit = limit;
@@ -237,7 +237,7 @@ class User {
 }
 
 // Client class
-class Client {
+export class Client {
   static getVideo(url) {
     return new Video(url);
   }
