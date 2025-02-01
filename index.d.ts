@@ -1,4 +1,4 @@
-declare module "bkp-bokep" {
+declare module 'bkp-bokep' {
   interface Video {
     judul: string;
     link: string;
@@ -6,7 +6,7 @@ declare module "bkp-bokep" {
     value: string;
     likes: string;
     views: string;
-    from: string
+    from: string;
   }
 
   /**
