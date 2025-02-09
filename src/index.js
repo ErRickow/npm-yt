@@ -222,7 +222,8 @@ async function processOutput(args, tempFile, retries = 3) {
 //   return await processOutput(args, output);
 // }
 
-const base64Url = 'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL2F1ZGlvP3VybD0=';
+const base64Url =
+  'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL2F1ZGlvP3VybD0=';
 const decodedUrl = atob(base64Url);
 
 /**
@@ -335,7 +336,8 @@ async function ermp4(url) {
   );
   const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s');
 
-  const ur = 'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL3ZpZGVvP3VybD0=';
+  const ur =
+    'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL3ZpZGVvP3VybD0=';
   const tob = atob(ur);
   const apiUrl = `${tob}${url}`;
 
