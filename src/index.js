@@ -222,10 +222,6 @@ async function processOutput(args, tempFile, retries = 3) {
 //   return await processOutput(args, output);
 // }
 
-const base64Url =
-  'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL2F1ZGlvP3VybD0=';
-const decodedUrl = atob(base64Url);
-
 /**
  * Mengambil URL audio dari video YouTube.
  *
@@ -244,6 +240,9 @@ const decodedUrl = atob(base64Url);
  * ermp3(url).then(result => console.log(result)); // Menampilkan status dan URL unduhan
  */
 async function ermp3(url) {
+  const base64Url = 'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL2F1ZGlvP3VybD0=';
+
+  const decodedUrl = atob(base64Url);
   const apiUrl = `${decodedUrl}${url}`;
 
   try {
@@ -336,8 +335,7 @@ async function ermp4(url) {
   );
   const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s');
 
-  const ur =
-    'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL3ZpZGVvP3VybD0=';
+  const ur = 'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL3ZpZGVvP3VybD0=';
   const tob = atob(ur);
   const apiUrl = `${tob}${url}`;
 
