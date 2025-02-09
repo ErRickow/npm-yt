@@ -222,7 +222,7 @@ async function processOutput(args, tempFile, retries = 3) {
 //   return await processOutput(args, output);
 // }
 
-const base64Url = 'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wMz91cmw9';
+const base64Url = 'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL2F1ZGlvP3VybD0=';
 const decodedUrl = atob(base64Url);
 
 /**
@@ -249,8 +249,8 @@ async function ermp3(url) {
     const response = await axios.get(apiUrl);
     return {
       status: true,
-      judul: response.data.data.title,
-      url: response.data.data.dl,
+      judul: response.data.videoDetails.title,
+      url: response.data.downloadUrl,
       from: '@er-npm/scraper',
     };
   } catch (error) {
@@ -258,7 +258,7 @@ async function ermp3(url) {
     return {
       status: false,
       why: 'eror njing.',
-      terus_gmna: 'visit: t.me/chakszzz',
+      terus_gmna: 'visit: t.me/er_support_group',
     };
   }
 }
@@ -335,7 +335,7 @@ async function ermp4(url) {
   );
   const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s');
 
-  const ur = 'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC95dG1wND91cmw9';
+  const ur = 'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL3ZpZGVvP3VybD0=';
   const tob = atob(ur);
   const apiUrl = `${tob}${url}`;
 
@@ -345,19 +345,19 @@ async function ermp4(url) {
     // Assuming response.data.data.dl contains the download URL, you can use the `sampah` variable for the download path
     const filePath = path.join(
       sampah,
-      `${response.data.data.title}_${Math.floor(Math.random() * 100000)}.mp4`,
+      `${response.data.videoDetails.title}_${Math.floor(Math.random() * 100000)}.mp4`,
     );
 
     // Download and save the file to the 'sampah' directory
     const writer = fs.createWriteStream(filePath);
-    const fileResponse = await axios.get(response.data.data.dl, {
+    const fileResponse = await axios.get(response.data.downloadUrl, {
       responseType: 'stream',
     });
     fileResponse.data.pipe(writer);
 
     return {
       status: true,
-      judul: response.data.data.title,
+      judul: response.data.videoDetails.title,
       url: filePath,
       from: '@er-npm/scraper',
     };
@@ -366,7 +366,7 @@ async function ermp4(url) {
     return {
       status: false,
       why: 'Error occurred.',
-      terus_gmna: 'Visit: t.me/chakszzz',
+      terus_gmna: 'Visit: t.me/er_support_group',
     };
   }
 }
