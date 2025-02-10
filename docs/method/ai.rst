@@ -9,8 +9,7 @@ Jangan Lupa Untuk Import Dahulu Module nya
 
     const { ai } = require('@er-npm/scraper')
 
-.. autodata:: ia
-   :noindex:
+.. autofunction:: ia
 
 .. autofunction:: textV2
 
