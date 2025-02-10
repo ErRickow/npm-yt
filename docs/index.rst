@@ -23,21 +23,7 @@ Untuk menginstal pustaka ini, jalankan perintah berikut:
 Penggunaan
 ----------
 
-Berikut adalah contoh cara menggunakan pustaka ini:
-
-.. code-block:: javascript
-
-    // Impor modul
-    const { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai } = require("@er-npm/scraper");
-
-    (async () => {
-        const prompt = 'hai cantik!';
-        const response = await ai(prompt);
-        console.log(response);
-    })();
-
-Daftar Isi
-----------
+Cara Penggunaan Terdapat Di Documentasi Di Bawah:
 
 .. toctree::
    :maxdepth: 1
