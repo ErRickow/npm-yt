@@ -20,7 +20,7 @@ root_for_relative_js_paths = "."
 primary_domain = 'js'
 
 project = 'Er-NPM'
-copyright = '2025, er'
+copyright = '2025, ErNewdev0'
 author = 'ErNewdev0'
 release = '1.1'
 html_title = f"Documentations Er-NPM"
@@ -38,6 +38,7 @@ master_doc = 'index'
 extensions = [
     "sphinx_js",
     "sphinx_copybutton",
+    "sphinx.ext.intersphinx",
 ]
 
 
