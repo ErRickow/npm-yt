@@ -1,4 +1,4 @@
 Fungsi Playstore Search
 =======================
 
-.. autofunction:: playstore
+.. autofunction:: index.playstore
