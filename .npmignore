@@ -1,9 +1,15 @@
-
+index.d.ts
+eslint.config.js
+.prettierrc
+.node-version
+.eslintrc.json
+install.js
+index.html
+instalation.sh
+jsdoc.json
+action.yml
 docs/*
-
 .github/*
-
-# Ignore other common files
 test
 tests
 *.spec.js
