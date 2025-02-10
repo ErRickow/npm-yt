@@ -22,7 +22,7 @@ primary_domain = 'js'
 project = 'Er-NPM'
 copyright = '2025, er'
 author = 'ErNewdev0'
-release = '1.0'
+release = '1.1'
 html_title = f"Documentations Er-NPM"
 
 # -- General configuration ---------------------------------------------------
