@@ -17,7 +17,7 @@ Untuk menginstal pustaka ini, jalankan perintah berikut:
 
    npm install @er-npm/scraper
 
-.. important::
+.. attention::
 
    Harap dicatat bahwa masih ada beberapa kesalahan yang perlu diperbaiki.
 
