@@ -11,54 +11,61 @@ let AiTempSave2 = {};
  * @async
  * @function models
  * @returns {Promise<Object>} - Models yang tersedia:
- *
- * **Teks:**
- * - gpt-4o-mini
- * - gpt-4-turbo
- * - gpt-4o
- * - grok-2
- * - grok-2-mini
- * - grok-beta
- * - claude-3-opus
- * - claude-3-sonnet
- * - claude-3-5-sonnet
- * - claude-3-5-sonnet-2
- * - gemini
- *
- * **Teks v2:**
- * - gpt-4
- * - gpt-3.5-turbo
- * - text-davinci-003
- * - code-davinci-002
- * - text-curie-001
- * - text-babbage-001
- * - text-ada-001
- * - davinci
- * - curie
- * - babbage
- * - ada
- *
- * **Teks v3:**
- * - v3
- * - v3-32k
- * - turbo
- * - turbo-16k
- * - gemini
- * - llama3-70b
- * - llama3-8b
- * - mixtral-8x7b
- * - gemma-7b
- *
- * **Gambar:**
- * - dalle
- * - v1
- * - v2
- * - lexica
- * - prodia
- * - simurg
- * - animefy
- * - raava
+ * 
+ * **Teks:**  
+ * - gpt-4o-mini  
+ * - gpt-4-turbo  
+ * - gpt-4o  
+ * - grok-2  
+ * - grok-2-mini  
+ * - grok-beta  
+ * - claude-3-opus  
+ * - claude-3-sonnet  
+ * - claude-3-5-sonnet  
+ * - claude-3-5-sonnet-2  
+ * - gemini  
+ * 
+ * **Teks v2:**  
+ * - gpt-4  
+ * - gpt-3.5-turbo  
+ * - text-davinci-003  
+ * - code-davinci-002  
+ * - text-curie-001  
+ * - text-babbage-001  
+ * - text-ada-001  
+ * - davinci  
+ * - curie  
+ * - babbage  
+ * - ada  
+ * 
+ * **Teks v3:**  
+ * - v3  
+ * - v3-32k  
+ * - turbo  
+ * - turbo-16k  
+ * - gemini  
+ * - llama3-70b  
+ * - llama3-8b  
+ * - mixtral-8x7b  
+ * - gemma-7b  
+ * 
+ * **Gambar:**  
+ * - dalle  
+ * - v1  
+ * - v2  
+ * - lexica  
+ * - prodia  
+ * - simurg  
+ * - animefy  
+ * - raava  
  * - shonin
+ * 
+ * @example
+ * //Mendapatkan semua model yang tersedia
+ * (async () => {
+   * const models = await ai.models();
+   * console.log(models);
+ * })();
  */
 async function models() {
   return {
@@ -113,6 +120,25 @@ async function models() {
   };
 }
 
+/**
+ * Menghapus isi dari objek `AI Message`, mengatur ulang menjadi keadaan kosong.
+ *
+ * @async
+ * @function clear
+ * @returns {Promise<boolean>} Mengembalikan `true` setelah objek dikosongkan.
+ *
+ * @example
+ * // Contoh penggunaan:
+ * (async () => {
+    * await ai.clear();
+    * console.log('Pesan memory berhasil di hapus.');
+ * })();
+ */
+async function clear() {
+  AiTempSave = {};
+  return true;
+}
+
 function getModel(modelim) {
   const modelMap = {
     'gpt-4o-mini': 'gpt-4o-mini',
@@ -137,10 +163,40 @@ function getModelImage(modelim) {
   return modelMap[modelim] || 'v3/text2image';
 }
 
-async function imageGenV2(textin, model = 'dalle') {
-  if (!textin) throw new Error('Teks tidak disediakan.');
+/**
+ * Menghasilkan gambar berdasarkan teks yang diberikan menggunakan model AI tertentu.
+ *
+ * @async
+ * @function image
+ * @param {string} teksnya - Teks deskripsi untuk menghasilkan gambar.
+ * @param {string} [model='dalle'] - Model AI yang digunakan untuk menghasilkan gambar (default: 'dalle').
+ * @throws {Error} Jika teks tidak disediakan atau terjadi kesalahan HTTP saat mengambil data.
+ * @returns {Promise<{ url: string, prompt: string, model: string }>} 
+ * Objek berisi URL gambar yang dihasilkan, teks input, dan model yang digunakan.
+ *
+ * @example
+ * // Contoh penggunaan:
+ * (async () => {
+ * // Basic usage
+    * const prompt = 'Soto masa depan';
+    * const response = await ai.image(prompt);
+    * console.log(response);
+ * })();
+ * 
+ * @example
+ * (async () => {
+ * //menggunakan models
+    * const prompt = 'soto masa depan';
+    * const model = 'dalle'; //tambahkan parameter model
+    * const response = await ai.image(prompt, model);
+    * console.log(response);
+ * })();
+ * 
+ */
+async function imageGenV2(teksnya, model = 'dalle') {
+  if (!teksnya) throw new Error('Teks tidak disediakan.');
   const modelOfc = getModelImage(model);
-  const url = `https://hercai.onrender.com/${modelOfc}?prompt=${encodeURIComponent(textin)}`;
+  const url = `https://hercai.onrender.com/${modelOfc}?prompt=${encodeURIComponent(teksnya)}`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -153,31 +209,49 @@ async function imageGenV2(textin, model = 'dalle') {
   if (!response.ok)
     throw new Error(`Kesalahan HTTP! status: ${response.status}`);
   const apiResponse = await response.json();
-  return { url: apiResponse.url, prompt: textin, model: model };
+  return { url: apiResponse.url, prompt: teksnya, model: model };
 }
 
 /**
  * Menghasilkan respons AI berdasarkan input teks yang diberikan.
- *
+ * 
  * @async
- * @function ia
- * @param {string} text - Teks input yang akan diproses oleh AI.
+ * @function ai
+ * @param {string} text - Teks input yang akan diproses oleh AI.  
  *   Contoh: `"Apa itu teori relativitas?"`
- * @param {string} [model='gpt-4o'] - Model AI yang digunakan untuk menghasilkan respons.
+ * @param {string} [model='gpt-4o'] - Model AI yang digunakan untuk menghasilkan respons.  
  *   Model yang tersedia: `gpt-4o`, `gpt-4-turbo`, `claude-3-opus`, dll.
- * @param {string|boolean} [Sesi=false] - ID sesi percakapan untuk menyimpan riwayat interaksi.
+ * @param {string|boolean} [Sesi=false] - ID sesi percakapan untuk menyimpan riwayat interaksi.  
  *   Jika `false`, AI tidak menyimpan percakapan. Jika string, AI akan menyimpan dan menggunakan riwayat chat.
  * @returns {Promise<string>} - Respons AI yang dihasilkan.
  * @throws {Error} Jika teks input tidak disediakan.
- *
+ * 
  * @example
- * const response = await ia("Apa hukum gravitasi?", "gpt-4o");
- * console.log(response); // "Hukum gravitasi menyatakan bahwa setiap benda dengan massa menarik benda lain dengan gaya yang sebanding..."
- *
+ * (async () => {
+ * // Basic usage
+    * const prompt = 'Hallo, cara membuat tempe!';
+    * const response = await ai(prompt);
+    * console.log(response); //outuput nya
+ * })();
+ * 
  * @example
- * // Menggunakan sesi percakapan untuk melanjutkan interaksi sebelumnya
- * const response = await ia("Jelaskan lebih lanjut.", "gpt-4o", "session123");
- * console.log(response); // "Newton menemukan hukum gravitasi pada abad ke-17 setelah mengamati gerakan benda langit..."
+ * (async () => {
+ * // Menggunakan model
+    * const prompt = 'Hello!, cara membuat tempe gpt-4o, bagaimana?';
+    * const model = 'gpt-4o';
+    * const response = await ai(prompt, model);
+    * console.log(response);
+ * })();
+ * 
+ * @example
+ * (async () => {
+ * // Menggunakan memory/sesi percakapan
+    * const prompt = 'Hello!';
+    * const model = 'gpt-4o';
+    * const Sesinya = 'Z7nM9wUb61zi01Ma';
+    * const response = await ai(prompt, model, Sesinya);
+    * console.log(response);
+ * })();
  */
 async function ia(text, model = 'gpt-4o', Sesi = false) {
   if (!text) throw new Error('Teks tidak disediakan.');
@@ -214,30 +288,53 @@ async function ia(text, model = 'gpt-4o', Sesi = false) {
 
 /**
  * Menghasilkan teks menggunakan model AI versi 2 dengan dukungan percakapan berkelanjutan.
- *
+ * 
  * @async
- * @function v2
- * @param {string} input - Teks input yang akan diproses oleh AI.
+ * @function textV2
+ * @param {string} input - Teks input yang akan diproses oleh AI.  
  *   Contoh: `"Jelaskan teori relativitas secara singkat."`
- * @param {string} [model='gpt-4'] - Model AI yang digunakan untuk menghasilkan respons.
+ * @param {string} [model='gpt-4'] - Model AI yang digunakan untuk menghasilkan respons.  
  *   Model yang tersedia: `gpt-4`, `gpt-4o`, `gpt-4-turbo`, `gpt-3.5-turbo`, `claude-3-opus`, `gemini`, dll.
- * @param {string|boolean} [Sesi=false] - ID chat yang digunakan untuk menyimpan riwayat percakapan.
+ * @param {string|boolean} [Sesi=false] - ID chat yang digunakan untuk menyimpan riwayat percakapan.  
  *   Jika `false`, AI akan merespons tanpa mempertahankan riwayat percakapan.
  * @returns {Promise<string>} - Respons teks yang dihasilkan oleh AI.
  * @throws {Error} Jika teks input tidak disediakan (`Error: Teks tidak disediakan.`).
- *
+ * 
  * @example
  * (async () => { // Basic usage
- * const prompt = 'Hello, cara membuat tempe v2!';
- * const response = await ai.v2(prompt);
- * console.log(response)})();
+ *   const t = 'Hello, cara membuat tempe v2!';
+ *   const r = await ai.v2(t);
+ *   console.log(r)
+ * })();
+ * 
+ * @example
+ * (async () => {
+ * // menggunakan model
+    * const prompt = 'Hello, v2. Cara membuat tempe!';
+    * const model = 'gpt-4o';
+    * const response = await ai.v2(prompt, model);
+    * console.log(response);
+ * })();
+ * 
+ * @example
+ * (async () => {
+ * // menggunakan sesi percakapan
+    * const prompt = 'Hello, v2!, Cara membuat tempe';
+    * const model = 'gpt-4o';
+    * const chatId = 'Z7nM9wUb61zi01Ma';
+    * const response = await ai.v2(prompt, model, chatId);
+    * console.log(response);
+ * })();
  */
 async function textV2(input, model = 'gpt-4', Sesi = false) {
   if (!input) throw new Error('Teks tidak disediakan.');
 
   // Menyusun riwayat percakapan jika Sesi disediakan
   const messages = Sesi
-    ? [...(AiTempSave2[model]?.[Sesi] || []), { role: 'user', content: input }]
+    ? [
+        ...(AiTempSave2[model]?.[Sesi] || []),
+        { role: 'user', content: input },
+      ]
     : [{ role: 'user', content: input }];
 
   // Mengirim permintaan ke API GPT
@@ -263,30 +360,39 @@ async function textV2(input, model = 'gpt-4', Sesi = false) {
 
 /**
  * Menghasilkan teks menggunakan model AI versi 3.
- *
+ * 
  * @async
  * @function textV3
- * @param {string} input - Teks input yang akan diproses oleh AI.
+ * @param {string} input - Teks input yang akan diproses oleh AI.  
  *   Contoh: `"Apa yang dimaksud dengan kecerdasan buatan?"`
- * @param {string} [model='v3'] - Model AI yang digunakan untuk menghasilkan respons.
+ * @param {string} [model='v3'] - Model AI yang digunakan untuk menghasilkan respons.  
  *   Model yang tersedia: `v3`, `v3-32k`, `turbo`, `turbo-16k`, `gemini`, `llama3-70b`, dll.
  * @returns {Promise<string>} - Respons teks yang dihasilkan oleh AI.
  * @throws {Error} Jika teks input tidak disediakan atau terjadi kesalahan HTTP saat permintaan API.
- *
+ * 
  * @example
- * // AI V3 (No memory support)
+ * //tidak ada sesi percakapan
  * (async () => {
  * // Basic usage
- * const prompt = 'Hello, Cara membuat tempe v3!';
- * const response = await ai.v3(prompt);
- * console.log(response);
+    * const prompt = 'Hello, Cara membuat tempe v3!';
+    * const response = await ai.v3(prompt);
+    * console.log(response);
+ * })();
+ * 
+ * @example
+ * (async () => {
+ * // Menggunakan models
+    * const prompt = 'Hello, v3!, bagaimana membuat tempe';
+    * const model = 'gpt-4o';
+    * const response = await ai.v3(prompt, model);
+    * console.log(response);
  * })();
  */
 async function textV3(input, model = 'v3') {
   if (!input) throw new Error('Teks tidak disediakan.');
 
   const url = `https://hercai.onrender.com/v3/hercai?question=${encodeURIComponent(input)}&model=${model}`;
-
+  
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -302,7 +408,7 @@ async function textV3(input, model = 'v3') {
 
 /**
  * Objek `ai` yang menggabungkan berbagai fungsi AI yang tersedia.
- *
+ * 
  * @constant {Object} ai
  * @property {Function} models - Mengembalikan daftar model AI yang tersedia.
  * @property {Function} clear - Menghapus cache atau penyimpanan sementara (jika tersedia).
@@ -310,7 +416,7 @@ async function textV3(input, model = 'v3') {
  * @property {Function} v3 - Menghasilkan teks menggunakan AI versi 3 (`textV3`).
  * @property {Function} v2 - Menghasilkan teks menggunakan AI versi 2 (`textV2`).
  */
-
+ 
 const ai = Object.assign(ia, {
   models,
   clear,
