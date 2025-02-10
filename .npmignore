@@ -14,7 +14,6 @@ test
 tests
 *.spec.js
 *.test.js
-dist
 build
 *.config.js
 *.config.json
@@ -29,3 +28,5 @@ coverage
 *.lcov
 .vscode
 .idea
+.readthedocs.yaml
+.readthedocs.yml
