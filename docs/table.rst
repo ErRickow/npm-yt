@@ -3,19 +3,18 @@
 Er Tables
 =========
 
-**Table of contents:**
+**Daftar Isi:**
 
-Disini Ada Method Dari: `<@er-npm/scraper https://www.npmjs.com/package/@er-npm/scraper>`
-
-.. toctree::
-   :maxdepth: 1
-
-   methods
-
-Dan Juga Pengenalan Cara Fetch Rest-APIs dari: `Er-API <https://er-api.biz.id>`
+Metode dari: `@er-npm/scraper <https://www.npmjs.com/package/@er-npm/scraper>`_
 
 .. toctree::
    :maxdepth: 1
 
    methods
+
+Pengenalan REST API dari: `Er-API <https://er-api.biz.id>`_
+
+.. toctree::
+   :maxdepth: 1
+
    api
