@@ -3,10 +3,10 @@ Penanganan Error
 
 Jika terjadi kesalahan saat mengakses API, berikut beberapa kode error yang mungkin muncul:
 
-- **400 (Bad Request)** → Parameter yang dikirim tidak valid.
-- **404 (Not Found)** → URL atau endpoint tidak ditemukan.
-- **500 (Internal Server Error)** → Kesalahan dari server.
-- **504 (Timeout)** -> Timeout dari server
+  - **400 (Bad Request)** → Parameter yang dikirim tidak valid.
+  - **404 (Not Found)** → URL atau endpoint tidak ditemukan.
+  - **500 (Internal Server Error)** → Kesalahan dari server.
+  - **504 (Timeout)** -> Timeout dari server
 
 **Cara Menangani Error di Axios**:
 
