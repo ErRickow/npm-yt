@@ -62,5 +62,34 @@ html_show_copyright = True
 html_show_sphinx = False
 
 html_theme_options = {
-    "announcement": "<em>PENTING!!</em> pindah memakai er-api.biz.id!\n\nLibrary @er-npm/updatenya sangat lambat soalnya",
+    "announcement": '''
+    <div style="
+        overflow: hidden;
+        white-space: nowrap;
+        width: 100%;
+        background: transparent;
+        padding: 5px 0;
+        font-weight: bold;
+        position: relative;
+    ">
+        <span style="
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 10s linear infinite, blink 0.5s step-start infinite alternate;
+            color: red;
+        ">
+            <em>PENTING!!</em> pindah memakai er-api.biz.id! Library @er-npm/updatenya sangat lambat soalnya
+        </span>
+        <style>
+            @keyframes marquee {
+                from { transform: translateX(100%); }
+                to { transform: translateX(-100%); }
+            }
+            @keyframes blink {
+                0% { opacity: 1; }
+                100% { opacity: 0; }
+            }
+        </style>
+    </div>
+    ''',
 }
