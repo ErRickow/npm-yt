@@ -1,12 +1,11 @@
-Selamat Datang di Er-NPM
-========================
+Selamat Datang 2 @er-npm/scraper
+================================
 
 `@er-npm/scraper <https://www.npmjs.com/package/@er-npm/scraper>`_ adalah pustaka Node.js untuk berinteraksi dengan berbagai API.
 
-Pendahuluan
------------
-
-Pustaka ini memungkinkan Anda untuk mengakses berbagai layanan API dengan mudah.
+.. tab:: Rest Apis
+    
+    :doc:`Er-Apis <../api>`
 
 Instalasi
 ---------
