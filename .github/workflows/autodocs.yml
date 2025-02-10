@@ -1,9 +1,9 @@
 name: markdown-autodocs
 
 on:
-  push:
     branches:    
       - '**'        # matches every branch
+  workflow-dispatch:
 
 jobs:        
   auto-update-readme:
