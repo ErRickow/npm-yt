@@ -381,8 +381,8 @@ async function ermp4(url) {
  *
  * @async
  * @function alldl
- * @param {``string``} url - URL.
- * @returns {``Promise<string>``} Sebuah promise yang mengembalikan data hasil unduhan.
+ * @param {string} url - URL.
+ * @returns {Promise<string>} Sebuah promise yang mengembalikan data hasil unduhan.
  *
  */
 async function alldl(input) {
