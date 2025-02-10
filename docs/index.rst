@@ -1,10 +1,12 @@
 Selamat Datang di Er-NPM
 ========================
 
+.. _link:: https://www.npmjs.com/package/@er-npm/scraper
+
 Pendahuluan
 -----------
 
-``@er-npm/scraper`` adalah pustaka Node.js untuk berinteraksi dengan berbagai API.
+``@er-npm/scraper`` :ref:link adalah pustaka Node.js untuk berinteraksi dengan berbagai API.
 
 Instalasi
 ---------
