@@ -3,7 +3,7 @@ name: markdown-autodocs
 on:
     branches:    
       - '**'        # matches every branch
-  workflow-dispatch:
+    workflow-dispatch:
 
 jobs:        
   auto-update-readme:
