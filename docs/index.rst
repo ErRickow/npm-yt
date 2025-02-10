@@ -1,12 +1,12 @@
 Selamat Datang di Er-NPM
 ========================
 
-.. _link:: https://www.npmjs.com/package/@er-npm/scraper
+`@er-npm/scraper <https://www.npmjs.com/package/@er-npm/scraper>`_ adalah pustaka Node.js untuk berinteraksi dengan berbagai API.
 
 Pendahuluan
 -----------
 
-``@er-npm/scraper`` :ref:link adalah pustaka Node.js untuk berinteraksi dengan berbagai API.
+Pustaka ini memungkinkan Anda untuk mengakses berbagai layanan API dengan mudah.
 
 Instalasi
 ---------
@@ -15,7 +15,7 @@ Untuk menginstal pustaka ini, jalankan perintah berikut:
 
 .. code-block:: bash
 
-   $ npm install @er-npm/scraper
+   npm install @er-npm/scraper
 
 .. important::
 
@@ -37,8 +37,10 @@ Berikut adalah contoh cara menggunakan pustaka ini:
         console.log(response);
     })();
 
+Daftar Isi
+----------
+
 .. toctree::
    :maxdepth: 1
-   :caption: Daftar Isi
 
    table
