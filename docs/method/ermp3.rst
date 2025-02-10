@@ -1,4 +1,4 @@
 ErMp3
 =====
 
-.. autofunction:: ermp3
+.. autofunction:: index.ermp3
