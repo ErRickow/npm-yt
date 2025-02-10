@@ -15,7 +15,7 @@
 # sys.path.insert(0, os.path.abspath('.'))
 import json
 
-js_source_path = '../src/'
+js_source_path = '../src/, ../src/ia/'
 primary_domain = 'js'
 
 project = 'Er-NPM'
