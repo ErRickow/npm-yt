@@ -1,4 +1,4 @@
 ErMp4
 =====
 
-.. autofunction:: ermp4
+.. autofunction:: index.ermp4
