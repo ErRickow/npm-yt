@@ -60,3 +60,7 @@ napoleon_use_rtype = False
 napoleon_use_param = True
 html_show_copyright = True
 html_show_sphinx = False
+
+html_theme_options = {
+    "announcement": "<em>PENTING!!</em> pindah memakai er-api.biz.id!\n\nLibrary @er-npm/updatenya sangat lambat soalnya",
+}
