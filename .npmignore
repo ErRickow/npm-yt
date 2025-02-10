@@ -1,0 +1,25 @@
+
+docs/*
+
+.github/*
+
+# Ignore other common files
+test
+tests
+*.spec.js
+*.test.js
+dist
+build
+*.config.js
+*.config.json
+.env
+.env.local
+.env.*.local
+*.log
+*.tmp
+*.swp
+*.bak
+coverage
+*.lcov
+.vscode
+.idea
