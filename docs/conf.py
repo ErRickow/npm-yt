@@ -16,6 +16,7 @@
 import json
 
 js_source_path = ['../src/', '../src/ia/']
+root_for_relative_js_paths = "."
 primary_domain = 'js'
 
 project = 'Er-NPM'
