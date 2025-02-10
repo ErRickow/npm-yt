@@ -1,14 +1,20 @@
 ER-APIS
 =======
 
-Kami Mempunyai RestFull APIs Yang Tanpa Login ataupun Apikey Needed!
-Kamu Juga Bisa Menggunakan Api Ini Untuk Kebutuhan Bot Kamu!!
+ER-APIS adalah layanan RESTful API yang bisa digunakan tanpa perlu login atau API key.  
+Cocok untuk berbagai keperluan, seperti bot Telegram, Discord, atau aplikasi lainnya.
 
-Contoh Penggunaan ER-APIS
--------------------------
-.. caution::
-    Pastikan Install Node-Fetch Ataupun Axios Terlebih Dahulu
+**Fitur Utama ER-APIS**:
+- **Tanpa API Key** → Langsung gunakan tanpa registrasi.
+- **Beragam Layanan** → Termasuk downloader, chatbot AI, dan lainnya.
+- **Gratis & Mudah Digunakan** → Hanya butuh satu request untuk mendapatkan hasil.
 
-.. code-block:: bash
-    npm i install node-fetch
+> **Base URL**: https://er-api.biz.id
 
+.. toctree::
+   :maxdepth: 1
+   
+   exam/contoh
+   exam/cont
+   exam/err
+   exam/contohnya
