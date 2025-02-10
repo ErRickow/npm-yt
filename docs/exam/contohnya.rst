@@ -21,7 +21,7 @@ Instalasi axios:
 
     Pilih salah satu antara **axios** atau **node-fetch**, jangan menginstal keduanya sekaligus.
 
-> **Base URL**: https://er-api.biz.id
+    **Base URL**: https://er-api.biz.id
 
 Contoh Menggunakan Axios
 ========================
