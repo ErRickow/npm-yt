@@ -327,51 +327,24 @@ async function playstore(query) {
  */
 
 async function ermp4(url) {
-  await clearSystemTempDir(); // Assuming this function is defined to clear the temp directory
-
-  const sampah = path.join(
-    tempPath,
-    `${Math.floor(Math.random() * 100000)}_${Math.floor(Math.random() * 100000)}`,
-  );
-  const tempPathDl = path.join(
-    tempPath,
-    `${Math.floor(Math.random() * 100000)}_${Math.floor(Math.random() * 100000)}`,
-  );
-  const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s');
-
-  const ur =
-    'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL3ZpZGVvP3VybD0=';
-  const tob = atob(ur);
-  const apiUrl = `${tob}${url}`;
+  const urlnya = "aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL3ZpZGVvP3VybD0="
+  const decodedUrl = atob(urlnya);
+  const apiUrl = `${decodedUrl}${url}`;
 
   try {
     const response = await axios.get(apiUrl);
-
-    // Assuming response.data.data.dl contains the download URL, you can use the `sampah` variable for the download path
-    const filePath = path.join(
-      sampah,
-      `${response.data.videoDetails.title}_${Math.floor(Math.random() * 100000)}.mp4`,
-    );
-
-    // Download and save the file to the 'sampah' directory
-    const writer = fs.createWriteStream(filePath);
-    const fileResponse = await axios.get(response.data.downloadUrl, {
-      responseType: 'stream',
-    });
-    fileResponse.data.pipe(writer);
-
     return {
       status: true,
       judul: response.data.videoDetails.title,
-      url: filePath,
+      url: response.data.downloadUrl,
       from: '@er-npm/scraper',
     };
   } catch (error) {
-    // Handle errors
+    // Menangani error jika terjadi
     return {
       status: false,
-      why: 'Error occurred.',
-      terus_gmna: 'Visit: t.me/er_support_group',
+      why: 'eror njing.' + error.message,
+      terus_gmna: 'visit: t.me/er_support_group',
     };
   }
 }
