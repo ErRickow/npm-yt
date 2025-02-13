@@ -27,15 +27,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js for NPM
-        uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
         with:
-          registry-url: 'https://registry.npmjs.org'
+          version: latest
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --ignore-scripts --frozen-lockfile
 
-      - name: Publish package to NPM (force public)
-        run: npm publish --access public
+      - name: Publish package to NPM
+        run: |
+          pnpm publish --access public --no-git-checks
+          pnpm deprecate @npm-yt@"< ${{ github.ref_name }}" "Versi ini telah usang, silakan perbarui ke versi terbaru."
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
+          NPM_CONFIG_PROVENANCE: true
