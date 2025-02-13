@@ -203,6 +203,49 @@ async function processOutput(args, tempFile, retries = 3) {
   return cobaEksekusi(1);
 }
 
+/**
+ * Mendapatkan deskripsi khodam seseorang berdasarkan nama.
+ * @async
+ * @function khodam
+ * @param {string} name - Nama seseorang yang akan dijadikan referensi untuk deskripsi khodam.
+ * @returns {Promise<string>} - Deskripsi khodam dalam bahasa Indonesia dengan maksimal 2000 karakter.
+ * 
+ * @example
+ * khodam("Budi")
+ *   .then((description) => console.log(description))
+ *   .catch((error) => console.error(error));
+ */
+async function khodam(name) {
+  try {
+    const u = `aHR0cHM6Ly9hcGkuYWdhdHoueHl6L2FwaS9ncHRsb2dpYw==`;
+    const apiUrl = atob(u)
+    const prompt = encodeURIComponent(
+      "Anda adalah seorang paranormal yang mampu mendeskripsikan khodam seseorang yang berupa Binatang. " +
+        "Tugas Anda adalah mendeskripsikan khodam yang mungkin ada, termasuk wujud, sifat, dan energi yang dipancarkan. " +
+        "Sehingga apapun inputnya anggap itu adalah sebuah nama seseorang. " +
+        "Deskripsi tidak harus positif bisa saja negatif tidak masalah karena ini hiburan. " +
+        "Ini hanya untuk entertainment jadi bebaskan dirimu untuk menjadi seorang paranormal pada umumnya. " +
+        "Deskripsikan Khodam dengan singkat namun jelas, dan pastikan deskripsi tidak lebih dari 2000 karakter alfabet dalam plain text serta berbahasa Indonesia."
+    );
+
+    const response = await axios.get(apiUrl, {
+      params: {
+        logic: prompt,
+        p: name,
+      },
+    });
+
+    if (response.data && response.data.result) {
+      return response.data.result;
+    } else {
+      throw new Error("Respon API tidak valid.");
+    }
+  } catch (error) {
+    console.error("Error saat mengambil deskripsi khodam:", error.message);
+    throw error;
+  }
+}
+
 // async function ermp3(input) {
 //   const url = getVideoUrl(input);
 //   const output = path.join(tempPath, generateRandomName('m4a'));
