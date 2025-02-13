@@ -245,9 +245,12 @@ async function khodam(name) {
       throw new Error("Respon API tidak valid.");
     }
   } catch (error) {
-    console.error("Error saat mengambil deskripsi khodam:", error.message);
-    throw error;
-  }
+    return {
+      status: false,
+      why: 'eror njing.' + error.message,
+      terus_gmna: 'visit: t.me/er_support_group',
+    };
+  };
 }
 
 // async function ermp3(input) {
