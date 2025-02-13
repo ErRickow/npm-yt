@@ -1,2 +1,6 @@
-.. _changelog:\n\nChangelog\n=========\n\n_
+.. _changelog:
+
+Changelog
+=========
+
 .. cc_sphinx_changelog::
