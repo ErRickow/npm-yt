@@ -29,7 +29,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
+      - name: Create Tag
+        run: |
+          git tag -a v$(date +'%Y%m%d%H%M%S') -m "Release $(date +'%Y%m%d%H%M%S')"
+          git push origin --tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
       - name: Create Release
         uses: mikepenz/action-gh-release@v0.2.0-a03
         with:
           body: ${{ steps.github_release.outputs.changelog }}
+          tag_name: v$(date +'%Y%m%d%H%M%S')
