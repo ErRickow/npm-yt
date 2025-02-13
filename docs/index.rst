@@ -29,3 +29,4 @@ Cara Penggunaan Terdapat Di Documentasi Di Bawah:
    :maxdepth: 1
 
    table
+   CHANGELOG
