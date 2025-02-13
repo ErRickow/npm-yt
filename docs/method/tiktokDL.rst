@@ -1,0 +1,4 @@
+Tiktok Downloader
+=================
+
+.. autofunction:: tiktokDl
