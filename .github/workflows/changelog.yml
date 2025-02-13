@@ -37,7 +37,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Create Release
-        uses: mikepenz/action-gh-release@v0.2.0-a03
+        uses: mikepenz/action-gh-release@v1
         with:
           body: ${{ steps.github_release.outputs.changelog }}
           tag_name: v$(date +'%Y%m%d%H%M%S')
