@@ -3,4 +3,4 @@
 Changelog
 =========
 
-.. cc_changelog::
+.. cc_changelog:: fix
