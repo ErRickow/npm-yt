@@ -14,6 +14,7 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 import json
+import cc_sphinx_changelog
 
 js_source_path = ['../src/', '../src/ia/']
 root_for_relative_js_paths = "."
