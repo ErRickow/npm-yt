@@ -9,35 +9,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate release changelog
-        uses: janheinrichmerker/action-github-changelog-generator@v2.3
+      - name: Generate Changelog
+        id: changelog
+        uses: ardalanamini/auto-changelog@v4
         with:
-          token: ${{ secrets.TOKEN }}
-
-      - name: Convert Changelog to RST
-        run: |
-          echo ".. _changelog:\n\nChangelog\n=========\n\n" > docs/CHANGELOG.rst
-          echo "${{ steps.github_release.outputs.changelog }}" >> docs/CHANGELOG.rst
-
-      - name: Commit Changelog
-        run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git add docs/CHANGELOG.rst
-          git commit -m "Update changelog for ${{ github.ref }}"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-
-      - name: Create Tag
-        run: |
-          git tag -a v$(date +'%Y%m%d%H%M%S') -m "Release $(date +'%Y%m%d%H%M%S')"
-          git push origin --tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-
-      - name: Create Release
-        uses: mikepenz/action-gh-release@v0.2.0-a03
-        with:
-          body: ${{ steps.github_release.outputs.changelog }}
-          tag_name: v$(date +'%Y%m%d%H%M%S')
+          github-token: ${{ secrets.token }}
+          commit-types: |
+            feat    : New Features
+            fix     : Bug Fixes
+            build   : Build System & Dependencies
+            perf    : Performance Improvements
+            docs    : Documentation
+            test    : Tests
+            refactor: Refactors
+            chore   : Chores
+            ci      : CI
+            style   : Code Style
+            revert  : Reverts
+          default-commit-type: Other Changes
+          release-name: v1.1.0
+          release-name-prefix: ""
+          mention-authors: true
+          mention-new-contributors: true
+          include-compare-link: true
+          include-pr-links: true
+          include-commit-links: true
+          semver: true
+          use-github-autolink: true
