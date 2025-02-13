@@ -20,7 +20,7 @@ jobs:
           tag-prefix: 'v'
           output-file: 'CHANGELOG.md'
           release-count: '1'
-          version-file: './package.json' // or .yml, .yaml, .toml, mix.exs
+          version-file: './package.json' 
           skip-on-empty: 'true'
           skip-version-file: 'true'
           skip-commit: 'false'
