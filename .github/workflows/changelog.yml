@@ -9,30 +9,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate Changelog
-        id: changelog
-        uses: ardalanamini/auto-changelog@v4
+      - name: Conventional Changelog Action
+        uses: TriPSs/conventional-changelog-action@v5
         with:
           github-token: ${{ secrets.token }}
-          commit-types: |
-            feat    : New Features
-            fix     : Bug Fixes
-            build   : Build System & Dependencies
-            perf    : Performance Improvements
-            docs    : Documentation
-            test    : Tests
-            refactor: Refactors
-            chore   : Chores
-            ci      : CI
-            style   : Code Style
-            revert  : Reverts
-          default-commit-type: Other Changes
-          release-name: v1.1.0
-          release-name-prefix: ""
-          mention-authors: true
-          mention-new-contributors: true
-          include-compare-link: true
-          include-pr-links: true
-          include-commit-links: true
-          semver: true
-          use-github-autolink: true
+          git-message: 'chore(release): {version}'
+          git-user-name: 'Awesome Changelog Action'
+          git-user-email: 'awesome_changelog@github.actions.com'
+          preset: 'angular'
+          tag-prefix: 'v'
+          output-file: 'CHANGELOG.md'
+          release-count: '1'
+          version-file: './package.json' // or .yml, .yaml, .toml, mix.exs
+          skip-on-empty: 'true'
+          skip-version-file: 'true'
+          skip-commit: 'false'
+          git-branch: 'master'
