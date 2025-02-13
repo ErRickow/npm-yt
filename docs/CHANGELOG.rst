@@ -3,4 +3,4 @@
 Changelog
 =========
 
-.. cc_sphinx_changelog::
+.. cc_changelog::
