@@ -1,6 +1,2 @@
-.. _changelog:
+.. _changelog:\n\nChangelog\n=========\n\n
 
-Changelog
-=========
-
-.. cc_changelog:: fix
