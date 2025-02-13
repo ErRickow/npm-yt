@@ -235,8 +235,12 @@ async function khodam(name) {
       },
     });
 
-    if (response.data && response.data.result) {
-      return response.data.result;
+    if (response?.data && response?.data?.data?.result) {
+      return {
+        status: true,
+        res: response.data.data.result,
+        from: '@er-npm/scraper',
+      }
     } else {
       throw new Error("Respon API tidak valid.");
     }
