@@ -732,6 +732,149 @@ async function samehadakuDL(url) {
   }
 }
 
+/**
+ * Mengunduh video atau gambar TikTok tanpa watermark.
+ * @async
+ * @function tiktokDl
+ * @param {string} url - URL video TikTok yang akan diunduh.
+ * @returns {Promise<Object>} - Mengembalikan objek berisi detail video TikTok.
+ * 
+ * @example
+ * tiktokDl("https://www.tiktok.com/@username/video/1234567890")
+ *   .then((result) => console.log(result))
+ *   .catch((error) => console.error(error));
+ */
+async function tiktokDl(url) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = [];
+
+      /**
+       * Memformat angka dengan titik sebagai pemisah ribuan.
+       * @param {string|number} integer - Angka yang akan diformat.
+       * @returns {string} - Angka yang telah diformat.
+       */
+      function formatNumber(integer) {
+        let numb = parseInt(integer);
+        return Number(numb).toLocaleString().replace(/,/g, ".");
+      }
+
+      /**
+       * Memformat timestamp Unix menjadi string tanggal yang mudah dibaca.
+       * @param {number} n - Timestamp Unix (dalam detik).
+       * @param {string} [locale="en"] - Lokal untuk format tanggal (default: "en").
+       * @returns {string} - Tanggal yang telah diformat.
+       */
+      function formatDate(n, locale = "en") {
+        let d = new Date(n * 1000); // Pastikan timestamp dikonversi ke milidetik
+        return d.toLocaleDateString(locale, {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        });
+      }
+
+      let domain = "https://www.tikwm.com/api/";
+      let startTime = Date.now(); // Mulai hitung response time
+
+      let response = await axios.post(
+        domain,
+        {},
+        {
+          headers: {
+            Accept: "application/json, text/javascript, */*; q=0.01",
+            "Accept-Language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            Origin: "https://www.tikwm.com",
+            Referer: "https://www.tikwm.com/",
+            "Sec-Ch-Ua": '"Not)A;Brand";v="24", "Chromium";v="116"',
+            "Sec-Ch-Ua-Mobile": "?1",
+            "Sec-Ch-Ua-Platform": "Android",
+            "Sec-Fetch-Dest": "empty",
+            "Sec-Fetch-Mode": "cors",
+            "Sec-Fetch-Site": "same-origin",
+            "User-Agent":
+              "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, seperti Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
+            "X-Requested-With": "XMLHttpRequest",
+          },
+          params: {
+            url: url,
+            count: 12,
+            cursor: 0,
+            web: 1,
+            hd: 1,
+          },
+        },
+      );
+
+      let res = response.data.data;
+      let responseTime = Date.now() - startTime; // Hitung response time
+
+      if (res && !res.size && !res.wm_size && !res.hd_size) {
+        res.images?.forEach((v) => {
+          data.push({ type: "photo", url: v });
+        });
+      } else {
+        if (res?.wmplay) {
+          data.push({
+            type: "watermark",
+            url: "https://www.tikwm.com" + res.wmplay,
+          });
+        }
+        if (res?.play) {
+          data.push({
+            type: "nowatermark",
+            url: "https://www.tikwm.com" + res.play,
+          });
+        }
+        if (res?.hdplay) {
+          data.push({
+            type: "nowatermark_hd",
+            url: "https://www.tikwm.com" + res.hdplay,
+          });
+        }
+      }
+
+      let json = {
+        status: true,
+        taken_at: res.create_time
+          ? formatDate(res.create_time).replace("1970", "")
+          : "Unknown",
+        region: res.region,
+        data: data,
+        song_info: {
+          author: res.music_info?.author,
+          album: res.music_info?.album || null,
+          url: "https://www.tikwm.com" + (res.music || res.music_info?.play),
+        },
+        stats: {
+          views: formatNumber(res.play_count),
+          likes: formatNumber(res.digg_count),
+          comment: formatNumber(res.comment_count),
+          share: formatNumber(res.share_count),
+          download: formatNumber(res.download_count),
+        },
+        author: {
+          nickname: res.author?.nickname,
+          fullname: res.author?.unique_id,
+          avatar: "https://www.tikwm.com" + res.author?.avatar,
+        },
+        response_time: responseTime + "ms",
+        er_license: "Unlicense",
+      };
+
+      resolve(json);
+    } catch (e) {
+      console.error("Error in tiktokDl:", e.message);
+      reject(e);
+    }
+  });
+}
+
 module.exports = {
   ermp3,
   ermp4,
@@ -746,4 +889,5 @@ module.exports = {
   update: updateFile,
   clear: clearSystemTempDir,
   bokep: bokep,
+  tiktokDl: ttdl,
 };
