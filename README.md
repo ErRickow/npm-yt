@@ -13,14 +13,15 @@ import { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai
 // Menggunakan CommonJS modules
 const { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai } = require('@er-npm/scraper');
 ```
+> [!TIP]
+> Jangan lupa import/definisikan dahulu functionnya sebelum mengeksekusi kodenya
 
 ```js
 const name = "sri"
 khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilkan khodam secara deskriptif
 ```
 
-**Full Dokumentasi:**
-> [Read The Docs](http://er-npm.rtfd.io/)
+> **Full Dokumentasi:** [Read The Docs](http://er-npm.rtfd.io/)
 
 ## FEATURES
 1. **Ai** - Berbagai Module Ai tersedia termasuk summary ai text to image
@@ -31,11 +32,11 @@ khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilka
 6. **Tiktok Downloder** - Download Konten Dari Link Tiktok
 7. **Khodam** - Fitur cek khodam yang lebih deskriptif
 
-Note:
-  - Untuk Library Ini Update Sangat Slow! Silahkan Pakai Rest Apis Kami Jikalau Ada Eror Di @er-npm/scraper kami. [Er-APIs](https://er-api.biz.id/testing)
+> [!WARNING]
+  Untuk Library Ini Update Sangat Slow! Silahkan Pakai Rest Apis Kami Jikalau Ada Eror Di @er-npm/scraper kami. [Er-APIs](https://er-api.biz.id/testing)
 
-## INGIN MENAMBAHKAN FITUR?
-[Fork](https://github.com/ErBots/npm-yt/fork) Lalu open pull request, Nanti saya akan review
+> [!NOTE]
+> Jika ingin menambahkan fitur, silahkan [fork](https://github.com/ErBots/npm-yt/fork) lalu open pull requests
 
 ## SPECIAL THANKS
 <!-- readme: contributors,collaborators,bots -start -->
