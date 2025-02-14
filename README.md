@@ -39,7 +39,7 @@ Note:
 > [Read The Docs](http://er-npm.rtfd.io/)
 
 ## SPECIAL THANKS
-<!-- readme: contributors, collabo Collaborators -start -->
+<!-- readme: contributors, collabo collaborators -start -->
 <table>
 	<tbody>
 		<tr>
