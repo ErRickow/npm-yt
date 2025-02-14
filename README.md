@@ -39,7 +39,7 @@ Note:
 > [Read The Docs](http://er-npm.rtfd.io/)
 
 ## SPECIAL THANKS
-<!-- readme: contributors,collaborators -start -->
+<!-- readme: contributors,collaborators,bots -start -->
 <table>
 	<tbody>
 		<tr>
@@ -67,7 +67,7 @@ Note:
 		</tr>
 	<tbody>
 </table>
-<!-- readme: contributors,collaborators -end -->
+<!-- readme: contributors,collaborators,bots -end -->
 
 ## SUPPORT ME 💖  
 <a href="https://trakteer.id/er_rickow/tip">
