@@ -38,4 +38,13 @@ Note:
 > Full Dokumentasi:
 > [Read The Docs](http://er-npm.rtfd.io/)
 
+## SPECIAL THANKS
+
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
+
+## SUPPORT ME 💖
+<!-- readme: sponsors -start -->
+<!-- readme: sponsors -end -->
+
 > This Project is Licensed under the [Unlicense License](https://raw.githubusercontent.com/ErRickow/npm-yt/master/license.txt)
