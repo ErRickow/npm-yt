@@ -76,11 +76,14 @@ jobs:
       - name: Deprecate previous version
         run: |
           PREV_VERSION=$(npm show @er-npm/scraper versions --json | jq -r '.[-2]')
+          echo "Previous version: $PREV_VERSION"
+          
+          # Cek apakah PREV_VERSION valid
           if [[ -n "$PREV_VERSION" && "$PREV_VERSION" != "null" ]]; then
             echo "Deprecating previous version: $PREV_VERSION"
-            pnpm deprecate "@er-npm/scraper@$PREV_VERSION" "Versi ini telah usang, silakan perbarui ke versi terbaru."
+            pnpm deprecate "@er-npm/scraper@$PREV_VERSION" 'Versi ini telah usang, silakan perbarui ke versi terbaru.'
           else
-            echo "No previous version found, skipping deprecation."
+            echo "No previous version found or only one version exists, skipping deprecation."
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
