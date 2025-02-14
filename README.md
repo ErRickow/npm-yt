@@ -67,7 +67,7 @@ Note:
 		</tr>
 	<tbody>
 </table>
-<!-- readme: contributors -end -->
+<!-- readme: contributors, collaborators -end -->
 
 ## SUPPORT ME 💖  
 <a href="https://trakteer.id/er_rickow/tip">
