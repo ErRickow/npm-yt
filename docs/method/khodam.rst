@@ -1,0 +1,4 @@
+Khodam Function
+===============
+
+.. autofunction:: khodam
