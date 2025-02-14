@@ -23,23 +23,38 @@ jobs:
     name: Publish on NPM
     runs-on: ubuntu-latest
     permissions:
-      id-token: write  # Tambahkan izin untuk provenance
+      id-token: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js
+      - name: Install Node.js (without cache)
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
           version: latest
+
+      - name: Ensure pnpm-lock.yaml exists
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then
+            echo "pnpm-lock.yaml not found, generating..."
+            pnpm install --lockfile-only
+          else
+            echo "pnpm-lock.yaml already exists."
+          fi
+
+      - name: Install Node.js (with cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
         run: pnpm install --ignore-scripts --frozen-lockfile
@@ -50,4 +65,4 @@ jobs:
           pnpm deprecate @npm-yt@"< ${{ github.ref_name }}" "Versi ini telah usang, silakan perbarui ke versi terbaru."
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
-          NPM_CONFIG_PROVENANCE: true  # Provenance aktif, butuh permissions
+          NPM_CONFIG_PROVENANCE: true
