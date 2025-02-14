@@ -273,7 +273,7 @@ async function khodam(name) {
 // }
 
 /**
- * Mengunduh media dari Instagram menggunakan API pihak ketiga.
+ * Mengunduh media dari Instagram.
  * 
  * @async
  * @function igdl
@@ -962,8 +962,6 @@ async function tiktokDl(url) {
   });
 }
 
-
-
 module.exports = {
   ermp3,
   ermp4,
@@ -979,5 +977,7 @@ module.exports = {
   clear: clearSystemTempDir,
   bokep: bokep,
   tiktokDl,
+  ttdl: tiktokDl,
   khodam,
+  igdl,
 };
