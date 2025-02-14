@@ -273,6 +273,42 @@ async function khodam(name) {
 // }
 
 /**
+ * Mengunduh media dari Instagram menggunakan API pihak ketiga.
+ * 
+ * @async
+ * @function igdl
+ * @param {string} url - URL dari postingan Instagram yang ingin diunduh.
+ * @returns {Promise<Object>} Sebuah objek yang berisi status, URL media, dan sumber, atau pesan error jika terjadi kegagalan.
+ * 
+ * @example
+ * (async () => {
+ *   const result = await igdl('https://www.instagram.com/p/EXAMPLE_ID/');
+ *   console.log(result);
+ * })();
+ */
+async function igdl(url) {
+  const base64Url =
+    'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC9pZ2RsP3VybD0=';
+  const decodedUrl = atob(base64Url);
+  const apiUrl = `${decodedUrl}${url}`;
+
+  try {
+    const response = await axios.get(apiUrl);
+    return {
+      status: true,
+      url: response.data[0]?.url,
+      from: '@er-npm/scraper',
+    };
+  } catch (error) {
+    return {
+      status: false,
+      why: 'eror njing. ' + error.message,
+      terus_gmna: 'visit: t.me/er_support_group',
+    };
+  }
+}
+
+/**
  * Mengambil URL audio dari video YouTube.
  *
  * Fungsi `ermp3` digunakan untuk mengambil URL audio dalam format MP3 dari video YouTube.
@@ -915,6 +951,7 @@ async function tiktokDl(url) {
         },
         response_time: responseTime + "ms",
         er_license: "Unlicense",
+        from: "@er-npm/scraper",
       };
 
       resolve(json);
@@ -924,6 +961,8 @@ async function tiktokDl(url) {
     }
   });
 }
+
+
 
 module.exports = {
   ermp3,
