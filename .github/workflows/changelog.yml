@@ -26,14 +26,28 @@ jobs:
       - name: Install dependencies
         run: npm install conventional-changelog-conventionalcommits
 
-      - name: Conventional Changelog Action
+      - name: Generate Changelog
         uses: TriPSs/conventional-changelog-action@v5
         with:
           github-token: ${{ secrets.token }}
           git-message: 'chore(release): {version}'
-          output-file: "history.rst"
+          output-file: "CHANGELOG.md"  # Simpan sebagai Markdown dulu
           skip-on-empty: false
           config-file-path: '.github/config.js'
-          skip-version-file: true
+          skip-version-file: false
           create-summary: true
           skip-bump: true
+
+      - name: Install Pandoc
+        run: sudo apt-get install -y pandoc
+
+      - name: Convert Markdown to ReStructuredText
+        run: pandoc CHANGELOG.md -o history.rst
+
+      - name: Commit and Push Changelog
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add history.rst
+          git commit -m "docs(changelog): Update changelog in RST format"
+          git push
