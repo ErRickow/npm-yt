@@ -62,7 +62,7 @@ jobs:
       - name: Publish package to NPM
         run: |
           pnpm publish --access public --no-git-checks
-          pnpm deprecate @npm-yt@"< ${{ github.ref_name }}" "Versi ini telah usang, silakan perbarui ke versi terbaru."
+          pnpm deprecate "@er-npm/scraper@<${{ github.ref_name }}" "Versi ini telah usang, silakan perbarui ke versi terbaru."
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
           NPM_CONFIG_PROVENANCE: true
