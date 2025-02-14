@@ -58,18 +58,41 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --ignore-scripts --frozen-lockfile
-        
-      - name: Bump version
-        run: pnpm version patch --no-git-tag-version
 
-      - name: Get package version
-        id: package_version
-        run: echo "VERSION=$(node -p 'require("./package.json").version')" >> $GITHUB_ENV
-      
+      - name: Update package version automatically
+        run: |
+          CURRENT_VERSION=$(npm show @er-npm/scraper version)
+          NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{$NF++; print $1"."$2"."$3}' OFS=.)
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+          jq --arg new_version "$NEW_VERSION" '.version = $new_version' package.json > package.tmp.json && mv package.tmp.json package.json
+          echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Commit updated package.json
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add package.json
+          git commit -m "chore: bump version to ${{ env.VERSION }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
       - name: Publish package to NPM
         run: |
           pnpm publish --access public --no-git-checks
-          pnpm deprecate "@er-npm/scraper@${{ env.VERSION }}" "Versi ini telah usang, silakan perbarui ke versi terbaru."
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
           NPM_CONFIG_PROVENANCE: true
+
+      - name: Deprecate previous version
+        run: |
+          PREV_VERSION=$(npm show @er-npm/scraper versions --json | jq -r '.[-2]')
+          if [ "$PREV_VERSION" != "null" ] && [ ! -z "$PREV_VERSION" ]; then
+            echo "Deprecating previous version: $PREV_VERSION"
+            pnpm deprecate "@er-npm/scraper@$PREV_VERSION" "Versi ini telah usang, silakan perbarui ke versi terbaru."
+          else
+            echo "No previous version found, skipping deprecation."
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM }}
