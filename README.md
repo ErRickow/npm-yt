@@ -39,7 +39,6 @@ Note:
 > [Read The Docs](http://er-npm.rtfd.io/)
 
 ## SPECIAL THANKS
-
 <!-- readme: contributors -start -->
 <table>
 	<tbody>
@@ -70,7 +69,9 @@ Note:
 </table>
 <!-- readme: contributors -end -->
 
-## SUPPORT ME 💖
-[![Trakteer Saya](https://edge-cdn.trakteer.id/images/embed/trbtn-red-1.png?v=24-01-2025)](https://trakteer.id/er_rickow/tip)
+## SUPPORT ME 💖  
+<a href="https://trakteer.id/er_rickow/tip">
+    <img src="https://edge-cdn.trakteer.id/images/embed/trbtn-red-1.png?v=24-01-2025" height="25">
+</a>
 
 > This Project is Licensed under the [Unlicense License](https://raw.githubusercontent.com/ErRickow/npm-yt/master/license.txt)
