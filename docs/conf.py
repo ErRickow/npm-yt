@@ -20,11 +20,11 @@ js_source_path = ['../src/', '../src/ia/']
 root_for_relative_js_paths = "."
 primary_domain = 'js'
 
-project = 'Er-NPM'
+project = '@er-npm/scraper'
 copyright = '2025, ErNewdev0'
 author = 'ErNewdev0'
 release = '1.1'
-html_title = f"Documentations Er-NPM"
+html_title = f"Documentations {project}"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -64,33 +64,6 @@ html_show_sphinx = False
 
 html_theme_options = {
     "announcement": '''
-    <div style="
-        overflow: hidden;
-        white-space: nowrap;
-        width: 100%;
-        background: transparent;
-        padding: 5px 0;
-        font-weight: bold;
-        position: relative;
-    ">
-        <span style="
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 10s linear infinite, blink 0.5s step-start infinite alternate;
-            color: red;
-        ">
             <em>PENTING!!</em> pindah memakai er-api.biz.id! Library @er-npm/updatenya sangat lambat soalnya
-        </span>
-        <style>
-            @keyframes marquee {
-                from { transform: translateX(100%); }
-                to { transform: translateX(-100%); }
-            }
-            @keyframes blink {
-                0% { opacity: 1; }
-                100% { opacity: 0; }
-            }
-        </style>
-    </div>
     ''',
 }
