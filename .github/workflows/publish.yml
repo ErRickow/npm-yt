@@ -62,10 +62,14 @@ jobs:
       - name: Bump version
         run: pnpm version patch --no-git-tag-version
 
+      - name: Get package version
+        id: package_version
+        run: echo "VERSION=$(node -p 'require("./package.json").version')" >> $GITHUB_ENV
+      
       - name: Publish package to NPM
         run: |
           pnpm publish --access public --no-git-checks
-          pnpm deprecate "@er-npm/scraper@<${{ github.ref_name }}" "Versi ini telah usang, silakan perbarui ke versi terbaru."
+          pnpm deprecate "@er-npm/scraper@${{ env.VERSION }}" "Versi ini telah usang, silakan perbarui ke versi terbaru."
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
           NPM_CONFIG_PROVENANCE: true
