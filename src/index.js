@@ -940,4 +940,5 @@ module.exports = {
   clear: clearSystemTempDir,
   bokep: bokep,
   tiktokDl: ttdl,
+  khodam,
 };
