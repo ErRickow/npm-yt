@@ -27,7 +27,7 @@ jobs:
         run: npm install conventional-changelog-conventionalcommits
 
       - name: Generate Changelog
-        uses: TriPSs/conventional-changelog-action@v5
+        uses: TriPSs/conventional-changelog-action@v6
         with:
           github-token: ${{ secrets.token }}
           git-message: 'chore(release): {version}'
