@@ -8,10 +8,10 @@ npm install @er-npm/scraper --save
 
 ```js
 // Menggunakan ES6 module syntax
-import { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai } from '@er-npm/scraper';
+import { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai, ttdl, khodam } from '@er-npm/scraper';
 
 // Menggunakan CommonJS modules
-const { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai } = require('@er-npm/scraper');
+const { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai, ttdl, khodam } = require('@er-npm/scraper');
 ```
 > [!TIP]
 > Jangan lupa import/definisikan dahulu functionnya sebelum mengeksekusi kodenya
@@ -21,7 +21,7 @@ const name = "sri"
 khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilkan khodam secara deskriptif
 ```
 
-> **Full Dokumentasi:** 
+> **Full Dokumentasi Ke:** 
 > [Read The Docs](http://er-npm.rtfd.io/)
 
 ## FEATURES
