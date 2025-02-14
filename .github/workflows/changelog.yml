@@ -31,6 +31,6 @@ jobs:
         with:
           github-token: ${{ secrets.token }}
           git-message: 'chore(release): {version}'
-          output-file: "CHANGELOG.md"
+          output-file: "docs/hystory.rst"
           skip-on-empty: false
           config-file-path: '.github/config.js'
