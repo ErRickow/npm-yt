@@ -1,5 +1,6 @@
 ## <small>1.1.6 (2025-02-14)</small>
 
+* Create FUNDING.yml ([82ba663](https://github.com/ErRickow/npm-yt/commit/82ba663))
 * update .github/config.js ([6f71514](https://github.com/ErRickow/npm-yt/commit/6f71514))
 * update .github/workflows/changelog.yml ([cdbf711](https://github.com/ErRickow/npm-yt/commit/cdbf711))
 * update .github/workflows/changelog.yml ([1963f7f](https://github.com/ErRickow/npm-yt/commit/1963f7f))
@@ -8,7 +9,9 @@
 * update .github/workflows/changelog.yml ([91e4a31](https://github.com/ErRickow/npm-yt/commit/91e4a31))
 * update .github/workflows/changelog.yml ([ed815d3](https://github.com/ErRickow/npm-yt/commit/ed815d3))
 * update docs/histo.rst ([6ad28f9](https://github.com/ErRickow/npm-yt/commit/6ad28f9))
+* docs(changelog): Update changelog in RST format ([32154c7](https://github.com/ErRickow/npm-yt/commit/32154c7))
 * chore(release): v [skip ci] ([6de24db](https://github.com/ErRickow/npm-yt/commit/6de24db))
+* chore(release): v1.1.6 [skip ci] ([a44e15b](https://github.com/ErRickow/npm-yt/commit/a44e15b))
 
 
 
