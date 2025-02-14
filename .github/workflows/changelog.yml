@@ -30,10 +30,10 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v5
         with:
           github-token: ${{ secrets.token }}
-          git-message: 'fix(release): {version}'
-          output-file: "hystory.rst"
+          git-message: 'chore(release): {version}'
+          output-file: "history.rst"
           skip-on-empty: false
           config-file-path: '.github/config.js'
           skip-version-update: false
           version-path: 'version'
-          fallback-version: '1.1.0'
+          fallback-version: '1.0.0'
