@@ -34,4 +34,6 @@ jobs:
           output-file: "hystory.rst"
           skip-on-empty: false
           config-file-path: '.github/config.js'
-          skip-version-update: true
+          skip-version-update: false
+          version-path: 'version'
+          fallback-version: '1.1.0'
