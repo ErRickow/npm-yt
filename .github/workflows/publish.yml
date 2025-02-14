@@ -76,9 +76,9 @@ jobs:
       - name: Deprecate previous version
         run: |
           PREV_VERSION=$(npm show @er-npm/scraper versions --json | jq -r '.[-2]')
-          if [ "$PREV_VERSION" != "null" ] && [ ! -z "$PREV_VERSION" ]; then
+          if [[ -n "$PREV_VERSION" && "$PREV_VERSION" != "null" ]]; then
             echo "Deprecating previous version: $PREV_VERSION"
-            pnpm deprecate "@er-npm/scraper@$PREV_VERSION" "Versi ini telah usang, silakan perbarui ke versi terbaru."
+            pnpm deprecate "@er-npm/scraper@$PREV_VERSION" '"Versi ini telah usang, silakan perbarui ke versi terbaru."'
           else
             echo "No previous version found, skipping deprecation."
           fi
