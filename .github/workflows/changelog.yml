@@ -34,7 +34,5 @@ jobs:
           output-file: "history.rst"
           skip-on-empty: false
           config-file-path: '.github/config.js'
-          skip-version-update: false
-          version-path: 'package.json'
-          version-file: 'package.json'
+          skip-version-file: true
           create-summary: true
