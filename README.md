@@ -1,29 +1,26 @@
+## INSTALATION
+
+```sh
+npm install @er-npm/scraper --save
+```
+
 ## CARA PENGGUNAAN
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=./install.js) -->
-<!-- The below code snippet is automatically added from ./install.js -->
-
 ```js
-// Using ES6 module syntax
+// Menggunakan ES6 module syntax
 import { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai } from '@er-npm/scraper';
 
 // Menggunakan CommonJS modules
 const { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai } = require('@er-npm/scraper');
 ```
 
-<!-- MARKDOWN-AUTO-DOCS:END -->
-
-## INSTALATION
-
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=./instalation.sh) -->
-<!-- The below code snippet is automatically added from ./instalation.sh -->
-
-```sh
-npm install @er-npm/scraper --save
+```js
+const name = "sri"
+khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilkan khodam secara deskriptif
 ```
 
-<!-- MARKD
-> This Project is Licensed under [GNU General Public License](https://github.com/ErRickow/ApiNyaEr/blob/Er/LICENSE)OWN-AUTO-DOCS:END -->
+**Full Dokumentasi:**
+> [Read The Docs](http://er-npm.rtfd.io/)
 
 ## FEATURES
 1. **Ai** - Berbagai Module Ai tersedia termasuk summary ai text to image
@@ -31,12 +28,14 @@ npm install @er-npm/scraper --save
 3. **Samehadaku Search** - Search Anime Dari Samehadaku
 4. **Samehadaku Download** - Download Link From Samehadaku
 5. **PlayStore Search** - Cari Aplikasi Playstore
+6. **Tiktok Downloder** - Download Konten Dari Link Tiktok
+7. **Khodam** - Fitur cek khodam yang lebih deskriptif
 
 Note:
-  - Untuk Library Ini Update Sangat Slow! Silahkan Pakai Rest Apis Kami Jikalau Ada Eror Di @er-npm/scraper kami [Er-APIs](https://er-api.biz.id/testing)
+  - Untuk Library Ini Update Sangat Slow! Silahkan Pakai Rest Apis Kami Jikalau Ada Eror Di @er-npm/scraper kami. [Er-APIs](https://er-api.biz.id/testing)
 
-> Full Dokumentasi:
-> [Read The Docs](http://er-npm.rtfd.io/)
+## INGIN MENAMBAHKAN FITUR?
+[Fork](https://github.com/ErBots/npm-yt/fork) Lalu open pull request, Nanti saya akan review
 
 ## SPECIAL THANKS
 <!-- readme: contributors,collaborators,bots -start -->
