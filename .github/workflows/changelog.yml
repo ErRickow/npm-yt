@@ -36,3 +36,4 @@ jobs:
           config-file-path: '.github/config.js'
           skip-version-file: true
           create-summary: true
+          skip-bump: true
