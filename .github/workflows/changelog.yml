@@ -30,7 +30,7 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v5
         with:
           github-token: ${{ secrets.token }}
-          git-message: 'chore(release): {version}'
+          git-message: 'fix(release): {version}'
           output-file: "hystory.rst"
           skip-on-empty: false
           config-file-path: '.github/config.js'
