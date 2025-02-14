@@ -1,6 +1,6 @@
 {
   "name": "@er-npm/scraper",
-  "version": "1.1.4",
+  "version": null,
   "description": "A comprehensive toolkit for downloading audio and video content from YouTube, social media platforms, and various streaming services. This tool integrates advanced AI functionalities for enhanced media processing.",
   "main": "src/index.js",
   "module": "src/index.mjs",
@@ -11,14 +11,15 @@
   "author": "ErNewDev0",
   "license": "Unlicense",
   "dependencies": {
-    "path": "^0.12.7",
-    "youtubei.js": "latest",
-    "os": "latest",
-    "unlimited-ai": "latest",
-    "node-fetch": "^2.6.11",
-    "gpti": "latest",
     "axios": "latest",
-    "xnxx-dl": "latest"
+    "conventional-changelog-conventionalcommits": "^8.0.0",
+    "gpti": "latest",
+    "node-fetch": "^2.6.11",
+    "os": "latest",
+    "path": "^0.12.7",
+    "unlimited-ai": "latest",
+    "xnxx-dl": "latest",
+    "youtubei.js": "latest"
   },
   "devDependencies": {
     "typescript": "^5.7.2"
