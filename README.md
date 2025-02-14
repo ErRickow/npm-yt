@@ -41,10 +41,41 @@ Note:
 ## SPECIAL THANKS
 
 <!-- readme: contributors -start -->
+<table>
+	<tbody>
+		<tr>
+            <td align="center">
+                <a href="https://github.com/ErRickow">
+                    <img src="https://avatars.githubusercontent.com/u/172886759?v=4" width="100;" alt="ErRickow"/>
+                    <br />
+                    <sub><b>Just R</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/hiudyy">
+                    <img src="https://avatars.githubusercontent.com/u/153995129?v=4" width="100;" alt="hiudyy"/>
+                    <br />
+                    <sub><b>hiudyy</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/ErNewDev0">
+                    <img src="https://avatars.githubusercontent.com/u/190163315?v=4" width="100;" alt="ErNewDev0"/>
+                    <br />
+                    <sub><b>ErNewDev0</b></sub>
+                </a>
+            </td>
+		</tr>
+	<tbody>
+</table>
 <!-- readme: contributors -end -->
 
 ## SUPPORT ME 💖
 <!-- readme: sponsors -start -->
+<table>
+	<tbody>
+	<tbody>
+</table>
 <!-- readme: sponsors -end -->
 
 > This Project is Licensed under the [Unlicense License](https://raw.githubusercontent.com/ErRickow/npm-yt/master/license.txt)
