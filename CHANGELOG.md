@@ -1,6 +1,8 @@
-##  (2025-02-14)
+## 0.1.0 (2025-02-14)
 
 * update .github/config.js ([2fab23f](https://github.com/ErRickow/npm-yt/commit/2fab23f))
+* update src/index.js ([4f07c58](https://github.com/ErRickow/npm-yt/commit/4f07c58))
+* chore(release): vnull [skip ci] ([28cb3fb](https://github.com/ErRickow/npm-yt/commit/28cb3fb))
 
 
 
