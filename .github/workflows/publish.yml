@@ -39,6 +39,12 @@ jobs:
           cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
 
+      - name: Generate lock file if not exists
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then
+            pnpm install --lockfile-only
+          fi
+
       - name: Install dependencies
         run: pnpm install --ignore-scripts --frozen-lockfile
 
