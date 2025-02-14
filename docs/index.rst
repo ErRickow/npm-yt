@@ -1,5 +1,5 @@
-Selamat Datang 2 @er-npm/scraper
-================================
+Selamat Datang
+==============
 
 `@er-npm/scraper <https://www.npmjs.com/package/@er-npm/scraper>`_ adalah pustaka Node.js untuk berinteraksi dengan berbagai API.
 
