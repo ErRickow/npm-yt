@@ -939,6 +939,6 @@ module.exports = {
   update: updateFile,
   clear: clearSystemTempDir,
   bokep: bokep,
-  tiktokDl: ttdl,
+  ttdl: tiktokDl,
   khodam,
 };
