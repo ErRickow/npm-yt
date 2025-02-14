@@ -64,6 +64,20 @@ Note:
                     <sub><b>ErNewDev0</b></sub>
                 </a>
             </td>
+            <td align="center">
+                <a href="https://github.com/actions-user">
+                    <img src="https://avatars.githubusercontent.com/u/65916846?v=4" width="100;" alt="actions-user"/>
+                    <br />
+                    <sub><b>actions-user</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/dependabot[bot]">
+                    <img src="https://avatars.githubusercontent.com/in/29110?v=4" width="100;" alt="dependabot[bot]"/>
+                    <br />
+                    <sub><b>dependabot[bot]</b></sub>
+                </a>
+            </td>
 		</tr>
 	<tbody>
 </table>
