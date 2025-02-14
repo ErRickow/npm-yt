@@ -35,8 +35,7 @@ khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilka
 > [!WARNING]
   Untuk Library Ini Update Sangat Slow! Silahkan Pakai Rest Apis Kami Jikalau Ada Eror Di @er-npm/scraper kami. [Er-APIs](https://er-api.biz.id/testing)
 
-> [!NOTE]
-> Jika ingin menambahkan fitur, silahkan [fork](https://github.com/ErBots/npm-yt/fork) lalu open pull requests
+Jika ingin menambahkan fitur, silahkan __[fork](https://github.com/ErBots/npm-yt/fork)__ lalu open pull requests
 
 ## SPECIAL THANKS
 <!-- readme: contributors,collaborators,bots -start -->
