@@ -10,6 +10,21 @@
   },
   "author": "ErNewDev0",
   "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ErRickow/npm-yt.git"
+  },
+  "keywords": [
+    "scraper",
+    "youtube",
+    "video-downloader",
+    "audio-downloader",
+    "social-media",
+    "streaming",
+    "ai",
+    "media-processing",
+    "npm-package"
+  ],
   "dependencies": {
     "axios": "latest",
     "conventional-changelog-conventionalcommits": "^8.0.0",
