@@ -21,7 +21,8 @@ const name = "sri"
 khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilkan khodam secara deskriptif
 ```
 
-> **Full Dokumentasi:** [Read The Docs](http://er-npm.rtfd.io/)
+> **Full Dokumentasi:** 
+> [Read The Docs](http://er-npm.rtfd.io/)
 
 ## FEATURES
 1. **Ai** - Berbagai Module Ai tersedia termasuk summary ai text to image
@@ -34,8 +35,6 @@ khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilka
 
 > [!WARNING]
   Untuk Library Ini Update Sangat Slow! Silahkan Pakai Rest Apis Kami Jikalau Ada Eror Di @er-npm/scraper kami. [Er-APIs](https://er-api.biz.id/testing)
-
-Jika ingin menambahkan fitur, silahkan __[fork](https://github.com/ErBots/npm-yt/fork)__ lalu open pull requests
 
 ## SPECIAL THANKS
 <!-- readme: contributors,collaborators,bots -start -->
