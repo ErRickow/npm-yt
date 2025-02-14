@@ -35,5 +35,5 @@ jobs:
           skip-on-empty: false
           config-file-path: '.github/config.js'
           skip-version-update: false
-          version-path: 'version'
+          version-path: 'package.json'
           fallback-version: '1.1.0'
