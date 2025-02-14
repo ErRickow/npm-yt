@@ -1,6 +1,4 @@
-.. _changelog:
-
 History
 =======
 
-.. include:: ../CHANGELOG.md
+.. include:: ../hystory.rst
