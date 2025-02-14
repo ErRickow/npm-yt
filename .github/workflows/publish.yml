@@ -58,6 +58,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --ignore-scripts --frozen-lockfile
+        
+      - name: Bump version
+        run: pnpm version patch --no-git-tag-version
 
       - name: Publish package to NPM
         run: |
