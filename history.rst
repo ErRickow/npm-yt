@@ -1,5 +1,17 @@
+## <small>1.1.6 (2025-02-14)</small>
+
+* update .github/config.js ([6f71514](https://github.com/ErRickow/npm-yt/commit/6f71514))
+* update .github/workflows/changelog.yml ([81ecf1f](https://github.com/ErRickow/npm-yt/commit/81ecf1f))
+* update .github/workflows/changelog.yml ([a7f88ee](https://github.com/ErRickow/npm-yt/commit/a7f88ee))
+* update .github/workflows/changelog.yml ([91e4a31](https://github.com/ErRickow/npm-yt/commit/91e4a31))
+* update .github/workflows/changelog.yml ([ed815d3](https://github.com/ErRickow/npm-yt/commit/ed815d3))
+* update docs/histo.rst ([6ad28f9](https://github.com/ErRickow/npm-yt/commit/6ad28f9))
+
+
+
 ## 1.1.0 (2025-02-14)
 
+* chore(release): v1.1.0 [skip ci] ([78d070b](https://github.com/ErRickow/npm-yt/commit/78d070b))
 * create docs/histo.rst ([6fe2a25](https://github.com/ErRickow/npm-yt/commit/6fe2a25))
 * create docs/method/khodam.rst ([4f01f47](https://github.com/ErRickow/npm-yt/commit/4f01f47))
 * Delete the file at '.github/workflows/autodocs.yml' ([1683e94](https://github.com/ErRickow/npm-yt/commit/1683e94))
@@ -77,13 +89,6 @@
 
 * chore(release): v1.1.3 [skip ci] ([4fd796d](https://github.com/ErRickow/npm-yt/commit/4fd796d))
 * create .github/config.js ([c62f916](https://github.com/ErRickow/npm-yt/commit/c62f916))
-
-
-
-## <small>1.1.2 (2025-02-14)</small>
-
-* chore(release): v1.1.2 [skip ci] ([86ceab6](https://github.com/ErRickow/npm-yt/commit/86ceab6))
-* update .github/workflows/changelog.yml ([f436cf2](https://github.com/ErRickow/npm-yt/commit/f436cf2))
 
 
 
