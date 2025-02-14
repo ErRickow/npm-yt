@@ -1,3 +1,3 @@
 .. _changelog:
 
-.. include:: CHANGELOG.md
+.. include:: ../CHANGELOG.MD
