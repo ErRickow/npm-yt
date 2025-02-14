@@ -18,7 +18,15 @@ const config = async () => {
       { type: 'test', section: 'Tests' },
       { type: 'chore', section: 'Chores' },
       { type: 'revert', section: 'Reverts' }
-    ]
+    ],
+    releaseRules: [
+      { type: 'feat', release: 'minor' }, // Fitur baru -> minor update
+      { type: 'fix', release: 'patch' }, // Perbaikan bug -> patch update
+      { type: 'BREAKING CHANGE', release: 'major' } // Breaking changes -> major update
+    ],
+    parserOpts: {
+      noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES']
+    }
   });
 };
 
