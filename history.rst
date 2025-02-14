@@ -1,6 +1,8 @@
 1.1.6 (2025-02-14)
 ------------------
 
+-  Create FUNDING.yml
+   (`82ba663 <https://github.com/ErRickow/npm-yt/commit/82ba663>`__)
 -  update .github/config.js
    (`6f71514 <https://github.com/ErRickow/npm-yt/commit/6f71514>`__)
 -  update .github/workflows/changelog.yml
@@ -17,8 +19,12 @@
    (`ed815d3 <https://github.com/ErRickow/npm-yt/commit/ed815d3>`__)
 -  update docs/histo.rst
    (`6ad28f9 <https://github.com/ErRickow/npm-yt/commit/6ad28f9>`__)
+-  docs(changelog): Update changelog in RST format
+   (`32154c7 <https://github.com/ErRickow/npm-yt/commit/32154c7>`__)
 -  chore(release): v [skip ci]
    (`6de24db <https://github.com/ErRickow/npm-yt/commit/6de24db>`__)
+-  chore(release): v1.1.6 [skip ci]
+   (`a44e15b <https://github.com/ErRickow/npm-yt/commit/a44e15b>`__)
 
 .. _section-1:
 
