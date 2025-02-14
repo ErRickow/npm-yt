@@ -15,3 +15,5 @@ Berikut adalah daftar beberapa metode yang tersedia. Klik pada masing-masing nam
    method/samehadaku
    method/ermp4
    method/yts
+   method/khodam
+   method/tiktokDL
