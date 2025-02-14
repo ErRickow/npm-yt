@@ -70,7 +70,7 @@ Note:
 </table>
 <!-- readme: contributors -end -->
 
-## SUPPORT ME 💖  
-[![Trakteer](https://edge-cdn.trakteer.id/images/embed/trbtn-icon.png?v=24-01-2025)](https://trakteer.id/er_rickow/tip)
+## SUPPORT ME 💖
+[![Trakteer Saya](https://edge-cdn.trakteer.id/images/embed/trbtn-red-1.png?v=24-01-2025)](https://trakteer.id/er_rickow/tip)
 
 > This Project is Licensed under the [Unlicense License](https://raw.githubusercontent.com/ErRickow/npm-yt/master/license.txt)
