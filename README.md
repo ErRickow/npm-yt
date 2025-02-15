@@ -44,8 +44,7 @@ const name = 'sri'
 khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilkan khodam secara deskriptif
 ```
 
-> **Full Dokumentasi Ke:**
-> [Read The Docs](http://er-npm.rtfd.io/)
+> **Full Dokumentasi Ke:** > [Read The Docs](http://er-npm.rtfd.io/)
 
 ## FEATURES
 
