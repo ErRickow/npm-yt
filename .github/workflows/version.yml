@@ -22,14 +22,9 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install jq
-        run: sudo apt-get install -y jq
-
       - name: Bump Version
         run: |
-          CURRENT_VERSION=$(jq -r .version package.json)
-          NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{$NF+=1; OFS="."; print $0}')
-          jq --arg new_version "$NEW_VERSION" '.version = $new_version' package.json > temp.json && mv temp.json package.json
+          NEW_VERSION=$(npm version patch --no-git-tag-version)
           echo "New version: $NEW_VERSION"
 
       - name: Commit and Push Changes
