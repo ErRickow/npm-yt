@@ -1,14 +1,9 @@
-module.exports = {
-  root: true,
-  extends: [
-    'eslint:recommended', // Atau aturan lain yang Anda gunakan
-  ],
-  overrides: [
-    {
-      files: ['*.js', '*.jsx', '*.ts', '*.tsx'], // Tentukan ekstensi di sini
-      rules: {
-        // Aturan khusus untuk file tertentu
-      },
+export default [
+  {
+    files: ["**/*.js", "**/*.ts", "**/*.tsx"], // Pastikan ESLint memeriksa file yang benar
+    rules: {
+      semi: ["error", "always"],
+      quotes: ["error", "double"],
     },
-  ],
-}
+  },
+];
