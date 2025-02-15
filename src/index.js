@@ -6,63 +6,63 @@ const {
   handleFile,
   getVideoUrl,
   updateFile
-} = require('./../dist/utils.js')
-const { Innertube, UniversalCache } = require('youtubei.js')
-const { execFile, exec } = require('child_process')
-const ai = require('./ia/index.js')
-const bokep = require('./bkp/scrape.js')
-const path = require('path')
-const fs = require('fs')
-const os = require('os')
-const axios = require('axios')
-const fetch = require('node-fetch')
+} = require('./../dist/utils.js');
+const { Innertube, UniversalCache } = require('youtubei.js');
+const { execFile, exec } = require('child_process');
+const ai = require('./ia/index.js');
+const bokep = require('./bkp/scrape.js');
+const path = require('path');
+const fs = require('fs');
+const os = require('os');
+const axios = require('axios');
+const fetch = require('node-fetch');
 
-updateFile()
+updateFile();
 
-const tempPath = path.join(__dirname, '../temp')
-const tempDirSystem = os.tmpdir()
-let PathErDL = ''
+const tempPath = path.join(__dirname, '../temp');
+const tempDirSystem = os.tmpdir();
+let PathErDL = '';
 
 async function clearSystemTempDir() {
   try {
-    const command = 'rm -rf ' + tempDirSystem + '/*'
+    const command = 'rm -rf ' + tempDirSystem + '/*';
     exec(command, err => {
       if (err) {
-        console.error('Gagal membersihkan direktori sementara:', err.message)
+        console.error('Gagal membersihkan direktori sementara:', err.message);
       } else {
-        console.log('✅ Direktori sementara berhasil dibersihkan.')
+        console.log('✅ Direktori sementara berhasil dibersihkan.');
       }
-    })
+    });
   } catch (err) {
-    console.error('Kesalahan umum:', err.message)
+    console.error('Kesalahan umum:', err.message);
   }
 }
 
 function loadAndShuffleCookies() {
-  const cookiesPath = path.join(__dirname, '../dist/cookies.json')
-  const cookiesArray = JSON.parse(fs.readFileSync(cookiesPath, 'utf8'))
-  return cookiesArray.sort(() => Math.random() - 0.5)
+  const cookiesPath = path.join(__dirname, '../dist/cookies.json');
+  const cookiesArray = JSON.parse(fs.readFileSync(cookiesPath, 'utf8'));
+  return cookiesArray.sort(() => Math.random() - 0.5);
 }
 
 async function findValidCookie() {
-  const cookiesArray = loadAndShuffleCookies()
-  const testedCookies = new Set()
+  const cookiesArray = loadAndShuffleCookies();
+  const testedCookies = new Set();
   for (const cookie of cookiesArray) {
-    if (testedCookies.has(cookie)) continue
-    const tempCookiePath = path.join(__dirname, '../dist/cookie.txt')
-    fs.writeFileSync(tempCookiePath, cookie)
-    const isValid = await testCookie(tempCookiePath)
-    testedCookies.add(cookie)
+    if (testedCookies.has(cookie)) continue;
+    const tempCookiePath = path.join(__dirname, '../dist/cookie.txt');
+    fs.writeFileSync(tempCookiePath, cookie);
+    const isValid = await testCookie(tempCookiePath);
+    testedCookies.add(cookie);
     if (isValid) {
-      return tempCookiePath
+      return tempCookiePath;
     }
   }
-  throw new Error('❌ [ERROR] Tidak ada cookie valid yang ditemukan.')
+  throw new Error('❌ [ERROR] Tidak ada cookie valid yang ditemukan.');
 }
 
 async function testCookie(cookiePath) {
-  const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-  const args = ['--no-cache-dir', '-F', '--cookies', cookiePath, url]
+  const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+  const args = ['--no-cache-dir', '-F', '--cookies', cookiePath, url];
   return new Promise((resolve, reject) => {
     execFile(PathErDL, args, (error, stdout, stderr) => {
       if (error) {
@@ -76,82 +76,84 @@ async function testCookie(cookiePath) {
                   pyStderr.includes('This content isn') ||
                   (pyErr.message && pyErr.message.includes('This content isn'))
                 ) {
-                  resolve(false)
+                  resolve(false);
                 } else {
-                  resolve(true)
+                  resolve(true);
                 }
               } else {
-                resolve(true)
+                resolve(true);
               }
             }
-          )
+          );
         } else if (
           stderr.includes('This content isn') ||
           (error.message && error.message.includes('This content isn'))
         ) {
-          resolve(false)
+          resolve(false);
         } else {
-          resolve(true)
+          resolve(true);
         }
       } else {
-        resolve(true)
+        resolve(true);
       }
-    })
-  })
+    });
+  });
 }
 
 detectSystemInfo((error, architecture, platform) => {
   if (error)
-    return console.error(`❌ [ERROR] Gagal mendeteksi sistem: ${error.message}`)
+    return console.error(
+      `❌ [ERROR] Gagal mendeteksi sistem: ${error.message}`
+    );
   if (platform === 'android') {
-    PathErDL = path.join(__dirname, '../bin/ErLib_py')
-    console.log('📱 [PLATFORM] Sistem Android terdeteksi.')
+    PathErDL = path.join(__dirname, '../bin/ErLib_py');
+    console.log('📱 [PLATFORM] Sistem Android terdeteksi.');
     console.log(
       '🚀 [@er-npm/scraper] Modul diinisialisasi dengan Python untuk Android.'
-    )
-    return
+    );
+    return;
   }
   if (platform !== 'linux' && platform !== 'win32') {
     return console.error(
       '❌ [PLATFORM] Modul ini hanya kompatibel dengan sistem Linux, Android, dan Windows.'
-    )
+    );
   }
-  console.log(`✅ [PLATFORM] Sistem terdeteksi: ${platform}.`)
+  console.log(`✅ [PLATFORM] Sistem terdeteksi: ${platform}.`);
 
   switch (architecture) {
     case 'x64':
       PathErDL = path.join(
         __dirname,
         platform === 'win32' ? '../bin/ErLib_win_x64.zip' : '../bin/ErLib'
-      )
-      console.log('💻 [ARSITEKTUR] Arsitektur x64 terdeteksi.')
-      break
+      );
+      console.log('💻 [ARSITEKTUR] Arsitektur x64 terdeteksi.');
+      break;
     case 'arm':
-      PathErDL = path.join(__dirname, '../bin/ErLib_v7')
-      console.log('🤖 [ARSITEKTUR] Arsitektur ARM terdeteksi.')
-      break
+      PathErDL = path.join(__dirname, '../bin/ErLib_v7');
+      console.log('🤖 [ARSITEKTUR] Arsitektur ARM terdeteksi.');
+      break;
     case 'arm64':
-      PathErDL = path.join(__dirname, '../bin/ErLib_64')
-      console.log('🔧 [ARSITEKTUR] Arsitektur ARM64 terdeteksi.')
-      break
+      PathErDL = path.join(__dirname, '../bin/ErLib_64');
+      console.log('🔧 [ARSITEKTUR] Arsitektur ARM64 terdeteksi.');
+      break;
     case 'x86':
-      PathErDL = path.join(__dirname, '../bin/ErLib_win_x86.zip')
-      console.log('💻 [ARSITEKTUR] Arsitektur x86 terdeteksi.')
-      break
+      PathErDL = path.join(__dirname, '../bin/ErLib_win_x86.zip');
+      console.log('💻 [ARSITEKTUR] Arsitektur x86 terdeteksi.');
+      break;
     default:
       console.error(
         `❌ [ARSITEKTUR] Arsitektur tidak didukung: ${architecture}`
-      )
-      return
+      );
+      return;
   }
 
   console.log(
     `✅ [@er-npm/scraper] Modul berhasil diinisialisasi pada arsitektur: ${architecture}.`
-  )
-})
+  );
+});
 
 async function processOutput(args, tempFile, retries = 3) {
-  await ensureExecutable(PathErDL)
+  await ensureExecutable(PathErDL);
 
   const cobaEksekusi = percobaan =>
     new Promise((resolve, reject) => {
@@ -164,39 +166,41 @@ async function processOutput(args, tempFile, retries = 3) {
               async (pyErr, pyStdout, pyStderr) => {
                 if (pyErr) {
                   if (percobaan < retries) {
-                    console.log(`Percobaan ${percobaan} gagal. Mencoba lagi...`)
-                    await clearSystemTempDir()
-                    resolve(await cobaEksekusi(percobaan + 1))
+                    console.log(
+                      `Percobaan ${percobaan} gagal. Mencoba lagi...`
+                    );
+                    await clearSystemTempDir();
+                    resolve(await cobaEksekusi(percobaan + 1));
                   } else {
-                    await clearSystemTempDir()
+                    await clearSystemTempDir();
                     reject(
                       `Terjadi kesalahan saat menjalankan dengan Python setelah ${retries} percobaan: ${pyStderr || pyErr.message}`
-                    )
+                    );
                   }
                 } else {
-                  handleFile(tempFile, resolve, reject)
+                  handleFile(tempFile, resolve, reject);
                 }
               }
-            )
+            );
           } else {
             if (percobaan < retries) {
-              console.log(`Percobaan ${percobaan} gagal. Mencoba lagi...`)
-              await clearSystemTempDir()
-              resolve(await cobaEksekusi(percobaan + 1))
+              console.log(`Percobaan ${percobaan} gagal. Mencoba lagi...`);
+              await clearSystemTempDir();
+              resolve(await cobaEksekusi(percobaan + 1));
             } else {
-              await clearSystemTempDir()
+              await clearSystemTempDir();
               reject(
                 `Kesalahan ErLib setelah ${retries} percobaan: ${stderr || err.message}`
-              )
+              );
             }
           }
         } else {
-          handleFile(tempFile, resolve, reject)
+          handleFile(tempFile, resolve, reject);
         }
-      })
-    })
+      });
+    });
 
-  return cobaEksekusi(1)
+  return cobaEksekusi(1);
 }
 
 /**
@@ -213,8 +217,8 @@ async function processOutput(args, tempFile, retries = 3) {
  */
 async function khodam(name) {
   try {
-    const u = 'aHR0cHM6Ly9hcGkuYWdhdHoueHl6L2FwaS9ncHRsb2dpYw=='
-    const apiUrl = atob(u)
+    const u = 'aHR0cHM6Ly9hcGkuYWdhdHoueHl6L2FwaS9ncHRsb2dpYw==';
+    const apiUrl = atob(u);
     const prompt = encodeURIComponent(
       'Anda adalah seorang paranormal yang mampu mendeskripsikan khodam seseorang yang berupa Binatang. ' +
         'Tugas Anda adalah mendeskripsikan khodam yang mungkin ada, termasuk wujud, sifat, dan energi yang dipancarkan. ' +
@@ -222,30 +226,30 @@ async function khodam(name) {
         'Deskripsi tidak harus positif bisa saja negatif tidak masalah karena ini hiburan. ' +
         'Ini hanya untuk entertainment jadi bebaskan dirimu untuk menjadi seorang paranormal pada umumnya. ' +
         'Deskripsikan Khodam dengan singkat namun jelas, dan pastikan deskripsi tidak lebih dari 2000 karakter alfabet dalam plain text serta berbahasa Indonesia.'
-    )
+    );
 
     const response = await axios.get(apiUrl, {
       params: {
         logic: prompt,
         p: name
       }
-    })
+    });
 
     if (response?.data && response?.data?.data?.result) {
       return {
         status: true,
         res: response.data.data.result,
         from: '@er-npm/scraper'
-      }
+      };
     } else {
-      throw new Error('Respon API tidak valid.')
+      throw new Error('Respon API tidak valid.');
     }
   } catch (error) {
     return {
       status: false,
       why: 'eror njing.' + error.message,
       terus_gmna: 'visit: t.me/er_support_group'
-    }
+    };
   }
 }
 
@@ -283,23 +287,23 @@ async function khodam(name) {
  * })();
  */
 async function igdl(url) {
-  const base64Url = 'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC9pZ2RsP3VybD0='
-  const decodedUrl = atob(base64Url)
-  const apiUrl = `${decodedUrl}${url}`
+  const base64Url = 'aHR0cHM6Ly9hcGkuc2lwdXR6eC5teS5pZC9hcGkvZC9pZ2RsP3VybD0=';
+  const decodedUrl = atob(base64Url);
+  const apiUrl = `${decodedUrl}${url}`;
 
   try {
-    const response = await axios.get(apiUrl)
+    const response = await axios.get(apiUrl);
     return {
       status: true,
       url: response.data[0]?.url,
       from: '@er-npm/scraper'
-    }
+    };
   } catch (error) {
     return {
       status: false,
       why: 'eror njing. ' + error.message,
       terus_gmna: 'visit: t.me/er_support_group'
-    }
+    };
   }
 }
 
@@ -322,25 +326,25 @@ async function igdl(url) {
  */
 async function ermp3(url) {
   const base64Url =
-    'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL2F1ZGlvP3VybD0='
-  const decodedUrl = atob(base64Url)
-  const apiUrl = `${decodedUrl}${url}`
+    'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL2F1ZGlvP3VybD0=';
+  const decodedUrl = atob(base64Url);
+  const apiUrl = `${decodedUrl}${url}`;
 
   try {
-    const response = await axios.get(apiUrl)
+    const response = await axios.get(apiUrl);
     return {
       status: true,
       judul: response.data.videoDetails.title,
       url: response.data.downloadUrl,
       from: '@er-npm/scraper'
-    }
+    };
   } catch (error) {
     // Menangani error jika terjadi
     return {
       status: false,
       why: 'eror njing.' + error.message,
       terus_gmna: 'visit: t.me/er_support_group'
-    }
+    };
   }
 }
 
@@ -350,17 +354,17 @@ async function ermp3(url) {
  * @returns {Promise<Object>} Objek yang berisi daftar aplikasi atau pesan kesalahan.
  */
 async function playstore(query) {
-  const url = `https://api.siputzx.my.id/api/apk/playstore?query=${query}`
+  const url = `https://api.siputzx.my.id/api/apk/playstore?query=${query}`;
   try {
-    const res = await axios.get(url)
-    const data = res.data.data
+    const res = await axios.get(url);
+    const data = res.data.data;
 
     if (!Array.isArray(data) || data.length === 0) {
       return {
         status: false,
         why: 'Aplikasi tidak ditemukan.',
         terus_gmna: 'Kunjungi: t.me/chakszzz'
-      }
+      };
     }
 
     return {
@@ -381,13 +385,13 @@ async function playstore(query) {
         rating: app.rate2
       })),
       from: '@er-npm/scraper'
-    }
+    };
   } catch (error) {
     return {
       status: false,
       why: 'Terjadi kesalahan.',
       terus_gmna: 'Kunjungi: t.me/chakszzz'
-    }
+    };
   }
 }
 
@@ -409,25 +413,25 @@ async function playstore(query) {
 
 async function ermp4(url) {
   const urlnya =
-    'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL3ZpZGVvP3VybD0='
-  const decodedUrl = atob(urlnya)
-  const apiUrl = `${decodedUrl}${url}`
+    'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL3ZpZGVvP3VybD0=';
+  const decodedUrl = atob(urlnya);
+  const apiUrl = `${decodedUrl}${url}`;
 
   try {
-    const response = await axios.get(apiUrl)
+    const response = await axios.get(apiUrl);
     return {
       status: true,
       judul: response.data.videoDetails.title,
       url: response.data.downloadUrl,
       from: '@er-npm/scraper'
-    }
+    };
   } catch (error) {
     // Menangani error jika terjadi
     return {
       status: false,
       why: 'eror njing.' + error.message,
       terus_gmna: 'visit: t.me/er_support_group'
-    }
+    };
   }
 }
 
@@ -441,18 +445,18 @@ async function ermp4(url) {
  *
  */
 async function alldl(input) {
-  await clearSystemTempDir()
-  const url = input
-  const results = []
+  await clearSystemTempDir();
+  const url = input;
+  const results = [];
   const tempPathDl = path.join(
     tempPath,
     `${Math.floor(Math.random() * 100000)}_${Math.floor(Math.random() * 100000)}`
-  )
-  const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s')
+  );
+  const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s');
 
   try {
-    await ensureExecutable(PathErDL)
-    const validCookiePath = await findValidCookie()
+    await ensureExecutable(PathErDL);
+    const validCookiePath = await findValidCookie();
 
     // Argumentos para listar formatos disponíveis
     const formatArgs = [
@@ -461,30 +465,30 @@ async function alldl(input) {
       '--cookies',
       validCookiePath,
       url
-    ]
+    ];
 
     const formats = await new Promise((resolve, reject) => {
       execFile(PathErDL, formatArgs, (error, stdout) => {
-        if (error) return reject(error)
-        resolve(stdout.trim())
-      })
-    })
+        if (error) return reject(error);
+        resolve(stdout.trim());
+      });
+    });
 
     // Detecta tipos de arquivos suportados
     const hasAudio =
       /\.(mp3|m4a|aac|wav|flac|ogg|opus)$/i.test(formats) ||
-      formats.includes('audio')
+      formats.includes('audio');
     const hasVideo =
       /\.(mp4|mkv|avi|mov|wmv|flv|webm)$/i.test(formats) ||
-      formats.includes('video')
+      formats.includes('video');
     const hasImages =
       /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(formats) ||
-      formats.includes('image')
+      formats.includes('image');
     const hasDocument =
       /\.(pdf|doc|docx|xls|xlsx|txt|ppt|pptx|zip|apk)$/i.test(formats) ||
-      formats.includes('document')
+      formats.includes('document');
 
-    const downloadArgsList = []
+    const downloadArgsList = [];
 
     // Vídeo + Áudio com qualidade média
     if (hasVideo || !hasAudio) {
@@ -499,7 +503,7 @@ async function alldl(input) {
         '--output',
         outputTemplate,
         '--no-warnings'
-      ])
+      ]);
     }
 
     // Áudio com qualidade mais baixa e rápido
@@ -517,7 +521,7 @@ async function alldl(input) {
         '10',
         '--concurrent-fragments',
         '16'
-      ])
+      ]);
     }
 
     // Imagens
@@ -532,7 +536,7 @@ async function alldl(input) {
         outputTemplate,
         '--no-warnings',
         '--yes-playlist'
-      ])
+      ]);
     }
 
     // Documentos
@@ -546,16 +550,16 @@ async function alldl(input) {
         '--output',
         outputTemplate,
         '--no-warnings'
-      ])
+      ]);
     }
 
     // Executa os downloads
     for (const args of downloadArgsList) {
-      let attempt = 0
-      let success = false
+      let attempt = 0;
+      let success = false;
 
       while (attempt < 3 && !success) {
-        attempt++
+        attempt++;
         try {
           await new Promise((resolve, reject) => {
             execFile(
@@ -571,65 +575,65 @@ async function alldl(input) {
                         if (pyErr) {
                           return reject(
                             `ErLib error (Python): ${pyStderr || pyErr.message}`
-                          )
+                          );
                         }
-                        resolve(pyStdout.trim())
+                        resolve(pyStdout.trim());
                       }
-                    )
+                    );
                   } else {
-                    return reject(`ErLib error: ${stderr || error.message}`)
+                    return reject(`ErLib error: ${stderr || error.message}`);
                   }
                 } else {
-                  resolve(stdout.trim())
+                  resolve(stdout.trim());
                 }
               }
-            )
-          })
+            );
+          });
 
           // Se não houver erro, marca como sucesso
-          success = true
-          console.log(`Tentativa ${attempt} bem-sucedida para args: ${args}`)
+          success = true;
+          console.log(`Tentativa ${attempt} bem-sucedida para args: ${args}`);
         } catch (err) {
           console.log(
             `Tentativa ${attempt} falhou para args: ${args}. Erro: ${err}`
-          )
+          );
           if (attempt === 3) {
-            await clearSystemTempDir()
-            console.error(`Erro após 3 tentativas para args: ${args}.`)
-            throw new Error(err) // Relança o erro após 3 tentativas falhas
+            await clearSystemTempDir();
+            console.error(`Erro após 3 tentativas para args: ${args}.`);
+            throw new Error(err); // Relança o erro após 3 tentativas falhas
           }
         }
       }
     }
 
     // Processa os arquivos baixados
-    const files = fs.readdirSync(tempPathDl)
+    const files = fs.readdirSync(tempPathDl);
     for (const file of files) {
-      const filePath = path.join(tempPathDl, file)
-      const extension = path.extname(file).toLowerCase()
+      const filePath = path.join(tempPathDl, file);
+      const extension = path.extname(file).toLowerCase();
       const convertedFilePath = path.join(
         tempPathDl,
         `converted_${path.basename(file, extension)}.mp4`
-      )
+      );
 
       if (['.mp4', '.mkv', '.webm'].includes(extension)) {
         try {
-          await convertToCompatibleVideo(filePath, convertedFilePath) // Converte o vídeo para formato compatível
-          const buffer = fs.readFileSync(convertedFilePath)
-          results.push({ type: 'video', src: buffer, mimetype: 'video/mp4' })
-          fs.unlinkSync(filePath) // Remove o arquivo original
-          fs.unlinkSync(convertedFilePath) // Remove o arquivo convertido
+          await convertToCompatibleVideo(filePath, convertedFilePath); // Converte o vídeo para formato compatível
+          const buffer = fs.readFileSync(convertedFilePath);
+          results.push({ type: 'video', src: buffer, mimetype: 'video/mp4' });
+          fs.unlinkSync(filePath); // Remove o arquivo original
+          fs.unlinkSync(convertedFilePath); // Remove o arquivo convertido
         } catch (conversionError) {
-          console.error('Erro ao converter vídeo:', conversionError)
+          console.error('Erro ao converter vídeo:', conversionError);
         }
       } else if (['.mp3', '.m4a', '.opus'].includes(extension)) {
-        const buffer = fs.readFileSync(filePath)
-        results.push({ type: 'audio', src: buffer, mimetype: 'audio/mpeg' })
-        fs.unlinkSync(filePath)
+        const buffer = fs.readFileSync(filePath);
+        results.push({ type: 'audio', src: buffer, mimetype: 'audio/mpeg' });
+        fs.unlinkSync(filePath);
       } else if (['.jpg', '.jpeg', '.png', '.webp'].includes(extension)) {
-        const buffer = fs.readFileSync(filePath)
-        results.push({ type: 'image', src: buffer, mimetype: 'image/jpg' })
-        fs.unlinkSync(filePath)
+        const buffer = fs.readFileSync(filePath);
+        results.push({ type: 'image', src: buffer, mimetype: 'image/jpg' });
+        fs.unlinkSync(filePath);
       } else if (
         [
           '.pdf',
@@ -642,57 +646,57 @@ async function alldl(input) {
           '.pptx'
         ].includes(extension)
       ) {
-        const buffer = fs.readFileSync(filePath)
+        const buffer = fs.readFileSync(filePath);
         results.push({
           type: 'document',
           src: buffer,
           mimetype: 'application/octet-stream'
-        })
-        fs.unlinkSync(filePath)
+        });
+        fs.unlinkSync(filePath);
       } else if (['.zip'].includes(extension)) {
-        const buffer = fs.readFileSync(filePath)
+        const buffer = fs.readFileSync(filePath);
         results.push({
           type: 'document',
           src: buffer,
           mimetype: 'application/zip'
-        })
-        fs.unlinkSync(filePath)
+        });
+        fs.unlinkSync(filePath);
       } else if (['.apk'].includes(extension)) {
-        const buffer = fs.readFileSync(filePath)
+        const buffer = fs.readFileSync(filePath);
         results.push({
           type: 'document',
           src: buffer,
           mimetype: 'application/vnd.android.package-archive'
-        })
-        fs.unlinkSync(filePath)
+        });
+        fs.unlinkSync(filePath);
       } else {
-        const buffer = fs.readFileSync(filePath)
+        const buffer = fs.readFileSync(filePath);
         results.push({
           type: 'unknown',
           src: buffer,
           mimetype: 'application/octet-stream'
-        })
-        fs.unlinkSync(filePath)
+        });
+        fs.unlinkSync(filePath);
       }
     }
   } catch (err) {
-    console.error('Errr:', err)
+    console.error('Errr:', err);
   }
 
-  return results
+  return results;
 }
 
 async function convertToCompatibleVideo(inputPath, outputPath) {
   return new Promise((resolve, reject) => {
-    const ffmpegCommand = `ffmpeg -i "${inputPath}" -c:v libx264 -preset fast -crf 23 -c:a aac -b:a 128k -movflags +faststart "${outputPath}"`
+    const ffmpegCommand = `ffmpeg -i "${inputPath}" -c:v libx264 -preset fast -crf 23 -c:a aac -b:a 128k -movflags +faststart "${outputPath}"`;
     exec(ffmpegCommand, (error, stdout, stderr) => {
       if (error) {
-        console.error('Kesalahan FFmpeg:', stderr || error.message)
-        return reject(error)
+        console.error('Kesalahan FFmpeg:', stderr || error.message);
+        return reject(error);
       }
-      resolve()
-    })
-  })
+      resolve();
+    });
+  });
 }
 
 /**
@@ -711,10 +715,10 @@ async function convertToCompatibleVideo(inputPath, outputPath) {
  * @author ErNewDev0 <ryppain@gmail.com>
  */
 async function yts(query) {
-  await clearSystemTempDir()
-  const yt = await Innertube.create({ cache: new UniversalCache() })
-  const search = await yt.search(query)
-  return search
+  await clearSystemTempDir();
+  const yt = await Innertube.create({ cache: new UniversalCache() });
+  const search = await yt.search(query);
+  return search;
 }
 
 /**
@@ -723,17 +727,17 @@ async function yts(query) {
  * @returns {Promise<Object>} Hasil pencarian anime.
  */
 async function samehadakuSearch(query) {
-  const url = `https://api.siputzx.my.id/api/anime/samehadaku/search?query=${encodeURIComponent(query)}`
+  const url = `https://api.siputzx.my.id/api/anime/samehadaku/search?query=${encodeURIComponent(query)}`;
   try {
-    const res = await axios.get(url)
-    const data = res.data.data // Ambil array data anime
+    const res = await axios.get(url);
+    const data = res.data.data; // Ambil array data anime
 
     if (!Array.isArray(data) || data.length === 0) {
       return {
         status: false,
         why: 'Anime tidak ditemukan.',
         terus_gmna: 'visit: t.me/chakszzz'
-      }
+      };
     }
 
     return {
@@ -750,13 +754,13 @@ async function samehadakuSearch(query) {
         link: anime.link
       })),
       from: '@er-npm/scraper'
-    }
+    };
   } catch (error) {
     return {
       status: false,
       why: 'Error njing.',
       terus_gmna: 'visit: t.me/chakszzz'
-    }
+    };
   }
 }
 
@@ -773,11 +777,11 @@ async function samehadakuSearch(query) {
  *   .catch(err => console.error(err));
  */
 async function samehadakuDL(url) {
-  const apiUrl = `https://api.siputzx.my.id/api/anime/samehadaku/download?url=${encodeURIComponent(url)}`
+  const apiUrl = `https://api.siputzx.my.id/api/anime/samehadaku/download?url=${encodeURIComponent(url)}`;
 
   try {
-    const res = await axios.get(apiUrl)
-    const data = res.data.data // Mengambil objek data utama
+    const res = await axios.get(apiUrl);
+    const data = res.data.data; // Mengambil objek data utama
 
     // Cek apakah data valid dan memiliki link download
     if (
@@ -789,7 +793,7 @@ async function samehadakuDL(url) {
         status: false,
         why: 'Link download tidak ditemukan.',
         terus_gmna: 'visit: t.me/chakszzz'
-      }
+      };
     }
 
     // Mapping hasil download ke format yang lebih sederhana
@@ -804,13 +808,13 @@ async function samehadakuDL(url) {
         download_link: dl.link // URL download
       })),
       from: '@er-npm/scraper' // Sumber data
-    }
+    };
   } catch (error) {
     return {
       status: false,
       why: 'Error njing.',
       terus_gmna: 'visit: t.me/chakszzz'
-    }
+    };
   }
 }
 
@@ -829,7 +833,7 @@ async function samehadakuDL(url) {
 async function tiktokDl(url) {
   return new Promise(async (resolve, reject) => {
     try {
-      let data = []
+      let data = [];
 
       /**
        * Memformat angka dengan titik sebagai pemisah ribuan.
@@ -837,8 +841,8 @@ async function tiktokDl(url) {
        * @returns {string} - Angka yang telah diformat.
        */
       function formatNumber(integer) {
-        let numb = parseInt(integer)
-        return Number(numb).toLocaleString().replace(/,/g, '.')
+        let numb = parseInt(integer);
+        return Number(numb).toLocaleString().replace(/,/g, '.');
       }
 
       /**
@@ -848,7 +852,7 @@ async function tiktokDl(url) {
        * @returns {string} - Tanggal yang telah diformat.
        */
       function formatDate(n, locale = 'en') {
-        let d = new Date(n * 1000) // Pastikan timestamp dikonversi ke milidetik
+        let d = new Date(n * 1000); // Pastikan timestamp dikonversi ke milidetik
         return d.toLocaleDateString(locale, {
           weekday: 'long',
           day: 'numeric',
@@ -857,11 +861,11 @@ async function tiktokDl(url) {
           hour: 'numeric',
           minute: 'numeric',
           second: 'numeric'
-        })
+        });
       }
 
-      let domain = 'https://www.tikwm.com/api/'
-      let startTime = Date.now() // Mulai hitung response time
+      let domain = 'https://www.tikwm.com/api/';
+      let startTime = Date.now(); // Mulai hitung response time
 
       let response = await axios.post(
         domain,
@@ -891,33 +895,33 @@ async function tiktokDl(url) {
             hd: 1
           }
         }
-      )
+      );
 
-      let res = response.data.data
-      let responseTime = Date.now() - startTime // Hitung response time
+      let res = response.data.data;
+      let responseTime = Date.now() - startTime; // Hitung response time
 
       if (res && !res.size && !res.wm_size && !res.hd_size) {
         res.images?.forEach(v => {
-          data.push({ type: 'photo', url: v })
-        })
+          data.push({ type: 'photo', url: v });
+        });
       } else {
         if (res?.wmplay) {
           data.push({
             type: 'watermark',
             url: 'https://www.tikwm.com' + res.wmplay
-          })
+          });
         }
         if (res?.play) {
           data.push({
             type: 'nowatermark',
             url: 'https://www.tikwm.com' + res.play
-          })
+          });
         }
         if (res?.hdplay) {
           data.push({
             type: 'nowatermark_hd',
             url: 'https://www.tikwm.com' + res.hdplay
-          })
+          });
         }
       }
 
@@ -948,14 +952,14 @@ async function tiktokDl(url) {
         response_time: responseTime + 'ms',
         er_license: 'Unlicense',
         from: '@er-npm/scraper'
-      }
+      };
 
-      resolve(json)
+      resolve(json);
     } catch (e) {
-      console.error('Error in tiktokDl:', e.message)
-      reject(e)
+      console.error('Error in tiktokDl:', e.message);
+      reject(e);
     }
-  })
+  });
 }
 
 module.exports = {
@@ -976,4 +980,4 @@ module.exports = {
   ttdl: tiktokDl,
   khodam,
   igdl
-}
+};

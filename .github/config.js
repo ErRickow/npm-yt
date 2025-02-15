@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
 const config = async () => {
   const conventionalChangelogConfig = await import(
     'conventional-changelog-conventionalcommits'
-  )
+  );
 
   return conventionalChangelogConfig.default({
     issuePrefixes: ['#'],
@@ -29,7 +29,7 @@ const config = async () => {
     parserOpts: {
       noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES']
     }
-  })
-}
+  });
+};
 
-module.exports = config
+module.exports = config;

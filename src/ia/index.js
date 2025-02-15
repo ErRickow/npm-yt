@@ -1,10 +1,10 @@
-const ApiKeyHercai = 'RtjHwyCkQGTmUm6NyZv3MR9Hoyda11NIMWcuqBR0='
-const fetch = require('node-fetch')
-const aiLibrary = require('unlimited-ai')
-const { gpt } = require('gpti')
+const ApiKeyHercai = 'RtjHwyCkQGTmUm6NyZv3MR9Hoyda11NIMWcuqBR0=';
+const fetch = require('node-fetch');
+const aiLibrary = require('unlimited-ai');
+const { gpt } = require('gpti');
 
-let AiTempSave = {}
-let AiTempSave2 = {}
+let AiTempSave = {};
+let AiTempSave2 = {};
 
 /**
  * Mengembalikan daftar model AI yang tersedia untuk teks dan gambar.
@@ -117,7 +117,7 @@ async function models() {
       'raava',
       'shonin'
     ]
-  }
+  };
 }
 
 /**
@@ -135,8 +135,8 @@ async function models() {
  * })();
  */
 async function clear() {
-  AiTempSave = {}
-  return true
+  AiTempSave = {};
+  return true;
 }
 
 function getModel(modelim) {
@@ -147,8 +147,8 @@ function getModel(modelim) {
     'grok-2': 'grok-2',
     'claude-3-opus': 'claude-3-opus-20240229',
     gemini: 'gemini-1.5-flash-exp-0827'
-  }
-  return modelMap[modelim] || 'gpt-4o-2024-08-06'
+  };
+  return modelMap[modelim] || 'gpt-4o-2024-08-06';
 }
 
 function getModelImage(modelim) {
@@ -159,8 +159,8 @@ function getModelImage(modelim) {
     lexica: 'lexica/text2image',
     prodia: 'prodia/text2image',
     animefy: 'animefy/text2image'
-  }
-  return modelMap[modelim] || 'v3/text2image'
+  };
+  return modelMap[modelim] || 'v3/text2image';
 }
 
 /**
@@ -194,9 +194,9 @@ function getModelImage(modelim) {
  *
  */
 async function imageGenV2(teksnya, model = 'dalle') {
-  if (!teksnya) throw new Error('Teks tidak disediakan.')
-  const modelOfc = getModelImage(model)
-  const url = `https://hercai.onrender.com/${modelOfc}?prompt=${encodeURIComponent(teksnya)}`
+  if (!teksnya) throw new Error('Teks tidak disediakan.');
+  const modelOfc = getModelImage(model);
+  const url = `https://hercai.onrender.com/${modelOfc}?prompt=${encodeURIComponent(teksnya)}`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -204,12 +204,12 @@ async function imageGenV2(teksnya, model = 'dalle') {
       'Content-Type': 'application/json',
       Authorization: ApiKeyHercai
     }
-  })
+  });
 
   if (!response.ok)
-    throw new Error(`Kesalahan HTTP! status: ${response.status}`)
-  const apiResponse = await response.json()
-  return { url: apiResponse.url, prompt: teksnya, model: model }
+    throw new Error(`Kesalahan HTTP! status: ${response.status}`);
+  const apiResponse = await response.json();
+  return { url: apiResponse.url, prompt: teksnya, model: model };
 }
 
 /**
@@ -254,33 +254,35 @@ async function imageGenV2(teksnya, model = 'dalle') {
  * })();
  */
 async function ia(text, model = 'gpt-4o', Sesi = false) {
-  if (!text) throw new Error('Teks tidak disediakan.')
-  const modelOfc = getModel(model)
+  if (!text) throw new Error('Teks tidak disediakan.');
+  const modelOfc = getModel(model);
 
   // Jika tidak menggunakan sesi, AI hanya merespons tanpa menyimpan percakapan
   if (!Sesi) {
-    return await aiLibrary.generate(modelOfc, [{ role: 'user', content: text }])
+    return await aiLibrary.generate(modelOfc, [
+      { role: 'user', content: text }
+    ]);
   } else {
     // Inisialisasi sesi jika belum ada
-    if (!AiTempSave[model]) AiTempSave[model] = {}
-    if (!AiTempSave[model][Sesi]) AiTempSave[model][Sesi] = []
+    if (!AiTempSave[model]) AiTempSave[model] = {};
+    if (!AiTempSave[model][Sesi]) AiTempSave[model][Sesi] = [];
 
     // Format riwayat percakapan dengan input terbaru
     const formattedMessages = [
       ...AiTempSave[model][Sesi],
       { role: 'user', content: text }
-    ]
+    ];
 
     // Mengirim permintaan ke model AI
-    const response = await aiLibrary.generate(modelOfc, formattedMessages)
+    const response = await aiLibrary.generate(modelOfc, formattedMessages);
 
     // Menyimpan respons AI ke dalam sesi
-    AiTempSave[model][Sesi].push({ role: 'assistant', content: response })
+    AiTempSave[model][Sesi].push({ role: 'assistant', content: response });
 
     // Membatasi panjang riwayat percakapan maksimal 10 interaksi terakhir
-    AiTempSave[model][Sesi] = AiTempSave[model][Sesi].slice(-10)
+    AiTempSave[model][Sesi] = AiTempSave[model][Sesi].slice(-10);
 
-    return response
+    return response;
   }
 }
 
@@ -325,12 +327,12 @@ async function ia(text, model = 'gpt-4o', Sesi = false) {
  * })();
  */
 async function textV2(input, model = 'gpt-4', Sesi = false) {
-  if (!input) throw new Error('Teks tidak disediakan.')
+  if (!input) throw new Error('Teks tidak disediakan.');
 
   // Menyusun riwayat percakapan jika Sesi disediakan
   const messages = Sesi
     ? [...(AiTempSave2[model]?.[Sesi] || []), { role: 'user', content: input }]
-    : [{ role: 'user', content: input }]
+    : [{ role: 'user', content: input }];
 
   // Mengirim permintaan ke API GPT
   const response = await gpt.v1({
@@ -338,19 +340,19 @@ async function textV2(input, model = 'gpt-4', Sesi = false) {
     model,
     prompt: input,
     markdown: false
-  })
+  });
 
   // Menyimpan riwayat percakapan jika Sesi digunakan
   if (Sesi) {
-    AiTempSave2[model] = AiTempSave2[model] || {}
-    AiTempSave2[model][Sesi] = (AiTempSave2[model][Sesi] || []).slice(-10)
+    AiTempSave2[model] = AiTempSave2[model] || {};
+    AiTempSave2[model][Sesi] = (AiTempSave2[model][Sesi] || []).slice(-10);
     AiTempSave2[model][Sesi].push({
       role: 'assistant',
       content: response.gpt
-    })
+    });
   }
 
-  return response.gpt
+  return response.gpt;
 }
 
 /**
@@ -384,9 +386,9 @@ async function textV2(input, model = 'gpt-4', Sesi = false) {
  * })();
  */
 async function textV3(input, model = 'v3') {
-  if (!input) throw new Error('Teks tidak disediakan.')
+  if (!input) throw new Error('Teks tidak disediakan.');
 
-  const url = `https://hercai.onrender.com/v3/hercai?question=${encodeURIComponent(input)}&model=${model}`
+  const url = `https://hercai.onrender.com/v3/hercai?question=${encodeURIComponent(input)}&model=${model}`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -394,11 +396,11 @@ async function textV3(input, model = 'v3') {
       'Content-Type': 'application/json',
       Authorization: ApiKeyHercai
     }
-  })
+  });
 
-  if (!response.ok) throw new Error(`Kesalahan: ${response.status}`)
+  if (!response.ok) throw new Error(`Kesalahan: ${response.status}`);
 
-  return (await response.json()).reply
+  return (await response.json()).reply;
 }
 
 /**
@@ -418,6 +420,6 @@ const ai = Object.assign(ia, {
   gambar: imageGenV2,
   v3: textV3,
   v2: textV2
-})
+});
 
-module.exports = ai
+module.exports = ai;

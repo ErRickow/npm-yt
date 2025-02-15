@@ -9,4 +9,4 @@ module.exports = {
     semi: ['error', 'always'] // ESLint akan memaksa penggunaan semicolon
   },
   plugins: ['prettier']
-}
+};

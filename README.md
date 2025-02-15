@@ -19,7 +19,7 @@ import {
   ai,
   ttdl,
   khodam
-} from '@er-npm/scraper'
+} from '@er-npm/scraper';
 
 // Menggunakan CommonJS modules
 const {
@@ -33,15 +33,15 @@ const {
   ai,
   ttdl,
   khodam
-} = require('@er-npm/scraper')
+} = require('@er-npm/scraper');
 ```
 
 > [!TIP]
 > Jangan lupa import/definisikan dahulu functionnya sebelum mengeksekusi kodenya
 
 ```js
-const name = 'sri'
-khodam(name).then(forget => console.log(forget)) //output ini akan menghasilkan khodam secara deskriptif
+const name = 'sri';
+khodam(name).then(forget => console.log(forget)); //output ini akan menghasilkan khodam secara deskriptif
 ```
 
 > **Full Dokumentasi Ke:** > [Read The Docs](http://er-npm.rtfd.io/)
