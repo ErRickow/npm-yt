@@ -1,9 +1,13 @@
 name: Prettier Formatting
 
 on:
+  push:
     branches:
       - master
-    workflow-dispatch:
+  pull_request:
+    branches:
+      - master
+  workflow-dispatch:
 
 jobs:
   prettier:
@@ -13,12 +17,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
           fetch-depth: 0
           token: ${{ secrets.TOKEN }}
 
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          prettier_options: '--write **/*.{js,ts,tsx,json,md,css}'
-          github_token: ${{ secrets.TOKEN }}
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Prettier
+        run: |
+          npx prettier --write "**/*.{js,ts,tsx,json,md,css}" --config .prettierrc
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: format code with Prettier" || echo "No changes to commit"
+          git push
