@@ -33,7 +33,7 @@ jobs:
           git-message: 'docs(changelog): update changelog'
           output-file: "CHANGELOG.md"
           skip-on-empty: false
-          skip-version-file: true
+          skip-version-file: false
           create-summary: true
           skip-bump: true
           skip-tag: true
