@@ -1,4 +1,4 @@
-# [](https://github.com/ErBots/npm-yt/compare/v1.1.6...v) (2025-02-15)
+## [1.1.8](https://github.com/ErBots/npm-yt/compare/v1.1.6...v) (2025-02-15)
 
 
 
