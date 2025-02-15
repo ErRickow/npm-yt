@@ -1,14 +1,14 @@
-import { execFile } from "child_process";
-import fs from "fs";
+import { execFile } from 'child_process';
+import fs from 'fs';
 import os from 'os';
-import path from "path";
+import path from 'path';
 import fetch from 'node-fetch';
 
 function detectSystemInfo(callback) {
-   const architecture = os.arch();
-   const platform = os.platform();
-   callback(null, architecture, platform);
-};
+  const architecture = os.arch();
+  const platform = os.platform();
+  callback(null, architecture, platform);
+}
 
 function generateRandomName(extension) {
   const timestamp = Date.now();
@@ -17,60 +17,89 @@ function generateRandomName(extension) {
 }
 
 function getYouTubeID(input) {
-if (!input) return null;
-try {
-const url = new URL(input)
-const validDomains = ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be', 'youtube.co'];
-if (!validDomains.some(domain => url.hostname.endsWith(domain))) return input;
-if (url.hostname === 'youtu.be') return url.pathname.substring(1);
+  if (!input) return null;
+  try {
+    const url = new URL(input);
+    const validDomains = [
+      'youtube.com',
+      'www.youtube.com',
+      'm.youtube.com',
+      'youtu.be',
+      'youtube.co'
+    ];
+    if (!validDomains.some(domain => url.hostname.endsWith(domain)))
+      return input;
+    if (url.hostname === 'youtu.be') return url.pathname.substring(1);
 
-if (url.hostname.includes('youtube.com')) {
-if (url.pathname.startsWith('/shorts/')) return url.pathname.split('/')[2];
-if (url.searchParams.has('v')) return url.searchParams.get('v');
-if (url.pathname === '/watch') return null;
-if (url.pathname.startsWith('/channel/')) return null;
-if (url.pathname.startsWith('/user/')) return null;
-if (url.pathname.startsWith('/playlist') && url.searchParams.has('list')) return url.searchParams.get('list');
-};
-
-} catch {return input};
-return input;
-};
+    if (url.hostname.includes('youtube.com')) {
+      if (url.pathname.startsWith('/shorts/'))
+        return url.pathname.split('/')[2];
+      if (url.searchParams.has('v')) return url.searchParams.get('v');
+      if (url.pathname === '/watch') return null;
+      if (url.pathname.startsWith('/channel/')) return null;
+      if (url.pathname.startsWith('/user/')) return null;
+      if (url.pathname.startsWith('/playlist') && url.searchParams.has('list'))
+        return url.searchParams.get('list');
+    }
+  } catch {
+    return input;
+  }
+  return input;
+}
 
 function getVideoUrl(ajsjj) {
-const idzz = getYouTubeID(ajsjj) ;
-return `https://www.youtube.com/watch?v=${idzz}`;
-};
+  const idzz = getYouTubeID(ajsjj);
+  return `https://www.youtube.com/watch?v=${idzz}`;
+}
 
 function ensureExecutable(filePath) {
-fs.chmodSync(filePath, 0o755)
-};
+  fs.chmodSync(filePath, 0o755);
+}
 
 function handleFile(tempFile, resolve, reject) {
-fs.readFile(tempFile, (readErr, buffer) => {
-if (readErr) {
-reject(`Kesalahan membaca file: ${readErr.message}`);
-} else {
-fs.unlink(tempFile, (unlinkErr) => {
-if (unlinkErr) console.error(`Kesalahan menghapus file: ${unlinkErr.message}`);
-});
-resolve(buffer);
-}})};
+  fs.readFile(tempFile, (readErr, buffer) => {
+    if (readErr) {
+      reject(`Kesalahan membaca file: ${readErr.message}`);
+    } else {
+      fs.unlink(tempFile, unlinkErr => {
+        if (unlinkErr)
+          console.error(`Kesalahan menghapus file: ${unlinkErr.message}`);
+      });
+      resolve(buffer);
+    }
+  });
+}
 
 async function updateFile() {
-  const binPath = path.join(__dirname, "../bin/");
+  const binPath = path.join(__dirname, '../bin/');
   const repos = [
     {
-      repo: "yt-dlp/yt-dlp",
-      versionFile: path.join(binPath, "version.txt"),
+      repo: 'yt-dlp/yt-dlp',
+      versionFile: path.join(binPath, 'version.txt'),
       files: [
-        { suffix: "yt-dlp", name: "ErLib_py", platforms: ["android"] },
-        { suffix: "yt-dlp_linux", name: "ErLib", platforms: ["linux", "x64"] },
-        { suffix: "yt-dlp_linux_aarch64", name: "ErLib_64", platforms: ["linux", "aarch64"] },
-        { suffix: "yt-dlp_linux_armv7l", name: "ErLib_v7", platforms: ["linux", "arm"] },
-        { suffix: "yt-dlp.exe", name: "ErLib_win.exe", platforms: ["win32"] },
-        { suffix: "yt-dlp_windows_x86.zip", name: "ErLib_win_x86.zip", platforms: ["win32", "x86"] },
-        { suffix: "yt-dlp_windows_x64.zip", name: "ErLib_win_x64.zip", platforms: ["win32", "x64"] }
+        { suffix: 'yt-dlp', name: 'ErLib_py', platforms: ['android'] },
+        { suffix: 'yt-dlp_linux', name: 'ErLib', platforms: ['linux', 'x64'] },
+        {
+          suffix: 'yt-dlp_linux_aarch64',
+          name: 'ErLib_64',
+          platforms: ['linux', 'aarch64']
+        },
+        {
+          suffix: 'yt-dlp_linux_armv7l',
+          name: 'ErLib_v7',
+          platforms: ['linux', 'arm']
+        },
+        { suffix: 'yt-dlp.exe', name: 'ErLib_win.exe', platforms: ['win32'] },
+        {
+          suffix: 'yt-dlp_windows_x86.zip',
+          name: 'ErLib_win_x86.zip',
+          platforms: ['win32', 'x86']
+        },
+        {
+          suffix: 'yt-dlp_windows_x64.zip',
+          name: 'ErLib_win_x64.zip',
+          platforms: ['win32', 'x64']
+        }
       ]
     }
   ];
@@ -81,11 +110,15 @@ async function updateFile() {
 
   for (const { repo, versionFile, files } of repos) {
     try {
-      const release = await fetch(`https://api.github.com/repos/${repo}/releases/latest`).then(r => r.json());
+      const release = await fetch(
+        `https://api.github.com/repos/${repo}/releases/latest`
+      ).then(r => r.json());
       const latestVersion = release.tag_name;
       const assets = release.assets;
 
-      const localVersion = fs.existsSync(versionFile) ? fs.readFileSync(versionFile, "utf8").trim() : null;
+      const localVersion = fs.existsSync(versionFile)
+        ? fs.readFileSync(versionFile, 'utf8').trim()
+        : null;
 
       if (localVersion === latestVersion) {
         console.log(`✅ [INFO] Versi lokal (${localVersion}) sudah terbaru.`);
@@ -94,14 +127,19 @@ async function updateFile() {
 
       let selectedFile = null;
       for (const { suffix, name, platforms } of files) {
-        if (platforms.includes(platform) && (platform !== "linux" || platforms.includes(arch))) {
+        if (
+          platforms.includes(platform) &&
+          (platform !== 'linux' || platforms.includes(arch))
+        ) {
           selectedFile = { suffix, name };
           break;
         }
       }
 
       if (!selectedFile) {
-        console.error(`❌ [ERROR] Tidak ada binari yang kompatibel untuk platform ${platform} (${arch}).`);
+        console.error(
+          `❌ [ERROR] Tidak ada binari yang kompatibel untuk platform ${platform} (${arch}).`
+        );
         continue;
       }
 
@@ -109,7 +147,9 @@ async function updateFile() {
       const asset = assets.find(a => a.name.endsWith(suffix));
 
       if (!asset) {
-        console.error(`❌ [ERROR] Asset tidak ditemukan untuk binari: ${suffix}`);
+        console.error(
+          `❌ [ERROR] Asset tidak ditemukan untuk binari: ${suffix}`
+        );
         continue;
       }
 
@@ -124,8 +164,8 @@ async function updateFile() {
         const stream = fs.createWriteStream(filePath);
         r.body.pipe(stream);
         return new Promise((resolve, reject) => {
-          stream.on("finish", resolve);
-          stream.on("error", reject);
+          stream.on('finish', resolve);
+          stream.on('error', reject);
         });
       });
 
@@ -133,11 +173,21 @@ async function updateFile() {
       fs.writeFileSync(versionFile, latestVersion);
       console.log(`✅ [SUKSES] Diperbarui ke versi: ${latestVersion}`);
     } catch (error) {
-      console.error(`❌ [ERROR] Gagal memperbarui repositori ${repo}: ${error.message}`);
+      console.error(
+        `❌ [ERROR] Gagal memperbarui repositori ${repo}: ${error.message}`
+      );
     }
   }
 }
 
-const expots = { detectSystemInfo: detectSystemInfo, generateRandomName: generateRandomName, getYouTubeID: getYouTubeID, ensureExecutable: ensureExecutable, handleFile: handleFile, getVideoUrl: getVideoUrl, updateFile: updateFile };
+const expots = {
+  detectSystemInfo: detectSystemInfo,
+  generateRandomName: generateRandomName,
+  getYouTubeID: getYouTubeID,
+  ensureExecutable: ensureExecutable,
+  handleFile: handleFile,
+  getVideoUrl: getVideoUrl,
+  updateFile: updateFile
+};
 
 export default expots;
