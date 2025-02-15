@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20  # Pakai versi terbaru
+          node-version: 20
 
       - name: Install dependencies
         run: npm install conventional-changelog-conventionalcommits
@@ -36,6 +36,7 @@ jobs:
           skip-version-file: true
           create-summary: true
           skip-bump: true
+          skip-tag: true 
 
       - name: Install Pandoc
         run: sudo apt-get install -y pandoc
@@ -48,7 +49,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add CHANGELOG.md history.rst
-          git commit -m "docs(changelog): update changelog"
+          git commit -m "docs(changelog): update changelog [skip ci]"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
