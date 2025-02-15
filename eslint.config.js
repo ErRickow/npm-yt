@@ -1,25 +1,25 @@
 // eslint.config.cjs
-const js = require("@eslint/js");
-const prettier = require("eslint-plugin-prettier");
+const js = require('@eslint/js');
+const prettier = require('eslint-plugin-prettier');
 
 module.exports = [
   js.configs.recommended,
   {
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       globals: {
-        window: "readonly",
-        document: "readonly",
-      },
+        window: 'readonly',
+        document: 'readonly'
+      }
     },
     plugins: {
-      prettier,
+      prettier
     },
     rules: {
-      "prettier/prettier": "error",
-      "no-unused-vars": "warn",
-      "no-console": "off",
-    },
-  },
+      'prettier/prettier': 'error',
+      'no-unused-vars': 'warn',
+      'no-console': 'off'
+    }
+  }
 ];
