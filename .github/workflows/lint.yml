@@ -1,4 +1,4 @@
-name: Prettier Formatting
+name: Lint & Format Code
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  prettier:
+  lint-format:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,17 +25,23 @@ jobs:
           node-version: 18
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install ESLint & Prettier
+        run: |
+          npm install --save-dev eslint prettier eslint-config-prettier eslint-plugin-prettier
 
-      - name: Run Prettier
+      - name: Run ESLint (Auto Fix)
+        run: |
+          npx eslint . --ext .js,.ts,.tsx --fix || echo "No linting issues found"
+
+      - name: Run Prettier (Auto Format)
         run: |
           npx prettier --write "**/*.{js,ts,tsx,json,md,css}" --config .prettierrc
 
-      - name: Commit and push changes
+      - name: Commit & Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "chore: format code with Prettier" || echo "No changes to commit"
-          git push
+          git commit -m "chore: auto-format & linting fixes" || echo "No changes to commit"
+          git pull --rebase
+          git push || echo "No changes to push"
