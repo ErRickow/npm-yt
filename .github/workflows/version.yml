@@ -1,13 +1,39 @@
-on: push
-name: Check package version
+on:
+  push:
+    branches:
+      - main
+
+name: Auto Bump Version
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  checkVersion:
-    name: Check package version
+  bumpVersion:
+    name: Bump Package Version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Check package version
-        uses: technote-space/package-version-check-action@v1
         with:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          fetch-depth: 0
+
+      - name: Bump Version
+        id: bump
+        uses: phips28/gh-action-bump-version@v10
+        with:
+          minor-wording: 'feat'
+          major-wording: 'BREAKING CHANGE'
+          patch-wording: 'fix,bug,patch'
+          default: patch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto Commit Version Bump
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -am "chore: bump version to $(jq -r .version package.json)"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
