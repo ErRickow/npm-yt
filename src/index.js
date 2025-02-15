@@ -5,7 +5,7 @@ const {
   ensureExecutable,
   handleFile,
   getVideoUrl,
-  updateFile,
+  updateFile
 } = require('./../dist/utils.js')
 const { Innertube, UniversalCache } = require('youtubei.js')
 const { execFile, exec } = require('child_process')
@@ -26,7 +26,7 @@ let PathErDL = ''
 async function clearSystemTempDir() {
   try {
     const command = 'rm -rf ' + tempDirSystem + '/*'
-    exec(command, (err) => {
+    exec(command, err => {
       if (err) {
         console.error('Gagal membersihkan direktori sementara:', err.message)
       } else {
@@ -153,7 +153,7 @@ detectSystemInfo((error, architecture, platform) => {
 async function processOutput(args, tempFile, retries = 3) {
   await ensureExecutable(PathErDL)
 
-  const cobaEksekusi = (percobaan) =>
+  const cobaEksekusi = percobaan =>
     new Promise((resolve, reject) => {
       execFile(PathErDL, args, async (err, stdout, stderr) => {
         if (err) {
@@ -227,15 +227,15 @@ async function khodam(name) {
     const response = await axios.get(apiUrl, {
       params: {
         logic: prompt,
-        p: name,
-      },
+        p: name
+      }
     })
 
     if (response?.data && response?.data?.data?.result) {
       return {
         status: true,
         res: response.data.data.result,
-        from: '@er-npm/scraper',
+        from: '@er-npm/scraper'
       }
     } else {
       throw new Error('Respon API tidak valid.')
@@ -244,7 +244,7 @@ async function khodam(name) {
     return {
       status: false,
       why: 'eror njing.' + error.message,
-      terus_gmna: 'visit: t.me/er_support_group',
+      terus_gmna: 'visit: t.me/er_support_group'
     }
   }
 }
@@ -292,13 +292,13 @@ async function igdl(url) {
     return {
       status: true,
       url: response.data[0]?.url,
-      from: '@er-npm/scraper',
+      from: '@er-npm/scraper'
     }
   } catch (error) {
     return {
       status: false,
       why: 'eror njing. ' + error.message,
-      terus_gmna: 'visit: t.me/er_support_group',
+      terus_gmna: 'visit: t.me/er_support_group'
     }
   }
 }
@@ -332,14 +332,14 @@ async function ermp3(url) {
       status: true,
       judul: response.data.videoDetails.title,
       url: response.data.downloadUrl,
-      from: '@er-npm/scraper',
+      from: '@er-npm/scraper'
     }
   } catch (error) {
     // Menangani error jika terjadi
     return {
       status: false,
       why: 'eror njing.' + error.message,
-      terus_gmna: 'visit: t.me/er_support_group',
+      terus_gmna: 'visit: t.me/er_support_group'
     }
   }
 }
@@ -359,7 +359,7 @@ async function playstore(query) {
       return {
         status: false,
         why: 'Aplikasi tidak ditemukan.',
-        terus_gmna: 'Kunjungi: t.me/chakszzz',
+        terus_gmna: 'Kunjungi: t.me/chakszzz'
       }
     }
 
@@ -373,20 +373,20 @@ async function playstore(query) {
        * @property {string} results[].dev - Nama pengembang aplikasi.
        * @property {string} results[].rating - Rating aplikasi.
        */
-      results: data.map((app) => ({
+      results: data.map(app => ({
         nama: app.nama,
         link: app.link,
         thumb: app.img,
         dev: app.developer,
-        rating: app.rate2,
+        rating: app.rate2
       })),
-      from: '@er-npm/scraper',
+      from: '@er-npm/scraper'
     }
   } catch (error) {
     return {
       status: false,
       why: 'Terjadi kesalahan.',
-      terus_gmna: 'Kunjungi: t.me/chakszzz',
+      terus_gmna: 'Kunjungi: t.me/chakszzz'
     }
   }
 }
@@ -419,14 +419,14 @@ async function ermp4(url) {
       status: true,
       judul: response.data.videoDetails.title,
       url: response.data.downloadUrl,
-      from: '@er-npm/scraper',
+      from: '@er-npm/scraper'
     }
   } catch (error) {
     // Menangani error jika terjadi
     return {
       status: false,
       why: 'eror njing.' + error.message,
-      terus_gmna: 'visit: t.me/er_support_group',
+      terus_gmna: 'visit: t.me/er_support_group'
     }
   }
 }
@@ -460,7 +460,7 @@ async function alldl(input) {
       '-F',
       '--cookies',
       validCookiePath,
-      url,
+      url
     ]
 
     const formats = await new Promise((resolve, reject) => {
@@ -498,7 +498,7 @@ async function alldl(input) {
         validCookiePath,
         '--output',
         outputTemplate,
-        '--no-warnings',
+        '--no-warnings'
       ])
     }
 
@@ -516,7 +516,7 @@ async function alldl(input) {
         '--socket-timeout',
         '10',
         '--concurrent-fragments',
-        '16',
+        '16'
       ])
     }
 
@@ -531,7 +531,7 @@ async function alldl(input) {
         '--output',
         outputTemplate,
         '--no-warnings',
-        '--yes-playlist',
+        '--yes-playlist'
       ])
     }
 
@@ -545,7 +545,7 @@ async function alldl(input) {
         validCookiePath,
         '--output',
         outputTemplate,
-        '--no-warnings',
+        '--no-warnings'
       ])
     }
 
@@ -639,14 +639,14 @@ async function alldl(input) {
           '.xlsx',
           '.txt',
           '.ppt',
-          '.pptx',
+          '.pptx'
         ].includes(extension)
       ) {
         const buffer = fs.readFileSync(filePath)
         results.push({
           type: 'document',
           src: buffer,
-          mimetype: 'application/octet-stream',
+          mimetype: 'application/octet-stream'
         })
         fs.unlinkSync(filePath)
       } else if (['.zip'].includes(extension)) {
@@ -654,7 +654,7 @@ async function alldl(input) {
         results.push({
           type: 'document',
           src: buffer,
-          mimetype: 'application/zip',
+          mimetype: 'application/zip'
         })
         fs.unlinkSync(filePath)
       } else if (['.apk'].includes(extension)) {
@@ -662,7 +662,7 @@ async function alldl(input) {
         results.push({
           type: 'document',
           src: buffer,
-          mimetype: 'application/vnd.android.package-archive',
+          mimetype: 'application/vnd.android.package-archive'
         })
         fs.unlinkSync(filePath)
       } else {
@@ -670,7 +670,7 @@ async function alldl(input) {
         results.push({
           type: 'unknown',
           src: buffer,
-          mimetype: 'application/octet-stream',
+          mimetype: 'application/octet-stream'
         })
         fs.unlinkSync(filePath)
       }
@@ -732,13 +732,13 @@ async function samehadakuSearch(query) {
       return {
         status: false,
         why: 'Anime tidak ditemukan.',
-        terus_gmna: 'visit: t.me/chakszzz',
+        terus_gmna: 'visit: t.me/chakszzz'
       }
     }
 
     return {
       status: true,
-      results: data.map((anime) => ({
+      results: data.map(anime => ({
         title: anime.title,
         id: anime.id,
         thumbnail: anime.thumbnail,
@@ -747,15 +747,15 @@ async function samehadakuSearch(query) {
         type: anime.type.join(', '), // Gabungkan array type jadi string
         rating: anime.star,
         views: anime.views,
-        link: anime.link,
+        link: anime.link
       })),
-      from: '@er-npm/scraper',
+      from: '@er-npm/scraper'
     }
   } catch (error) {
     return {
       status: false,
       why: 'Error njing.',
-      terus_gmna: 'visit: t.me/chakszzz',
+      terus_gmna: 'visit: t.me/chakszzz'
     }
   }
 }
@@ -788,7 +788,7 @@ async function samehadakuDL(url) {
       return {
         status: false,
         why: 'Link download tidak ditemukan.',
-        terus_gmna: 'visit: t.me/chakszzz',
+        terus_gmna: 'visit: t.me/chakszzz'
       }
     }
 
@@ -797,19 +797,19 @@ async function samehadakuDL(url) {
       status: true,
       title: data.title, // Judul anime
       link: data.link, // Link halaman anime
-      downloads: data.downloads.map((dl) => ({
+      downloads: data.downloads.map(dl => ({
         name: dl.name, // Nama sumber download
         type: dl.type, // Jenis format download
         quality: dl.nume, // Kualitas video
-        download_link: dl.link, // URL download
+        download_link: dl.link // URL download
       })),
-      from: '@er-npm/scraper', // Sumber data
+      from: '@er-npm/scraper' // Sumber data
     }
   } catch (error) {
     return {
       status: false,
       why: 'Error njing.',
-      terus_gmna: 'visit: t.me/chakszzz',
+      terus_gmna: 'visit: t.me/chakszzz'
     }
   }
 }
@@ -856,7 +856,7 @@ async function tiktokDl(url) {
           year: 'numeric',
           hour: 'numeric',
           minute: 'numeric',
-          second: 'numeric',
+          second: 'numeric'
         })
       }
 
@@ -881,15 +881,15 @@ async function tiktokDl(url) {
             'Sec-Fetch-Site': 'same-origin',
             'User-Agent':
               'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, seperti Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
-            'X-Requested-With': 'XMLHttpRequest',
+            'X-Requested-With': 'XMLHttpRequest'
           },
           params: {
             url: url,
             count: 12,
             cursor: 0,
             web: 1,
-            hd: 1,
-          },
+            hd: 1
+          }
         }
       )
 
@@ -897,26 +897,26 @@ async function tiktokDl(url) {
       let responseTime = Date.now() - startTime // Hitung response time
 
       if (res && !res.size && !res.wm_size && !res.hd_size) {
-        res.images?.forEach((v) => {
+        res.images?.forEach(v => {
           data.push({ type: 'photo', url: v })
         })
       } else {
         if (res?.wmplay) {
           data.push({
             type: 'watermark',
-            url: 'https://www.tikwm.com' + res.wmplay,
+            url: 'https://www.tikwm.com' + res.wmplay
           })
         }
         if (res?.play) {
           data.push({
             type: 'nowatermark',
-            url: 'https://www.tikwm.com' + res.play,
+            url: 'https://www.tikwm.com' + res.play
           })
         }
         if (res?.hdplay) {
           data.push({
             type: 'nowatermark_hd',
-            url: 'https://www.tikwm.com' + res.hdplay,
+            url: 'https://www.tikwm.com' + res.hdplay
           })
         }
       }
@@ -931,23 +931,23 @@ async function tiktokDl(url) {
         song_info: {
           author: res.music_info?.author,
           album: res.music_info?.album || null,
-          url: 'https://www.tikwm.com' + (res.music || res.music_info?.play),
+          url: 'https://www.tikwm.com' + (res.music || res.music_info?.play)
         },
         stats: {
           views: formatNumber(res.play_count),
           likes: formatNumber(res.digg_count),
           comment: formatNumber(res.comment_count),
           share: formatNumber(res.share_count),
-          download: formatNumber(res.download_count),
+          download: formatNumber(res.download_count)
         },
         author: {
           nickname: res.author?.nickname,
           fullname: res.author?.unique_id,
-          avatar: 'https://www.tikwm.com' + res.author?.avatar,
+          avatar: 'https://www.tikwm.com' + res.author?.avatar
         },
         response_time: responseTime + 'ms',
         er_license: 'Unlicense',
-        from: '@er-npm/scraper',
+        from: '@er-npm/scraper'
       }
 
       resolve(json)
@@ -975,5 +975,5 @@ module.exports = {
   tiktokDl,
   ttdl: tiktokDl,
   khodam,
-  igdl,
+  igdl
 }

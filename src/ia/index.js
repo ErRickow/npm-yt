@@ -80,7 +80,7 @@ async function models() {
       'claude-3-sonnet',
       'claude-3-5-sonnet',
       'claude-3-5-sonnet-2',
-      'gemini',
+      'gemini'
     ],
     textv2: [
       'gpt-4',
@@ -93,7 +93,7 @@ async function models() {
       'davinci',
       'curie',
       'babbage',
-      'ada',
+      'ada'
     ],
     textv3: [
       'v3',
@@ -104,7 +104,7 @@ async function models() {
       'llama3-70b',
       'llama3-8b',
       'mixtral-8x7b',
-      'gemma-7b',
+      'gemma-7b'
     ],
     image: [
       'dalle',
@@ -115,8 +115,8 @@ async function models() {
       'simurg',
       'animefy',
       'raava',
-      'shonin',
-    ],
+      'shonin'
+    ]
   }
 }
 
@@ -146,7 +146,7 @@ function getModel(modelim) {
     'gpt-4o': 'gpt-4o-2024-08-06',
     'grok-2': 'grok-2',
     'claude-3-opus': 'claude-3-opus-20240229',
-    gemini: 'gemini-1.5-flash-exp-0827',
+    gemini: 'gemini-1.5-flash-exp-0827'
   }
   return modelMap[modelim] || 'gpt-4o-2024-08-06'
 }
@@ -158,7 +158,7 @@ function getModelImage(modelim) {
     v2: 'v2/text2image',
     lexica: 'lexica/text2image',
     prodia: 'prodia/text2image',
-    animefy: 'animefy/text2image',
+    animefy: 'animefy/text2image'
   }
   return modelMap[modelim] || 'v3/text2image'
 }
@@ -202,8 +202,8 @@ async function imageGenV2(teksnya, model = 'dalle') {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: ApiKeyHercai,
-    },
+      Authorization: ApiKeyHercai
+    }
   })
 
   if (!response.ok)
@@ -268,7 +268,7 @@ async function ia(text, model = 'gpt-4o', Sesi = false) {
     // Format riwayat percakapan dengan input terbaru
     const formattedMessages = [
       ...AiTempSave[model][Sesi],
-      { role: 'user', content: text },
+      { role: 'user', content: text }
     ]
 
     // Mengirim permintaan ke model AI
@@ -337,7 +337,7 @@ async function textV2(input, model = 'gpt-4', Sesi = false) {
     messages,
     model,
     prompt: input,
-    markdown: false,
+    markdown: false
   })
 
   // Menyimpan riwayat percakapan jika Sesi digunakan
@@ -346,7 +346,7 @@ async function textV2(input, model = 'gpt-4', Sesi = false) {
     AiTempSave2[model][Sesi] = (AiTempSave2[model][Sesi] || []).slice(-10)
     AiTempSave2[model][Sesi].push({
       role: 'assistant',
-      content: response.gpt,
+      content: response.gpt
     })
   }
 
@@ -392,8 +392,8 @@ async function textV3(input, model = 'v3') {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: ApiKeyHercai,
-    },
+      Authorization: ApiKeyHercai
+    }
   })
 
   if (!response.ok) throw new Error(`Kesalahan: ${response.status}`)
@@ -417,7 +417,7 @@ const ai = Object.assign(ia, {
   clear,
   gambar: imageGenV2,
   v3: textV3,
-  v2: textV2,
+  v2: textV2
 })
 
 module.exports = ai

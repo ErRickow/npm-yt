@@ -25,9 +25,9 @@ function getYouTubeID(input) {
       'www.youtube.com',
       'm.youtube.com',
       'youtu.be',
-      'youtube.co',
+      'youtube.co'
     ]
-    if (!validDomains.some((domain) => url.hostname.endsWith(domain)))
+    if (!validDomains.some(domain => url.hostname.endsWith(domain)))
       return input
     if (url.hostname === 'youtu.be') return url.pathname.substring(1)
 
@@ -60,7 +60,7 @@ function handleFile(tempFile, resolve, reject) {
     if (readErr) {
       reject(`❌ [EROR] Gagal membaca file: ${readErr.message}`)
     } else {
-      fs.unlink(tempFile, (unlinkErr) => {
+      fs.unlink(tempFile, unlinkErr => {
         if (unlinkErr)
           console.error(`⚠️ [INFO] Gagal menghapus file: ${unlinkErr.message}`)
       })
@@ -80,40 +80,40 @@ async function updateFile() {
         {
           suffix: 'yt-dlp_linux',
           name: 'ErLib',
-          platforms: ['linux', 'x64'],
+          platforms: ['linux', 'x64']
         },
         {
           suffix: 'yt-dlp_linux_aarch64',
           name: 'ErLib_64',
-          platforms: ['linux', 'aarch64'],
+          platforms: ['linux', 'aarch64']
         },
         {
           suffix: 'yt-dlp_linux_aarch64',
           name: 'ErLib_64',
-          platforms: ['linux', 'arm64'],
+          platforms: ['linux', 'arm64']
         },
         {
           suffix: 'yt-dlp_linux_armv7l',
           name: 'ErLib_v7',
-          platforms: ['linux', 'arm'],
+          platforms: ['linux', 'arm']
         },
         {
           suffix: 'yt-dlp.exe',
           name: 'ErLib_win.exe',
-          platforms: ['win32'],
+          platforms: ['win32']
         },
         {
           suffix: 'yt-dlp_windows_x86.zip',
           name: 'ErLib_win_x86.zip',
-          platforms: ['win32', 'x86'],
+          platforms: ['win32', 'x86']
         },
         {
           suffix: 'yt-dlp_windows_x64.zip',
           name: 'ErLib_win_x64.zip',
-          platforms: ['win32', 'x64'],
-        },
-      ],
-    },
+          platforms: ['win32', 'x64']
+        }
+      ]
+    }
   ]
 
   fs.mkdirSync(binPath, { recursive: true })
@@ -124,7 +124,7 @@ async function updateFile() {
     try {
       const release = await fetch(
         `https://api.github.com/repos/${repo}/releases/latest`
-      ).then((r) => r.json())
+      ).then(r => r.json())
       const latestVersion = release.tag_name
       const assets = release.assets
 
@@ -158,7 +158,7 @@ async function updateFile() {
       }
 
       const { suffix, name } = selectedFile
-      const asset = assets.find((a) => a.name.endsWith(suffix))
+      const asset = assets.find(a => a.name.endsWith(suffix))
 
       if (!asset) {
         console.error(`❌ [EROR] Asset tidak ditemukan untuk binari: ${suffix}`)
@@ -167,12 +167,12 @@ async function updateFile() {
 
       const filePath = path.join(binPath, name)
 
-      fs.readdirSync(binPath).forEach((file) => {
+      fs.readdirSync(binPath).forEach(file => {
         if (file !== name) fs.unlinkSync(path.join(binPath, file))
       })
 
       console.log('⚠️ [INFO] Mengunduh binari versi terbaru...')
-      await fetch(asset.browser_download_url).then((r) => {
+      await fetch(asset.browser_download_url).then(r => {
         const stream = fs.createWriteStream(filePath)
         r.body.pipe(stream)
         return new Promise((resolve, reject) => {
@@ -199,5 +199,5 @@ module.exports = {
   ensureExecutable,
   handleFile,
   getVideoUrl,
-  updateFile,
+  updateFile
 }

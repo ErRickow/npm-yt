@@ -18,7 +18,7 @@ import {
   samehadakuSearch,
   ai,
   ttdl,
-  khodam,
+  khodam
 } from '@er-npm/scraper'
 
 // Menggunakan CommonJS modules
@@ -32,7 +32,7 @@ const {
   samehadakuSearch,
   ai,
   ttdl,
-  khodam,
+  khodam
 } = require('@er-npm/scraper')
 ```
 
@@ -41,7 +41,7 @@ const {
 
 ```js
 const name = 'sri'
-khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilkan khodam secara deskriptif
+khodam(name).then(forget => console.log(forget)) //output ini akan menghasilkan khodam secara deskriptif
 ```
 
 > **Full Dokumentasi Ke:** > [Read The Docs](http://er-npm.rtfd.io/)

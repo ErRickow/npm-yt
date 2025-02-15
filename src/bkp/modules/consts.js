@@ -16,7 +16,7 @@ const HEADERS = {
   'Sec-Fetch-User': '?1',
   'Sec-Fetch-Dest': 'document',
   Host: 'www.xnxx.com',
-  Referer: 'https://www.xnxx.com',
+  Referer: 'https://www.xnxx.com'
 }
 
 // REGEX
