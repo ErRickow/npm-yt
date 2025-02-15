@@ -13,20 +13,15 @@ jobs:
   changelog:
     runs-on: ubuntu-latest
     steps:
-      - name: colabnya
-        uses: akhilmhdh/contributors-readme-action@v2.3.10
-        env:
-            GITHUB_TOKEN: ${{ secrets.TOKEN }}
-    
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: 20
 
       - name: Install dependencies
         run: npm install conventional-changelog-conventionalcommits
@@ -34,14 +29,14 @@ jobs:
       - name: Generate Changelog
         uses: TriPSs/conventional-changelog-action@v5
         with:
-          github-token: ${{ secrets.token }}
-          git-message: 'chore(release): {version}'
-          output-file: "CHANGELOG.md"  # Simpan sebagai Markdown dulu
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          git-message: 'docs(changelog): update changelog'
+          output-file: "CHANGELOG.md"
           skip-on-empty: false
-          config-file-path: '.github/config.js'
           skip-version-file: true
           create-summary: true
           skip-bump: true
+          skip-tag: true
 
       - name: Install Pandoc
         run: sudo apt-get install -y pandoc
@@ -51,8 +46,10 @@ jobs:
 
       - name: Commit and Push Changelog
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add history.rst
-          git commit -m "docs(changelog): Update changelog in RST format"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md history.rst
+          git commit -m "docs(changelog): update changelog [skip ci]"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
