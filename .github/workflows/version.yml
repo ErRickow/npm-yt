@@ -1,20 +1,19 @@
-name: Generate Changelog
-
 on:
   push:
     branches:
       - master
-  workflow_dispatch:
+
+name: Auto Bump Version
 
 permissions:
   contents: write
 
 jobs:
-  changelog:
+  bumpVersion:
+    name: Bump Package Version
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -23,33 +22,22 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm install conventional-changelog-conventionalcommits
+      - name: Install jq
+        run: sudo apt-get install -y jq
 
-      - name: Generate Changelog
-        uses: TriPSs/conventional-changelog-action@v5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          git-message: 'docs(changelog): update changelog'
-          output-file: "CHANGELOG.md"
-          skip-on-empty: false
-          skip-version-file: true
-          create-summary: true
-          skip-bump: true
-          skip-tag: true 
+      - name: Bump Version
+        run: |
+          CURRENT_VERSION=$(jq -r .version package.json)
+          NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{$NF+=1; OFS="."; print $0}')
+          jq --arg new_version "$NEW_VERSION" '.version = $new_version' package.json > temp.json && mv temp.json package.json
+          echo "New version: $NEW_VERSION"
 
-      - name: Install Pandoc
-        run: sudo apt-get install -y pandoc
-
-      - name: Convert Markdown to ReStructuredText
-        run: pandoc CHANGELOG.md -o history.rst
-
-      - name: Commit and Push Changelog
+      - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md history.rst
-          git commit -m "docs(changelog): update changelog [skip ci]"
+          git add package.json
+          git commit -m "chore: bump version to $(jq -r .version package.json)"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
