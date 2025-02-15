@@ -20,7 +20,7 @@ jobs:
 
       - name: Bump Version
         id: bump
-        uses: phips28/gh-action-bump-version@v10
+        uses: phips28/gh-action-bump-version@v9 # Ganti v10 dengan v9
         with:
           minor-wording: 'feat'
           major-wording: 'BREAKING CHANGE'
