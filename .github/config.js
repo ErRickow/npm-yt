@@ -1,7 +1,9 @@
-'use strict';
+'use strict'
 
 const config = async () => {
-  const conventionalChangelogConfig = await import('conventional-changelog-conventionalcommits');
+  const conventionalChangelogConfig = await import(
+    'conventional-changelog-conventionalcommits'
+  )
 
   return conventionalChangelogConfig.default({
     issuePrefixes: ['#'],
@@ -17,17 +19,17 @@ const config = async () => {
       { type: 'perf', section: 'Performance Improvements' },
       { type: 'test', section: 'Tests' },
       { type: 'chore', section: 'Chores' },
-      { type: 'revert', section: 'Reverts' }
+      { type: 'revert', section: 'Reverts' },
     ],
     releaseRules: [
       { type: 'feat', release: 'minor' }, // Fitur baru -> minor update
       { type: 'fix', release: 'patch' }, // Perbaikan bug -> patch update
-      { type: 'BREAKING CHANGE', release: 'major' } // Breaking changes -> major update
+      { type: 'BREAKING CHANGE', release: 'major' }, // Breaking changes -> major update
     ],
     parserOpts: {
-      noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES']
-    }
-  });
-};
+      noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES'],
+    },
+  })
+}
 
-module.exports = config;
+module.exports = config

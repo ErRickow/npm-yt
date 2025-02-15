@@ -8,23 +8,47 @@ npm install @er-npm/scraper --save
 
 ```js
 // Menggunakan ES6 module syntax
-import { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai, ttdl, khodam } from '@er-npm/scraper';
+import {
+  ermp3,
+  ermp4,
+  yts,
+  alldl,
+  playstore,
+  samehadakuDL,
+  samehadakuSearch,
+  ai,
+  ttdl,
+  khodam,
+} from '@er-npm/scraper'
 
 // Menggunakan CommonJS modules
-const { ermp3, ermp4, yts, alldl, playstore, samehadakuDL, samehadakuSearch, ai, ttdl, khodam } = require('@er-npm/scraper');
+const {
+  ermp3,
+  ermp4,
+  yts,
+  alldl,
+  playstore,
+  samehadakuDL,
+  samehadakuSearch,
+  ai,
+  ttdl,
+  khodam,
+} = require('@er-npm/scraper')
 ```
+
 > [!TIP]
 > Jangan lupa import/definisikan dahulu functionnya sebelum mengeksekusi kodenya
 
 ```js
-const name = "sri"
+const name = 'sri'
 khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilkan khodam secara deskriptif
 ```
 
-> **Full Dokumentasi Ke:** 
+> **Full Dokumentasi Ke:**
 > [Read The Docs](http://er-npm.rtfd.io/)
 
 ## FEATURES
+
 1. **Ai** - Berbagai Module Ai tersedia termasuk summary ai text to image
 2. **YtMp3/YtMp4/YtSearch** - Mp3/MP4, Search/Download juga ada
 3. **Samehadaku Search** - Search Anime Dari Samehadaku
@@ -34,9 +58,10 @@ khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilka
 7. **Khodam** - Fitur cek khodam yang lebih deskriptif
 
 > [!WARNING]
-  Untuk Library Ini Update Sangat Slow! Silahkan Pakai Rest Apis Kami Jikalau Ada Eror Di @er-npm/scraper kami. [Er-APIs](https://er-api.biz.id/testing)
+> Untuk Library Ini Update Sangat Slow! Silahkan Pakai Rest Apis Kami Jikalau Ada Eror Di @er-npm/scraper kami. [Er-APIs](https://er-api.biz.id/testing)
 
 ## SPECIAL THANKS
+
 <!-- readme: contributors,collaborators,bots -start -->
 <table>
 	<tbody>
@@ -81,10 +106,10 @@ khodam(name).then((forget) => console.log(forget)) //output ini akan menghasilka
 </table>
 <!-- readme: contributors,collaborators,bots -end -->
 
-## SUPPORT ME 💖  
+## SUPPORT ME 💖
+
 <a href="https://trakteer.id/er_rickow/tip">
     <img src="https://edge-cdn.trakteer.id/images/embed/trbtn-red-1.png?v=24-01-2025" height="40" alt="Trakteer Saya" />
 </a>
-
 
 > This Project is Licensed under the [Unlicense License](https://raw.githubusercontent.com/ErRickow/npm-yt/master/license.txt)
