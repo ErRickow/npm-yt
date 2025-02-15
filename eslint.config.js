@@ -1,13 +1,13 @@
-import js from '@eslint/js';
-import prettier from 'eslint-plugin-prettier';
+const js = require("@eslint/js");
+const prettier = require("eslint-plugin-prettier");
 
-export default [
+module.exports = [
   js.configs.recommended,
   {
     plugins: { prettier },
     rules: {
-      'prettier/prettier': ['error', { semi: true }],
-      semi: ['error', 'always']
+      "prettier/prettier": ["error", { semi: true }],
+      "semi": ["error", "always"]
     }
   }
 ];
