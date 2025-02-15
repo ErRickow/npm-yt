@@ -6,7 +6,7 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': ['error', { semi: true }], // Pastikan Prettier mengikuti aturan ini
-    'semi': ['error', 'always'] // ESLint akan memaksa penggunaan semicolon
+    semi: ['error', 'always'] // ESLint akan memaksa penggunaan semicolon
   },
   plugins: ['prettier']
-};
+}
