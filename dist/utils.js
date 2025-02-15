@@ -171,7 +171,7 @@ async function updateFile() {
         if (file !== name) fs.unlinkSync(path.join(binPath, file))
       })
 
-      console.log(`⚠️ [INFO] Mengunduh binari versi terbaru...`)
+      console.log('⚠️ [INFO] Mengunduh binari versi terbaru...')
       await fetch(asset.browser_download_url).then((r) => {
         const stream = fs.createWriteStream(filePath)
         r.body.pipe(stream)

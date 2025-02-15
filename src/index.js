@@ -105,15 +105,15 @@ detectSystemInfo((error, architecture, platform) => {
     return console.error(`❌ [ERROR] Gagal mendeteksi sistem: ${error.message}`)
   if (platform === 'android') {
     PathErDL = path.join(__dirname, '../bin/ErLib_py')
-    console.log(`📱 [PLATFORM] Sistem Android terdeteksi.`)
+    console.log('📱 [PLATFORM] Sistem Android terdeteksi.')
     console.log(
-      `🚀 [@er-npm/scraper] Modul diinisialisasi dengan Python untuk Android.`
+      '🚀 [@er-npm/scraper] Modul diinisialisasi dengan Python untuk Android.'
     )
     return
   }
   if (platform !== 'linux' && platform !== 'win32') {
     return console.error(
-      `❌ [PLATFORM] Modul ini hanya kompatibel dengan sistem Linux, Android, dan Windows.`
+      '❌ [PLATFORM] Modul ini hanya kompatibel dengan sistem Linux, Android, dan Windows.'
     )
   }
   console.log(`✅ [PLATFORM] Sistem terdeteksi: ${platform}.`)
@@ -124,19 +124,19 @@ detectSystemInfo((error, architecture, platform) => {
         __dirname,
         platform === 'win32' ? '../bin/ErLib_win_x64.zip' : '../bin/ErLib'
       )
-      console.log(`💻 [ARSITEKTUR] Arsitektur x64 terdeteksi.`)
+      console.log('💻 [ARSITEKTUR] Arsitektur x64 terdeteksi.')
       break
     case 'arm':
       PathErDL = path.join(__dirname, '../bin/ErLib_v7')
-      console.log(`🤖 [ARSITEKTUR] Arsitektur ARM terdeteksi.`)
+      console.log('🤖 [ARSITEKTUR] Arsitektur ARM terdeteksi.')
       break
     case 'arm64':
       PathErDL = path.join(__dirname, '../bin/ErLib_64')
-      console.log(`🔧 [ARSITEKTUR] Arsitektur ARM64 terdeteksi.`)
+      console.log('🔧 [ARSITEKTUR] Arsitektur ARM64 terdeteksi.')
       break
     case 'x86':
       PathErDL = path.join(__dirname, '../bin/ErLib_win_x86.zip')
-      console.log(`💻 [ARSITEKTUR] Arsitektur x86 terdeteksi.`)
+      console.log('💻 [ARSITEKTUR] Arsitektur x86 terdeteksi.')
       break
     default:
       console.error(
@@ -213,7 +213,7 @@ async function processOutput(args, tempFile, retries = 3) {
  */
 async function khodam(name) {
   try {
-    const u = `aHR0cHM6Ly9hcGkuYWdhdHoueHl6L2FwaS9ncHRsb2dpYw==`
+    const u = 'aHR0cHM6Ly9hcGkuYWdhdHoueHl6L2FwaS9ncHRsb2dpYw=='
     const apiUrl = atob(u)
     const prompt = encodeURIComponent(
       'Anda adalah seorang paranormal yang mampu mendeskripsikan khodam seseorang yang berupa Binatang. ' +
