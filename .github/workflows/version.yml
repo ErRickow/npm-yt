@@ -7,7 +7,6 @@ name: Auto Bump Version
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   bumpVersion:
@@ -18,22 +17,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Bump Version
-        id: bump
-        uses: phips28/gh-action-bump-version@v9 # Ganti v10 dengan v9
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          minor-wording: 'feat'
-          major-wording: 'BREAKING CHANGE'
-          patch-wording: 'fix,bug,patch'
-          default: patch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 20
 
-      - name: Auto Commit Version Bump
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Bump Version
+        run: |
+          CURRENT_VERSION=$(jq -r .version package.json)
+          NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{$NF+=1; OFS="."; print $0}')
+          jq --arg new_version "$NEW_VERSION" '.version = $new_version' package.json > temp.json && mv temp.json package.json
+          echo "New version: $NEW_VERSION"
+
+      - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -am "chore: bump version to $(jq -r .version package.json)"
+          git add package.json
+          git commit -m "chore: bump version to $(jq -r .version package.json)"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
