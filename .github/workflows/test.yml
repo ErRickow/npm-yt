@@ -39,16 +39,19 @@ jobs:
           echo '```' >> "$TEMP_FILE"
           node test.js >> "$TEMP_FILE"
           echo '```' >> "$TEMP_FILE"
-
+      
           # Cek apakah README.md memiliki status-start
           if grep -q "<!-- status-start -->" README.md; then
-            sed -i '/<!-- status-start -->/,/<!-- status-end -->/c\
-            <!-- status-start -->\n'"$(cat "$TEMP_FILE")"'\n<!-- status-end -->' README.md
+            awk -v new_content="$(cat "$TEMP_FILE")" '
+              /<!-- status-start -->/ {print; print new_content; found=1; next}
+              /<!-- status-end -->/ {found=0}
+              !found {print}
+            ' README.md > temp.md && mv temp.md README.md
           else
             echo "Tidak ada <!-- status-start --> di README.md. Tidak ada perubahan yang dibuat."
             exit 0
           fi
-
+      
           rm "$TEMP_FILE"
 
       - name: Remove node_modules before commit
