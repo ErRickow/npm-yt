@@ -326,7 +326,7 @@ async function igdl(url) {
  */
 async function ermp3(url) {
   const base64Url =
-    'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL2F1ZGlvP3VybD0=';
+    'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXAzP3U9';
   const decodedUrl = atob(base64Url);
   const apiUrl = `${decodedUrl}${url}`;
 
@@ -334,8 +334,8 @@ async function ermp3(url) {
     const response = await axios.get(apiUrl);
     return {
       status: true,
-      judul: response.data.videoDetails.title,
-      url: response.data.downloadUrl,
+      judul: response.data.hasil.judul,
+      url: response.data.hasil.link_download,
       from: '@er-npm/scraper'
     };
   } catch (error) {
@@ -413,7 +413,7 @@ async function playstore(query) {
 
 async function ermp4(url) {
   const urlnya =
-    'aHR0cHM6Ly95dGRsLWFwaS5jYWxpcGhkZXYuY29tL2Rvd25sb2FkL3ZpZGVvP3VybD0=';
+    'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXA0P3U9';
   const decodedUrl = atob(urlnya);
   const apiUrl = `${decodedUrl}${url}`;
 
@@ -421,8 +421,8 @@ async function ermp4(url) {
     const response = await axios.get(apiUrl);
     return {
       status: true,
-      judul: response.data.videoDetails.title,
-      url: response.data.downloadUrl,
+      judul: response.data.hasil.judul,
+      url: response.data.hasil.link_download,
       from: '@er-npm/scraper'
     };
   } catch (error) {
