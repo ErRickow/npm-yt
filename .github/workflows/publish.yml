@@ -59,13 +59,13 @@ jobs:
 
       - name: Deprecate
         run: |
-          ALL_VERSIONS=$(npm show @er-npm/scraper versions --json | jq -r '.[0:-1]')
+          ALL_VERSIONS=$(npm show @er-npm/scraper versions --json | jq -r '.[0:-1] | join("\n")') # Pastikan formatnya benar
           for VERSION in $ALL_VERSIONS; do
             DEPRECATED=$(npm show @er-npm/scraper@$VERSION deprecated --json | jq -r '.')
             if [ "$DEPRECATED" == "null" ]; then
               echo "Deprecating version: $VERSION"
               pnpm deprecate "@er-npm/scraper@$VERSION" "Versi ini telah usang, silakan perbarui ke versi terbaru."
-              sleep 2  # Delay 2 detik agar tidak dianggap spam oleh NPM
+              sleep 2
             else
               echo "Version $VERSION is already deprecated. Skipping."
             fi
