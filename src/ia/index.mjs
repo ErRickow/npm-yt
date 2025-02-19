@@ -204,7 +204,6 @@ async function textV3(input, model = 'v3') {
   const result = await response.json();
   return result.reply;
 };
-}
 
 const ai = Object.assign(ia, {
   models,
