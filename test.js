@@ -20,13 +20,16 @@ async function testScraper() {
 
   async function checkService(name, func, ...args) {
     try {
-      const startTime = Date.now(); // Waktu mulai
+      console.log(`Testing ${name} with args:`, args); // Debugging
+      const startTime = Date.now();
       const res = await func(...args);
-      const duration = Date.now() - startTime; // Hitung durasi
-
-      const status = res.status === true ? 'true ✅' : 'false ❌';
+      const duration = Date.now() - startTime;
+      console.log(`${name} response:`, res); // Debugging
+  
+      const status = res?.status === true ? 'true ✅' : 'false ❌';
       results.push(`${name}: ${status} (${duration}ms)`);
     } catch (err) {
+      console.error(`${name} error:`, err); // Debugging
       results.push(`${name}: false ❌ (Error: ${err.message})`);
     }
   }
