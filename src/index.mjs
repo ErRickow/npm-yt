@@ -723,11 +723,11 @@ const expotszz = {
   alldl: alldl,
   yts: yts,
   ai: ai,
-  update: updateFile,
   erai: erai,
   tiktokDl: tiktokDl,
   samehadakuSearch: samehadakuSearch,
-  samehadakuDL: samehadakuDL
+  samehadakuDL: samehadakuDL,
+  update: updateFile
 };
 
 export default expotszz;
