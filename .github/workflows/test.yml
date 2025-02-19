@@ -37,8 +37,11 @@ jobs:
           # Jalankan test dan simpan ke file sementara
           echo "### Latest Test Results - $(date)" > "$TEMP_FILE"
           echo '```' >> "$TEMP_FILE"
-          node test.js >> "$TEMP_FILE"
+          node test.js >> "$TEMP_FILE" 2>&1 || echo "Test failed! Check logs above." >> "$TEMP_FILE"
           echo '```' >> "$TEMP_FILE"
+      
+          # Debug apakah ada output
+          cat "$TEMP_FILE" || echo "TEMP_FILE is empty"
       
           # Cek apakah README.md memiliki status-start
           if grep -q "<!-- status-start -->" README.md; then
