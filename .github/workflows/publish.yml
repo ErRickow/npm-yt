@@ -70,20 +70,12 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
           NPM_CONFIG_PROVENANCE: true
 
-      - name: Deprecate previous version
+      - name: Deprecate
         run: |
-          PREV_VERSION=$(npm show @er-npm/scraper versions --json | jq -r '.[-2]')
-          if [ "$PREV_VERSION" != "null" ] && [ ! -z "$PREV_VERSION" ]; then
-            echo "Checking if previous version is already deprecated..."
-            DEPRECATED=$(npm show @er-npm/scraper@$PREV_VERSION deprecated --json | jq -r '.')
-            if [ "$DEPRECATED" == "null" ]; then
-              echo "Deprecating previous version: $PREV_VERSION"
-              pnpm deprecate "@er-npm/scraper@$PREV_VERSION" "Versi ini telah usang, silakan perbarui ke versi terbaru."
-            else
-              echo "Previous version $PREV_VERSION is already deprecated. Skipping deprecation."
-            fi
-          else
-            echo "No previous version found or only one version exists, skipping deprecation."
-          fi
+          ALL_VERSIONS=$(npm show @er-npm/scraper versions --json | jq -r '.[0:-1] | @tsv')
+          for VERSION in $ALL_VERSIONS; do
+            echo "Deprecating version: $VERSION"
+            pnpm deprecate "@er-npm/scraper@$VERSION" "Versi ini telah usang, silakan perbarui ke versi terbaru."
+          done
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
