@@ -1,24 +1,22 @@
-// eslint.config.cjs
 const js = require('@eslint/js');
 const prettier = require('eslint-plugin-prettier');
+const unusedImports = require('eslint-plugin-unused-imports');
 
 module.exports = [
   js.configs.recommended,
   {
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'module',
-      globals: {
-        window: 'readonly',
-        document: 'readonly'
-      }
+      sourceType: 'module'
     },
     plugins: {
-      prettier
+      prettier,
+      'unused-imports': unusedImports
     },
     rules: {
       'prettier/prettier': 'error',
-      'no-unused-vars': 'warn',
+      'unused-imports/no-unused-imports': 'warn',
+      'unused-imports/no-unused-vars': ['error', { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' }],
       'no-console': 'off'
     }
   }
