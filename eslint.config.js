@@ -7,7 +7,11 @@ module.exports = [
   {
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'module'
+      sourceType: 'module',
+      globals: {
+        window: 'readonly',
+        document: 'readonly'
+      }
     },
     plugins: {
       prettier,
@@ -15,8 +19,9 @@ module.exports = [
     },
     rules: {
       'prettier/prettier': 'error',
-      'unused-imports/no-unused-imports': 'warn',
-      'unused-imports/no-unused-vars': ['error', { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' }],
+      'no-unused-vars': 'off', // Matikan aturan default
+      'unused-imports/no-unused-vars': 'warn', // Gunakan plugin untuk auto-remove
+      'unused-imports/no-unused-imports': 'error', // Hapus import yang tidak digunakan
       'no-console': 'off'
     }
   }
