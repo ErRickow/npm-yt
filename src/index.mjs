@@ -183,7 +183,9 @@ async function ermp3(url) {
 
   try {
     const response = await axios.get(apiUrl);
-    const hasil = Array.isArray(response.data.hasil) ? response.data.hasil[0] : null;
+    const hasil = Array.isArray(response.data.hasil)
+      ? response.data.hasil[0]
+      : null;
 
     return {
       status: true,
@@ -213,7 +215,9 @@ async function ermp4(url) {
 
   try {
     const response = await axios.get(apiUrl);
-    const hasil = Array.isArray(response.data.hasil) ? response.data.hasil[0] : null;
+    const hasil = Array.isArray(response.data.hasil)
+      ? response.data.hasil[0]
+      : null;
 
     return {
       status: true,
