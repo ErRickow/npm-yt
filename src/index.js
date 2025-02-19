@@ -1,10 +1,7 @@
 const {
   detectSystemInfo,
-  generateRandomName,
-  getYouTubeID,
   ensureExecutable,
   handleFile,
-  getVideoUrl,
   updateFile
 } = require('./../dist/utils.js');
 const { Innertube, UniversalCache } = require('youtubei.js');
@@ -15,7 +12,6 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 const axios = require('axios');
-const fetch = require('node-fetch');
 
 updateFile();
 
@@ -63,7 +59,7 @@ async function findValidCookie() {
 async function testCookie(cookiePath) {
   const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
   const args = ['--no-cache-dir', '-F', '--cookies', cookiePath, url];
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     execFile(PathErDL, args, (error, stdout, stderr) => {
       if (error) {
         if (PathErDL.includes('ErLib_py')) {
@@ -151,57 +147,6 @@ detectSystemInfo((error, architecture, platform) => {
     `✅ [@er-npm/scraper] Modul berhasil diinisialisasi pada arsitektur: ${architecture}.`
   );
 });
-
-async function processOutput(args, tempFile, retries = 3) {
-  await ensureExecutable(PathErDL);
-
-  const cobaEksekusi = percobaan =>
-    new Promise((resolve, reject) => {
-      execFile(PathErDL, args, async (err, stdout, stderr) => {
-        if (err) {
-          if (PathErDL.includes('ErLib_py')) {
-            execFile(
-              'python',
-              [PathErDL, ...args],
-              async (pyErr, pyStdout, pyStderr) => {
-                if (pyErr) {
-                  if (percobaan < retries) {
-                    console.log(
-                      `Percobaan ${percobaan} gagal. Mencoba lagi...`
-                    );
-                    await clearSystemTempDir();
-                    resolve(await cobaEksekusi(percobaan + 1));
-                  } else {
-                    await clearSystemTempDir();
-                    reject(
-                      `Terjadi kesalahan saat menjalankan dengan Python setelah ${retries} percobaan: ${pyStderr || pyErr.message}`
-                    );
-                  }
-                } else {
-                  handleFile(tempFile, resolve, reject);
-                }
-              }
-            );
-          } else {
-            if (percobaan < retries) {
-              console.log(`Percobaan ${percobaan} gagal. Mencoba lagi...`);
-              await clearSystemTempDir();
-              resolve(await cobaEksekusi(percobaan + 1));
-            } else {
-              await clearSystemTempDir();
-              reject(
-                `Kesalahan ErLib setelah ${retries} percobaan: ${stderr || err.message}`
-              );
-            }
-          }
-        } else {
-          handleFile(tempFile, resolve, reject);
-        }
-      });
-    });
-
-  return cobaEksekusi(1);
-}
 
 /**
  * Mendapatkan deskripsi khodam seseorang berdasarkan nama.
@@ -452,247 +397,247 @@ async function ermp4(url) {
  * @returns {Promise<string>} Sebuah promise yang mengembalikan data hasil unduhan.
  *
  */
-async function alldl(input) {
-  await clearSystemTempDir();
-  const url = input;
-  const results = [];
-  const tempPathDl = path.join(
-    tempPath,
-    `${Math.floor(Math.random() * 100000)}_${Math.floor(Math.random() * 100000)}`
-  );
-  const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s');
-
-  try {
-    await ensureExecutable(PathErDL);
-    const validCookiePath = await findValidCookie();
-
-    // Argumentos para listar formatos disponíveis
-    const formatArgs = [
-      '--no-cache-dir',
-      '-F',
-      '--cookies',
-      validCookiePath,
-      url
-    ];
-
-    const formats = await new Promise((resolve, reject) => {
-      execFile(PathErDL, formatArgs, (error, stdout) => {
-        if (error) return reject(error);
-        resolve(stdout.trim());
-      });
-    });
-
-    // Detecta tipos de arquivos suportados
-    const hasAudio =
-      /\.(mp3|m4a|aac|wav|flac|ogg|opus)$/i.test(formats) ||
-      formats.includes('audio');
-    const hasVideo =
-      /\.(mp4|mkv|avi|mov|wmv|flv|webm)$/i.test(formats) ||
-      formats.includes('video');
-    const hasImages =
-      /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(formats) ||
-      formats.includes('image');
-    const hasDocument =
-      /\.(pdf|doc|docx|xls|xlsx|txt|ppt|pptx|zip|apk)$/i.test(formats) ||
-      formats.includes('document');
-
-    const downloadArgsList = [];
-
-    // Vídeo + Áudio com qualidade média
-    if (hasVideo || !hasAudio) {
-      downloadArgsList.push([
-        '--no-cache-dir',
-        '-f',
-        'bestvideo+worstaudio/best',
-        '--merge-output-format',
-        'mp4',
-        '--cookies',
-        validCookiePath,
-        '--output',
-        outputTemplate,
-        '--no-warnings'
-      ]);
-    }
-
-    // Áudio com qualidade mais baixa e rápido
-    if (hasAudio) {
-      downloadArgsList.push([
-        '--no-cache-dir',
-        '-f',
-        'worstaudio',
-        '--cookies',
-        validCookiePath,
-        '--output',
-        outputTemplate,
-        '--no-warnings',
-        '--socket-timeout',
-        '10',
-        '--concurrent-fragments',
-        '16'
-      ]);
-    }
-
-    // Imagens
-    if (hasImages) {
-      downloadArgsList.push([
-        '--no-cache-dir',
-        '-f',
-        'best',
-        '--cookies',
-        validCookiePath,
-        '--output',
-        outputTemplate,
-        '--no-warnings',
-        '--yes-playlist'
-      ]);
-    }
-
-    // Documentos
-    if (hasDocument) {
-      downloadArgsList.push([
-        '--no-cache-dir',
-        '-f',
-        'best',
-        '--cookies',
-        validCookiePath,
-        '--output',
-        outputTemplate,
-        '--no-warnings'
-      ]);
-    }
-
-    // Executa os downloads
-    for (const args of downloadArgsList) {
-      let attempt = 0;
-      let success = false;
-
-      while (attempt < 3 && !success) {
-        attempt++;
-        try {
-          await new Promise((resolve, reject) => {
-            execFile(
-              PathErDL,
-              args.concat(url),
-              async (error, stdout, stderr) => {
-                if (error) {
-                  if (PathErDL.includes('ErLib_py')) {
-                    execFile(
-                      'python',
-                      [PathErDL, ...args, url],
-                      async (pyErr, pyStdout, pyStderr) => {
-                        if (pyErr) {
-                          return reject(
-                            `ErLib error (Python): ${pyStderr || pyErr.message}`
-                          );
-                        }
-                        resolve(pyStdout.trim());
-                      }
-                    );
-                  } else {
-                    return reject(`ErLib error: ${stderr || error.message}`);
-                  }
-                } else {
-                  resolve(stdout.trim());
-                }
-              }
-            );
-          });
-
-          // Se não houver erro, marca como sucesso
-          success = true;
-          console.log(`Tentativa ${attempt} bem-sucedida para args: ${args}`);
-        } catch (err) {
-          console.log(
-            `Tentativa ${attempt} falhou para args: ${args}. Erro: ${err}`
-          );
-          if (attempt === 3) {
-            await clearSystemTempDir();
-            console.error(`Erro após 3 tentativas para args: ${args}.`);
-            throw new Error(err); // Relança o erro após 3 tentativas falhas
-          }
-        }
-      }
-    }
-
-    // Processa os arquivos baixados
-    const files = fs.readdirSync(tempPathDl);
-    for (const file of files) {
-      const filePath = path.join(tempPathDl, file);
-      const extension = path.extname(file).toLowerCase();
-      const convertedFilePath = path.join(
-        tempPathDl,
-        `converted_${path.basename(file, extension)}.mp4`
-      );
-
-      if (['.mp4', '.mkv', '.webm'].includes(extension)) {
-        try {
-          await convertToCompatibleVideo(filePath, convertedFilePath); // Converte o vídeo para formato compatível
-          const buffer = fs.readFileSync(convertedFilePath);
-          results.push({ type: 'video', src: buffer, mimetype: 'video/mp4' });
-          fs.unlinkSync(filePath); // Remove o arquivo original
-          fs.unlinkSync(convertedFilePath); // Remove o arquivo convertido
-        } catch (conversionError) {
-          console.error('Erro ao converter vídeo:', conversionError);
-        }
-      } else if (['.mp3', '.m4a', '.opus'].includes(extension)) {
-        const buffer = fs.readFileSync(filePath);
-        results.push({ type: 'audio', src: buffer, mimetype: 'audio/mpeg' });
-        fs.unlinkSync(filePath);
-      } else if (['.jpg', '.jpeg', '.png', '.webp'].includes(extension)) {
-        const buffer = fs.readFileSync(filePath);
-        results.push({ type: 'image', src: buffer, mimetype: 'image/jpg' });
-        fs.unlinkSync(filePath);
-      } else if (
-        [
-          '.pdf',
-          '.doc',
-          '.docx',
-          '.xls',
-          '.xlsx',
-          '.txt',
-          '.ppt',
-          '.pptx'
-        ].includes(extension)
-      ) {
-        const buffer = fs.readFileSync(filePath);
-        results.push({
-          type: 'document',
-          src: buffer,
-          mimetype: 'application/octet-stream'
-        });
-        fs.unlinkSync(filePath);
-      } else if (['.zip'].includes(extension)) {
-        const buffer = fs.readFileSync(filePath);
-        results.push({
-          type: 'document',
-          src: buffer,
-          mimetype: 'application/zip'
-        });
-        fs.unlinkSync(filePath);
-      } else if (['.apk'].includes(extension)) {
-        const buffer = fs.readFileSync(filePath);
-        results.push({
-          type: 'document',
-          src: buffer,
-          mimetype: 'application/vnd.android.package-archive'
-        });
-        fs.unlinkSync(filePath);
-      } else {
-        const buffer = fs.readFileSync(filePath);
-        results.push({
-          type: 'unknown',
-          src: buffer,
-          mimetype: 'application/octet-stream'
-        });
-        fs.unlinkSync(filePath);
-      }
-    }
-  } catch (err) {
-    console.error('Errr:', err);
-  }
-
-  return results;
-}
+// async function alldl(input) {
+//   await clearSystemTempDir();
+//   const url = input;
+//   const results = [];
+//   const tempPathDl = path.join(
+//     tempPath,
+//     `${Math.floor(Math.random() * 100000)}_${Math.floor(Math.random() * 100000)}`
+//   );
+//   const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s');
+// 
+//   try {
+//     await ensureExecutable(PathErDL);
+//     const validCookiePath = await findValidCookie();
+// 
+//     // Argumentos para listar formatos disponíveis
+//     const formatArgs = [
+//       '--no-cache-dir',
+//       '-F',
+//       '--cookies',
+//       validCookiePath,
+//       url
+//     ];
+// 
+//     const formats = await new Promise((resolve, reject) => {
+//       execFile(PathErDL, formatArgs, (error, stdout) => {
+//         if (error) return reject(error);
+//         resolve(stdout.trim());
+//       });
+//     });
+// 
+//     // Detecta tipos de arquivos suportados
+//     const hasAudio =
+//       /\.(mp3|m4a|aac|wav|flac|ogg|opus)$/i.test(formats) ||
+//       formats.includes('audio');
+//     const hasVideo =
+//       /\.(mp4|mkv|avi|mov|wmv|flv|webm)$/i.test(formats) ||
+//       formats.includes('video');
+//     const hasImages =
+//       /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(formats) ||
+//       formats.includes('image');
+//     const hasDocument =
+//       /\.(pdf|doc|docx|xls|xlsx|txt|ppt|pptx|zip|apk)$/i.test(formats) ||
+//       formats.includes('document');
+// 
+//     const downloadArgsList = [];
+// 
+//     // Vídeo + Áudio com qualidade média
+//     if (hasVideo || !hasAudio) {
+//       downloadArgsList.push([
+//         '--no-cache-dir',
+//         '-f',
+//         'bestvideo+worstaudio/best',
+//         '--merge-output-format',
+//         'mp4',
+//         '--cookies',
+//         validCookiePath,
+//         '--output',
+//         outputTemplate,
+//         '--no-warnings'
+//       ]);
+//     }
+// 
+//     // Áudio com qualidade mais baixa e rápido
+//     if (hasAudio) {
+//       downloadArgsList.push([
+//         '--no-cache-dir',
+//         '-f',
+//         'worstaudio',
+//         '--cookies',
+//         validCookiePath,
+//         '--output',
+//         outputTemplate,
+//         '--no-warnings',
+//         '--socket-timeout',
+//         '10',
+//         '--concurrent-fragments',
+//         '16'
+//       ]);
+//     }
+// 
+//     // Imagens
+//     if (hasImages) {
+//       downloadArgsList.push([
+//         '--no-cache-dir',
+//         '-f',
+//         'best',
+//         '--cookies',
+//         validCookiePath,
+//         '--output',
+//         outputTemplate,
+//         '--no-warnings',
+//         '--yes-playlist'
+//       ]);
+//     }
+// 
+//     // Documentos
+//     if (hasDocument) {
+//       downloadArgsList.push([
+//         '--no-cache-dir',
+//         '-f',
+//         'best',
+//         '--cookies',
+//         validCookiePath,
+//         '--output',
+//         outputTemplate,
+//         '--no-warnings'
+//       ]);
+//     }
+// 
+//     // Executa os downloads
+//     for (const args of downloadArgsList) {
+//       let attempt = 0;
+//       let success = false;
+// 
+//       while (attempt < 3 && !success) {
+//         attempt++;
+//         try {
+//           await new Promise((resolve, reject) => {
+//             execFile(
+//               PathErDL,
+//               args.concat(url),
+//               async (error, stdout, stderr) => {
+//                 if (error) {
+//                   if (PathErDL.includes('ErLib_py')) {
+//                     execFile(
+//                       'python',
+//                       [PathErDL, ...args, url],
+//                       async (pyErr, pyStdout, pyStderr) => {
+//                         if (pyErr) {
+//                           return reject(
+//                             `ErLib error (Python): ${pyStderr || pyErr.message}`
+//                           );
+//                         }
+//                         resolve(pyStdout.trim());
+//                       }
+//                     );
+//                   } else {
+//                     return reject(`ErLib error: ${stderr || error.message}`);
+//                   }
+//                 } else {
+//                   resolve(stdout.trim());
+//                 }
+//               }
+//             );
+//           });
+// 
+//           // Se não houver erro, marca como sucesso
+//           success = true;
+//           console.log(`Tentativa ${attempt} bem-sucedida para args: ${args}`);
+//         } catch (err) {
+//           console.log(
+//             `Tentativa ${attempt} falhou para args: ${args}. Erro: ${err}`
+//           );
+//           if (attempt === 3) {
+//             await clearSystemTempDir();
+//             console.error(`Erro após 3 tentativas para args: ${args}.`);
+//             throw new Error(err); // Relança o erro após 3 tentativas falhas
+//           }
+//         }
+//       }
+//     }
+// 
+//     // Processa os arquivos baixados
+//     const files = fs.readdirSync(tempPathDl);
+//     for (const file of files) {
+//       const filePath = path.join(tempPathDl, file);
+//       const extension = path.extname(file).toLowerCase();
+//       const convertedFilePath = path.join(
+//         tempPathDl,
+//         `converted_${path.basename(file, extension)}.mp4`
+//       );
+// 
+//       if (['.mp4', '.mkv', '.webm'].includes(extension)) {
+//         try {
+//           await convertToCompatibleVideo(filePath, convertedFilePath); // Converte o vídeo para formato compatível
+//           const buffer = fs.readFileSync(convertedFilePath);
+//           results.push({ type: 'video', src: buffer, mimetype: 'video/mp4' });
+//           fs.unlinkSync(filePath); // Remove o arquivo original
+//           fs.unlinkSync(convertedFilePath); // Remove o arquivo convertido
+//         } catch (conversionError) {
+//           console.error('Erro ao converter vídeo:', conversionError);
+//         }
+//       } else if (['.mp3', '.m4a', '.opus'].includes(extension)) {
+//         const buffer = fs.readFileSync(filePath);
+//         results.push({ type: 'audio', src: buffer, mimetype: 'audio/mpeg' });
+//         fs.unlinkSync(filePath);
+//       } else if (['.jpg', '.jpeg', '.png', '.webp'].includes(extension)) {
+//         const buffer = fs.readFileSync(filePath);
+//         results.push({ type: 'image', src: buffer, mimetype: 'image/jpg' });
+//         fs.unlinkSync(filePath);
+//       } else if (
+//         [
+//           '.pdf',
+//           '.doc',
+//           '.docx',
+//           '.xls',
+//           '.xlsx',
+//           '.txt',
+//           '.ppt',
+//           '.pptx'
+//         ].includes(extension)
+//       ) {
+//         const buffer = fs.readFileSync(filePath);
+//         results.push({
+//           type: 'document',
+//           src: buffer,
+//           mimetype: 'application/octet-stream'
+//         });
+//         fs.unlinkSync(filePath);
+//       } else if (['.zip'].includes(extension)) {
+//         const buffer = fs.readFileSync(filePath);
+//         results.push({
+//           type: 'document',
+//           src: buffer,
+//           mimetype: 'application/zip'
+//         });
+//         fs.unlinkSync(filePath);
+//       } else if (['.apk'].includes(extension)) {
+//         const buffer = fs.readFileSync(filePath);
+//         results.push({
+//           type: 'document',
+//           src: buffer,
+//           mimetype: 'application/vnd.android.package-archive'
+//         });
+//         fs.unlinkSync(filePath);
+//       } else {
+//         const buffer = fs.readFileSync(filePath);
+//         results.push({
+//           type: 'unknown',
+//           src: buffer,
+//           mimetype: 'application/octet-stream'
+//         });
+//         fs.unlinkSync(filePath);
+//       }
+//     }
+//   } catch (err) {
+//     console.error('Errr:', err);
+//   }
+// 
+//   return results;
+// }
 
 async function convertToCompatibleVideo(inputPath, outputPath) {
   return new Promise((resolve, reject) => {
@@ -820,7 +765,7 @@ async function samehadakuDL(url) {
   } catch (error) {
     return {
       status: false,
-      why: 'Error njing.',
+      why: 'Error njing.' + error.message,
       terus_gmna: 'visit: t.me/chakszzz'
     };
   }
@@ -964,7 +909,7 @@ async function tiktokDl(url) {
 
       resolve(json);
     } catch (e) {
-      console.error('Error in tiktokDl:', e.message);
+      console.log('Error in tiktokDl:', e.message);
       reject(e);
     }
   });
