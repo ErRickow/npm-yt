@@ -67,7 +67,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .gitignore README.md
+          git add .gitignore README.md yarn.lock bin/
       
           # Commit hanya jika ada perubahan
           if git diff --cached --quiet; then
@@ -77,16 +77,7 @@ jobs:
       
           git commit -m "chore: Auto-update test results in README"
       
-          # Simpan perubahan sementara sebelum pull
-          git stash
-      
-          # Tarik perubahan terbaru dari remote tanpa merge commit
-          git pull --rebase origin master
-      
-          # Kembalikan perubahan yang disimpan sebelumnya
-          git stash pop || echo "Tidak ada perubahan yang perlu diambil kembali"
-      
-          # Push perubahan
+          # Push tanpa stash atau rebase
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
