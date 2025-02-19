@@ -34,13 +34,19 @@ jobs:
         run: |
           TEMP_FILE=$(mktemp)
           
-          # Jalankan test dan simpan ke file sementara
+          # Tambahkan Header Hasil Test
           echo "### Latest Test Results - $(date)" > "$TEMP_FILE"
           echo '```' >> "$TEMP_FILE"
-          node test.js >> "$TEMP_FILE"
+          
+          # Jalankan test dan simpan hasilnya
+          node test.js >> "$TEMP_FILE" || echo "Test script failed!" >> "$TEMP_FILE"
+          
           echo '```' >> "$TEMP_FILE"
-      
-          # Cek apakah README.md memiliki status-start
+
+          # Debug: Lihat isi hasil test
+          cat "$TEMP_FILE"
+
+          # Perbarui README.md
           if grep -q "<!-- status-start -->" README.md; then
             awk -v new_content="$(cat "$TEMP_FILE")" '
               /<!-- status-start -->/ {print; print new_content; found=1; next}
