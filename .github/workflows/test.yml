@@ -1,12 +1,9 @@
-name: Test @er-npm/scraper
+name: Test Scraper and Update README
 
 on:
-  workflow_dispatch: # Bisa dijalankan manual lewat GitHub Actions
   schedule:
-    - cron: "0 0 * * *" # Jalankan setiap hari pukul 00:00 UTC
-
-permissions:
-  contents: write
+    - cron: "0 */6 * * *"  # Jalankan setiap 6 jam
+  workflow_dispatch:  # Bisa dijalankan manual dari GitHub Actions
 
 jobs:
   test-scraper:
@@ -16,34 +13,31 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Ensure node_modules is ignored
-        run: |
-          echo "node_modules" >> .gitignore
-          git rm -r --cached node_modules || echo "node_modules not found in repo"
-          git commit -m "chore: Ensure node_modules is ignored" || echo "No changes to commit"
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: "18"
 
-      - name: Install @er-npm/scraper (without saving)
-        run: npm install @er-npm/scraper --no-save
+      - name: Install Dependencies
+        run: npm install @er-npm/scraper
 
       - name: Run Tests and Update README
         run: |
           TEMP_FILE=$(mktemp)
           
-          # Jalankan test dan simpan ke file sementara
+          # Tambahkan Header Hasil Test
           echo "### Latest Test Results - $(date)" > "$TEMP_FILE"
           echo '```' >> "$TEMP_FILE"
-          node test.js >> "$TEMP_FILE" 2>&1 || echo "Test failed! Check logs above." >> "$TEMP_FILE"
+          
+          # Jalankan test dan simpan hasilnya
+          node test.js >> "$TEMP_FILE" || echo "Test script failed!" >> "$TEMP_FILE"
+          
           echo '```' >> "$TEMP_FILE"
-      
-          # Debug apakah ada output
-          cat "$TEMP_FILE" || echo "TEMP_FILE is empty"
-      
-          # Cek apakah README.md memiliki status-start
+
+          # Debug: Lihat isi hasil test
+          cat "$TEMP_FILE"
+
+          # Perbarui README.md
           if grep -q "<!-- status-start -->" README.md; then
             awk -v new_content="$(cat "$TEMP_FILE")" '
               /<!-- status-start -->/ {print; print new_content; found=1; next}
@@ -57,33 +51,16 @@ jobs:
       
           rm "$TEMP_FILE"
 
-      - name: Remove node_modules before commit
-        run: rm -rf node_modules
-
       - name: Commit & Push Updated README
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .gitignore README.md
-      
-          # Commit hanya jika ada perubahan
+
+          git add README.md
           if git diff --cached --quiet; then
-            echo "Tidak ada perubahan pada README.md. Tidak perlu commit."
+            echo "No changes in README.md, skipping commit."
             exit 0
           fi
-      
-          git commit -m "chore: Auto-update test results in README"
-      
-          # Simpan perubahan sementara sebelum pull
-          git stash
-      
-          # Tarik perubahan terbaru dari remote tanpa merge commit
-          git pull --rebase origin master
-      
-          # Kembalikan perubahan yang disimpan sebelumnya
-          git stash pop || echo "Tidak ada perubahan yang perlu diambil kembali"
-      
-          # Push perubahan
+
+          git commit -m "Update test results in README.md"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
