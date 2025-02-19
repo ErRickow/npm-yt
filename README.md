@@ -57,13 +57,7 @@ khodam(name).then(forget => console.log(forget)); //output ini akan menghasilkan
 5. **PlayStore Search** - Cari Aplikasi Playstore
 6. **Tiktok Downloder** - Download Konten Dari Link Tiktok
 7. **Khodam** - Fitur cek khodam yang lebih deskriptif
-
-## Status
-
-<!-- status-start -->
-
-```
-<!-- status-end -->
+8. **Erai** - Ai cocok buat ngobrol santai
 
 > [!WARNING]
 > Untuk Library Ini Update Sangat Slow! Silahkan Pakai Rest Apis Kami Jikalau Ada Eror Di @er-npm/scraper kami. [Er-APIs](https://er-api.biz.id/testing)
@@ -128,13 +122,3 @@ khodam(name).then(forget => console.log(forget)); //output ini akan menghasilkan
 </a>
 
 > This Project is Licensed under the [Unlicense License](https://raw.githubusercontent.com/ErRickow/npm-yt/master/license.txt)
-
-```
-
-```
-
-```
-
-```
-
-```
