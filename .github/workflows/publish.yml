@@ -1,9 +1,24 @@
 name: Release
 
 on:
-  workflow_dispatch:  # Hanya berjalan secara manual
+  workflow_dispatch:
+    branches:
+      - master
 
 jobs:
+  latest-tag:
+    name: Run latest-tag
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run latest-tag
+        uses: EndBug/latest-tag@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
   publish-npm:
     name: Publish on NPM
     runs-on: ubuntu-latest
@@ -14,24 +29,32 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js
+      - name: Install Node.js (without cache)
         uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: "https://registry.npmjs.org"
-          cache: "pnpm"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: 8 # Gunakan versi terbaru
+          version: latest
 
       - name: Ensure pnpm-lock.yaml exists
         run: |
           if [ ! -f pnpm-lock.yaml ]; then
             echo "pnpm-lock.yaml not found, generating..."
             pnpm install --lockfile-only
+          else
+            echo "pnpm-lock.yaml already exists."
           fi
+
+      - name: Install Node.js (with cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
         run: pnpm install --ignore-scripts --frozen-lockfile
@@ -41,29 +64,26 @@ jobs:
         run: echo "VERSION=$(node -p 'require(\"./package.json\").version')" >> $GITHUB_ENV
 
       - name: Publish package to NPM
-        run: pnpm publish --access public --no-git-checks
+        run: |
+          pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
           NPM_CONFIG_PROVENANCE: true
 
-      - name: Install jq (JSON Processor)
-        run: sudo apt-get install -y jq
-
-      - name: Deprecate previous version (if exists)
+      - name: Deprecate previous version
         run: |
-          PREV_VERSION=$(npm show @er-npm/scraper versions --json | jq -r 'sort | reverse | .[1]')
-          if [ -n "$PREV_VERSION" ]; then
-            echo "Checking if previous version ($PREV_VERSION) is already deprecated..."
+          PREV_VERSION=$(npm show @er-npm/scraper versions --json | jq -r '.[-2]')
+          if [ "$PREV_VERSION" != "null" ] && [ ! -z "$PREV_VERSION" ]; then
+            echo "Checking if previous version is already deprecated..."
             DEPRECATED=$(npm show @er-npm/scraper@$PREV_VERSION deprecated --json | jq -r '.')
-            if [ "$DEPRECATED" == "null" ] || [ -z "$DEPRECATED" ]; then
+            if [ "$DEPRECATED" == "null" ]; then
               echo "Deprecating previous version: $PREV_VERSION"
               pnpm deprecate "@er-npm/scraper@$PREV_VERSION" "Versi ini telah usang, silakan perbarui ke versi terbaru."
             else
-              echo "Previous version $PREV_VERSION is already deprecated. Skipping."
+              echo "Previous version $PREV_VERSION is already deprecated. Skipping deprecation."
             fi
           else
             echo "No previous version found or only one version exists, skipping deprecation."
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
-        continue-on-error: true
