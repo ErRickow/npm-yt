@@ -63,9 +63,6 @@ jobs:
         id: package_version
         run: echo "VERSION=$(node -p 'require("./package.json").version')" >> $GITHUB_ENV
 
-      - name: Bump version
-        run: pnpm version patch --no-git-tag-version
-
       - name: Publish package to NPM
         run: |
           pnpm publish --access public --no-git-checks
