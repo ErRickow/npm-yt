@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js & pnpm
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -22,7 +22,9 @@ jobs:
           cache: "pnpm"
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8 # Gunakan versi terbaru
 
       - name: Ensure pnpm-lock.yaml exists
         run: |
@@ -36,7 +38,7 @@ jobs:
 
       - name: Get package version
         id: package_version
-        run: echo "VERSION=$(node -p 'require("./package.json").version')" >> $GITHUB_ENV
+        run: echo "VERSION=$(node -p 'require(\"./package.json\").version')" >> $GITHUB_ENV
 
       - name: Publish package to NPM
         run: pnpm publish --access public --no-git-checks
