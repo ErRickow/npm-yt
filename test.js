@@ -14,7 +14,8 @@ const {
 async function testScraper() {
   const url = 'https://www.youtube.com/watch?v=vx2u5uUu3DE';
   const tt = 'https://vt.tiktok.com/ZSMM112cS/';
-  const ig = 'https://www.instagram.com/reel/DEjX54Rv-PQ/?igsh=MXRjb2NhcTltYzJzaw==';
+  const ig =
+    'https://www.instagram.com/reel/DEjX54Rv-PQ/?igsh=MXRjb2NhcTltYzJzaw==';
   let results = [];
 
   async function checkService(name, func, ...args) {
