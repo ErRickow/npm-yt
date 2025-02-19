@@ -31,7 +31,7 @@ jobs:
 
       - name: Run ESLint (Auto Fix)
         run: |
-          npx eslint . --fix || echo "No linting issues found"
+          npx eslint . --fix --debug
 
       - name: Run Prettier (Auto Format)
         run: |
