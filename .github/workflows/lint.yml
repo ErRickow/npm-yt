@@ -8,6 +8,9 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write
+
 jobs:
   lint-fix:
     runs-on: ubuntu-latest
@@ -44,3 +47,5 @@ jobs:
           git add .
           git commit -m "chore: auto-format & linting fixes" || echo "No changes to commit"
           git push || echo "No changes to push"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
