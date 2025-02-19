@@ -1,6 +1,7 @@
 index.d.ts
 eslint.config.js
 .prettierrc
+bin
 .prettierignore
 .node-version
 .eslintrc.json
