@@ -677,7 +677,6 @@ module.exports = {
   ermp4,
   ytadl: ermp3,
   ytvdl: ermp4,
-  alldl,
   yts,
   playstore,
   samehadakuDL,
