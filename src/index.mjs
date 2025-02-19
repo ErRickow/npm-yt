@@ -135,7 +135,6 @@ detectSystemInfo((error, architecture, platform) => {
 
 async function processOutput(args, tempFile) {
   return new Promise((resolve, reject) => {
-    await ensureExecutable(PathErDL);
     execFile(PathErDL, args, (err, stdout, stderr) => {
       if (err) {
         if (PathErDL.includes('ErLib_py')) {
