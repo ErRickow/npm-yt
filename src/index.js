@@ -1011,5 +1011,6 @@ module.exports = {
   tiktokDl,
   ttdl: tiktokDl,
   khodam,
-  igdl
+  igdl,
+  erai,
 };
