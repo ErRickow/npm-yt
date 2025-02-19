@@ -1,20 +1,15 @@
 import {
   detectSystemInfo,
-  generateRandomName,
-  getYouTubeID,
   ensureExecutable,
   handleFile,
-  getVideoUrl,
   updateFile
 } from './../dist/utils.js';
 import { Innertube, UniversalCache } from 'youtubei.js';
 import { execFile } from 'child_process';
 import ai from './ia/index.js';
-import bkp from './bkp/scrape.js';
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
-import fetch from 'node-fetch';
 
 updateFile();
 
