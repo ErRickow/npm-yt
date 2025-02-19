@@ -1,5 +1,15 @@
-`1.1.10 <https://github.com/ErBots/npm-yt/compare/v1.1.6...v1.1.10>`__ (2025-02-15)
+`1.1.23 <https://github.com/ErBots/npm-yt/compare/v1.1.6...v1.1.23>`__ (2025-02-19)
 -----------------------------------------------------------------------------------
+
+Bug Fixes
+~~~~~~~~~
+
+-  mybe
+   (`94f3ef1 <https://github.com/ErBots/npm-yt/commit/94f3ef1ea0c84f3dd17d02cc106e064b5f8f4b8e>`__)
+-  Unnecessary
+   (`8e39fae <https://github.com/ErBots/npm-yt/commit/8e39fae25222d0dccbe3ce239a3b729f42b85767>`__)
+-  Unnecessary
+   (`f4a9d26 <https://github.com/ErBots/npm-yt/commit/f4a9d26538d544a75863809cb3391a5ca2e1d061>`__)
 
 .. _section-1:
 
