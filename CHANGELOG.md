@@ -3,6 +3,7 @@
 
 ### Bug Fixes
 
+* Unnecessary ([8e39fae](https://github.com/ErBots/npm-yt/commit/8e39fae25222d0dccbe3ce239a3b729f42b85767))
 * Unnecessary ([f4a9d26](https://github.com/ErBots/npm-yt/commit/f4a9d26538d544a75863809cb3391a5ca2e1d061))
 
 
