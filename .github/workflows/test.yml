@@ -33,14 +33,14 @@ jobs:
       - name: Run Tests and Update README
         run: |
           TEMP_FILE=$(mktemp)
-
+          
           # Tambahkan Header Hasil Test
           echo "### Latest Test Results - $(date)" > "$TEMP_FILE"
           echo '```' >> "$TEMP_FILE"
-
+          
           # Jalankan test dan simpan hasilnya
-          node test.js 2>&1 | tee -a "$TEMP_FILE" || echo "Test script encountered an error!" >> "$TEMP_FILE"
-
+          node test.js >> "$TEMP_FILE" || echo "Test script failed!" >> "$TEMP_FILE"
+          
           echo '```' >> "$TEMP_FILE"
 
           # Debug: Lihat isi hasil test
@@ -67,17 +67,28 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .gitignore README.md yarn.lock bin/
-      
-          # Commit hanya jika ada perubahan
+          git config --global core.autocrlf false  # Cegah perubahan CRLF/LF
+
+          git add .gitignore README.md
+
+          # Cek apakah ada perubahan nyata di README.md
           if git diff --cached --quiet; then
-            echo "Tidak ada perubahan pada README.md. Tidak perlu commit."
+            echo "Tidak ada perubahan signifikan pada README.md. Tidak perlu commit."
             exit 0
           fi
-      
+
           git commit -m "chore: Auto-update test results in README"
-      
-          # Push tanpa stash atau rebase
+
+          # Simpan perubahan sementara sebelum pull
+          git stash
+
+          # Tarik perubahan terbaru dari remote tanpa merge commit
+          git pull --rebase origin master
+
+          # Kembalikan perubahan yang disimpan sebelumnya
+          git stash pop || echo "Tidak ada perubahan yang perlu diambil kembali"
+
+          # Push perubahan
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
