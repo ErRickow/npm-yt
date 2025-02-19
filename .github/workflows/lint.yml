@@ -15,9 +15,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -26,7 +23,8 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install --save-dev eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-plugin-unused-imports
 
       - name: Run ESLint & Auto-Fix
         run: npx eslint . --fix
