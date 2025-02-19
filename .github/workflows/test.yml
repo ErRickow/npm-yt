@@ -1,0 +1,40 @@
+name: Test @er-npm/scraper
+
+on:
+  workflow_dispatch: # Bisa dijalankan manual lewat GitHub Actions
+  schedule:
+    - cron: "0 0 * * *" # Jalankan setiap hari pukul 00:00 UTC
+
+jobs:
+  test-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install @er-npm/scraper
+        run: npm install @er-npm/scraper
+
+      - name: Run Tests
+        run: node test.js
+
+      - name: Append Test Results to Testing
+        run: |
+          echo "## Test Results - $(date)" >> Testing.md
+          echo '```' >> Testing.md
+          node test.js >> Testing.md
+          echo '```' >> Testing.md
+
+      - name: Commit & Push Updated Testing
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Testing.md
+          git commit -m "🔄 Auto-update test results in TESTING" || echo "No changes to commit"
+          git push
