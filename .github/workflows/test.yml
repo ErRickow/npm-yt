@@ -20,55 +20,6 @@ jobs:
         run: |
           echo "node_modules" >> .gitignore
           git rm -r --cached node_modules || echo "node_modules not found in repo"
-          git commit -m "🚀 Ensure node_modules is ignored" || echo "No changes to commit"
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install @er-npm/scraper (without saving)
-        run: npm install @er-npm/scraper --no-save
-
-      - name: Run Tests and Update README
-        run: |
-          TEMP_FILE=$(mktemp)
-          
-          echo "### Latest Test Results - $(date)" > "$TEMP_FILE"
-          echo '```' >> "$TEMP_FILE"
-          node test.js >> "$TEMP_FILE"
-          echo '```' >> "$TEMP_FILE"
-
-          sed -i '/<!-- status-start -->/,/<!-- status-end -->/c\
-          <!-- status-start -->\n'"$(cat "$TEMP_FILE")"'\n<!-- status-end -->' README.md
-          
-          rm "$TEMP_FILE"
-
-      - name: Remove node_modules before commit
-        run: rm -rf node_modules
-
-name: Test @er-npm/scraper
-
-on:
-  workflow_dispatch: # Bisa dijalankan manual lewat GitHub Actions
-  schedule:
-    - cron: "0 0 * * *" # Jalankan setiap hari pukul 00:00 UTC
-
-permissions:
-  contents: write
-
-jobs:
-  test-scraper:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Ensure node_modules is ignored
-        run: |
-          echo "node_modules" >> .gitignore
-          git rm -r --cached node_modules || echo "node_modules not found in repo"
           git commit -m "chore: Ensure node_modules is ignored" || echo "No changes to commit"
 
       - name: Setup Node.js
