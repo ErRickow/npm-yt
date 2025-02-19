@@ -62,14 +62,18 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .gitignore README.md
-          
+      
           # Commit hanya jika ada perubahan
           if git diff --cached --quiet; then
             echo "Tidak ada perubahan pada README.md. Tidak perlu commit."
             exit 0
           fi
-          
+      
           git commit -m "chore: Auto-update test results in README"
+      
+          # Pastikan perubahan terbaru dari remote diambil sebelum push
+          git pull --rebase origin master
+      
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
