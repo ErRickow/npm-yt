@@ -25,7 +25,7 @@ async function testScraper() {
       const res = await func(...args);
       const duration = Date.now() - startTime;
       console.log(`${name} response:`, res); // Debugging
-  
+
       const status = res?.status === true ? 'true ✅' : 'false ❌';
       results.push(`${name}: ${status} (${duration}ms)`);
     } catch (err) {
