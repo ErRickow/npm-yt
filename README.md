@@ -18,7 +18,8 @@ import {
   samehadakuSearch,
   ai,
   ttdl,
-  khodam
+  khodam,
+  erai
 } from '@er-npm/scraper';
 
 // Menggunakan CommonJS modules
@@ -32,7 +33,8 @@ const {
   samehadakuSearch,
   ai,
   ttdl,
-  khodam
+  khodam,
+  erai
 } = require('@er-npm/scraper');
 ```
 
@@ -55,6 +57,11 @@ khodam(name).then(forget => console.log(forget)); //output ini akan menghasilkan
 5. **PlayStore Search** - Cari Aplikasi Playstore
 6. **Tiktok Downloder** - Download Konten Dari Link Tiktok
 7. **Khodam** - Fitur cek khodam yang lebih deskriptif
+
+## Status
+
+<!-- status-start -->
+<!-- status-end -->
 
 > [!WARNING]
 > Untuk Library Ini Update Sangat Slow! Silahkan Pakai Rest Apis Kami Jikalau Ada Eror Di @er-npm/scraper kami. [Er-APIs](https://er-api.biz.id/testing)
