@@ -15,6 +15,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -30,7 +33,7 @@ jobs:
         run: npx eslint . --fix
 
       - name: Run Prettier & Auto-Fix
-        run: npx prettier --write .
+        run: npx prettier --write "**/*.{js,ts,json,md,css}"
 
       - name: Commit & Push Changes
         run: |
