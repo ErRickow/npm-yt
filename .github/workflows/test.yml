@@ -5,6 +5,9 @@ on:
     - cron: "0 */6 * * *"  # Jalankan setiap 6 jam
   workflow_dispatch:  # Bisa dijalankan manual dari GitHub Actions
 
+permissions:
+  contents: write
+
 jobs:
   test-scraper:
     runs-on: ubuntu-latest
@@ -64,3 +67,5 @@ jobs:
 
           git commit -m "Update test results in README.md"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
