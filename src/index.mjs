@@ -735,7 +735,7 @@ const expotszz = {
   alldl: alldl,
   yts: yts,
   ai: ai,
-  update: updateFile
+  update: updateFile,
   erai: erai,
   tiktokDl: tiktokDl,
   samehadakuSearch: samehadakuSearch,
