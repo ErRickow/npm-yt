@@ -972,10 +972,10 @@ async function tiktokDl(url) {
 async function erai(text) {
   const ur = 'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2dldC9lcmFpP3Q9';
   const ril = atob(ur);
-  const ai = `${ril}${text}`;
+  const ainjing = `${ril}${text}`;
 
   try {
-    const res = await axios.get(ai);
+    const res = await axios.get(ainjing);
     return {
       status: true,
       msg: res.data.message,
