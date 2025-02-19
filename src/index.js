@@ -325,7 +325,8 @@ async function igdl(url) {
  * ermp3(url).then(result => console.log(result)); // Menampilkan status dan URL unduhan
  */
 async function ermp3(url) {
-  const base64Url = 'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXAzP3U9';
+  const base64Url =
+    'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXAzP3U9';
   const decodedUrl = atob(base64Url);
   const apiUrl = `${decodedUrl}${url}`;
 
@@ -411,7 +412,8 @@ async function playstore(query) {
  */
 
 async function ermp4(url) {
-  const urlnya = 'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXA0P3U9';
+  const urlnya =
+    'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXA0P3U9';
   const decodedUrl = atob(urlnya);
   const apiUrl = `${decodedUrl}${url}`;
 
@@ -429,6 +431,38 @@ async function ermp4(url) {
       status: false,
       why: 'eror njing.' + error.message,
       terus_gmna: 'visit: t.me/er_support_group'
+    };
+  }
+}
+
+const axios = require("axios");
+
+/**
+ * Melakukan fetching ke ER-API dan mendapatkan respons ERAI.
+ *
+ * @async
+ * @function erai
+ * @param {string} t - Parameter query yang akan ditambahkan ke URL API.
+ * @returns {Promise<Object>} Sebuah promise yang mengembalikan objek berisi status dan pesan dari ERAI.
+ * @throws {Error} Jika permintaan gagal, akan mengembalikan pesan error.
+ */
+async function erai(t) {
+  const ur = "aHR0cHM6Ly9lci1hcGkuYml6LmlkL2dldC9lcmFpP3Q9";
+  const ril = atob(ur);
+  const ai = `${ril}${t}`;
+  
+  try {
+    const res = await axios.get(ai);
+    return {
+      status: true,
+      msg: res.data.message,
+      from: `@er-npm/scraper`
+    };
+  } catch (err) {
+    return {
+      status: false,
+      why: `eror anjing: ${err.message}`,
+      terus_gmna: 'kunjungi t.me/er_support_group'
     };
   }
 }
