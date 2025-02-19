@@ -8,6 +8,10 @@ Jangan Lupa Untuk Import Dahulu Module nya
 .. code-block:: javascript
 
     const { ai } = require('@er-npm/scraper')
+    // Module baru erai
+    const { erai } = require('@er-npm/scraper')
+
+.. autofunction:: erai
 
 .. autofunction:: ia
 
