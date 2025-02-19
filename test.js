@@ -18,37 +18,85 @@ async function testScraper() {
     'https://www.instagram.com/reel/DEjX54Rv-PQ/?igsh=MXRjb2NhcTltYzJzaw==';
   let results = [];
 
-  async function checkService(name, func, ...args) {
-    try {
-      console.log(`Testing ${name} with args:`, args); // Debugging
-      const startTime = Date.now();
-      const res = await func(...args);
-      const duration = Date.now() - startTime;
-      console.log(`${name} response:`, res); // Debugging
-
-      const status = res?.status === true ? 'true ✅' : 'false ❌';
-      results.push(`${name}: ${status} (${duration}ms)`);
-    } catch (err) {
-      console.error(`${name} error:`, err); // Debugging
-      results.push(`${name}: false ❌ (Error: ${err.message})`);
-    }
+  try {
+    const res = await ermp3(url);
+    if (!res.status) throw new Error('ermp3 failed');
+    results.push('ermp3: ✅');
+  } catch (err) {
+    results.push(`ermp3: ❌ (${err.message})`);
   }
 
-  await checkService('ermp3', ermp3, url);
-  await checkService('ermp4', ermp4, url);
-  await checkService('ai', ai, 'Hello!');
-  await checkService('erai', erai, 'hai');
-  await checkService('khodam', khodam, 'slamet');
-  await checkService('ttdl', tiktokDL, tt);
-  await checkService('yts', yts, 'skrillex');
-  await checkService('igdl', igdl, ig);
-  await checkService('samehadakuSearch', samehadakuSearch, 'boruto');
-  await checkService('playstore', playstore, 'ff');
+  try {
+    const res = await ermp4(url);
+    if (!res.status) throw new Error('ermp4 failed');
+    results.push('ermp4: ✅');
+  } catch (err) {
+    results.push(`ermp4: ❌ (${err.message})`);
+  }
 
-  // Cek apakah objek `ai` memiliki properti yang dipanggil
-  if (ai?.gambar) await checkService('aiGambar', ai.gambar, 'soto');
-  if (ai?.v2) await checkService('aiV2', ai.v2, 'hi');
-  if (ai?.v3) await checkService('aiV3', ai.v3, 'hai');
+  try {
+    const res = await ai('Hello!');
+    if (!res.status) throw new Error('ai failed');
+    results.push('ai: ✅');
+  } catch (err) {
+    results.push(`ai: ❌ (${err.message})`);
+  }
+
+  try {
+    const res = await erai('hai');
+    if (!res.status) throw new Error('erai failed');
+    results.push('erai: ✅');
+  } catch (err) {
+    results.push(`erai: ❌ (${err.message})`);
+  }
+
+  try {
+    const res = await khodam('slamet');
+    if (!res.status) throw new Error('khodam failed');
+    results.push('khodam: ✅');
+  } catch (err) {
+    results.push(`khodam: ❌ (${err.message})`);
+  }
+
+  try {
+    const res = await tiktokDL(tt);
+    if (!res.status) throw new Error('ttdl failed');
+    results.push('ttdl: ✅');
+  } catch (err) {
+    results.push(`ttdl: ❌ (${err.message})`);
+  }
+
+  try {
+    const res = await yts('skrillex');
+    if (!res.status) throw new Error('yts failed');
+    results.push('yts: ✅');
+  } catch (err) {
+    results.push(`yts: ❌ (${err.message})`);
+  }
+
+  try {
+    const res = await igdl(ig);
+    if (!res.status) throw new Error('igdl failed');
+    results.push('igdl: ✅');
+  } catch (err) {
+    results.push(`igdl: ❌ (${err.message})`);
+  }
+
+  try {
+    const res = await samehadakuSearch('boruto');
+    if (!res.status) throw new Error('samehadakuSearch failed');
+    results.push('samehadakuSearch: ✅');
+  } catch (err) {
+    results.push(`samehadakuSearch: ❌ (${err.message})`);
+  }
+
+  try {
+    const res = await playstore('ff');
+    if (!res.status) throw new Error('playstore failed');
+    results.push('playstore: ✅');
+  } catch (err) {
+    results.push(`playstore: ❌ (${err.message})`);
+  }
 
   console.log(results.join('\n'));
 }
