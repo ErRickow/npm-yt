@@ -33,14 +33,17 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           git-message: "docs(changelog): update changelog [skip ci]"
           output-file: "CHANGELOG.md"
-          skip-on-empty: true
+          skip-on-empty: false  # Jangan skip walaupun kosong
           skip-version-file: false
           create-summary: true
           skip-bump: true
           skip-tag: true
 
+      - name: Debug Changelog Content
+        run: cat CHANGELOG.md || echo "No CHANGELOG.md found"
+
       - name: Install Pandoc
-        run: sudo apt-get install -y pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
 
       - name: Convert Markdown to ReStructuredText
         run: |
@@ -50,24 +53,22 @@ jobs:
             echo "No CHANGELOG.md found, skipping conversion."
           fi
 
-      - name: Stash local changes (if any)
-        run: |
-          git diff --quiet || git stash
+      - name: Verify RST File
+        run: cat history.rst || echo "No history.rst generated"
 
       - name: Commit and Push Changelog
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Reset any unintended changes in package-lock.json
-          git restore package-lock.json
-          
-          git add CHANGELOG.md history.rst
-          git commit -m "docs(changelog): update changelog [skip ci]" || echo "No changes to commit"
-          
-          git pull --ff-only
-          git push || echo "No changes to push"
 
-      - name: Restore stashed changes (if any)
-        run: |
-          git stash list | grep "WIP" && git stash pop || echo "No stash to pop"
+          # Reset package-lock.json jika ada perubahan yang tidak diinginkan
+          git restore package-lock.json
+
+          git add CHANGELOG.md history.rst
+
+          # Commit tetap dibuat meskipun tidak ada perubahan signifikan
+          git commit -m "docs(changelog): update changelog [skip ci]" --allow-empty
+
+          # Hindari konflik dengan pull sebelum push
+          git pull --rebase
+          git push
