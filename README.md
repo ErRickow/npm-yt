@@ -61,7 +61,6 @@ khodam(name).then(forget => console.log(forget)); //output ini akan menghasilkan
 ## Status
 
 <!-- status-start -->
-```
 <!-- status-end -->
 
 > [!WARNING]
@@ -127,10 +126,6 @@ khodam(name).then(forget => console.log(forget)); //output ini akan menghasilkan
 </a>
 
 > This Project is Licensed under the [Unlicense License](https://raw.githubusercontent.com/ErRickow/npm-yt/master/license.txt)
-
-```
-
-```
 
 ```
 
