@@ -26,16 +26,13 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: |
-          npm install --save-dev eslint prettier eslint-config-prettier eslint-plugin-prettier
+        run: npm install
 
-      - name: Run ESLint (Auto Fix)
-        run: |
-          npx eslint . --fix --debug
+      - name: Run ESLint & Auto-Fix
+        run: npx eslint . --fix
 
-      - name: Run Prettier (Auto Format)
-        run: |
-          npx prettier --write "**/*.{js,ts,tsx,json,md,css}" --config .prettierrc
+      - name: Run Prettier & Auto-Fix
+        run: npx prettier --write .
 
       - name: Commit & Push Changes
         run: |
