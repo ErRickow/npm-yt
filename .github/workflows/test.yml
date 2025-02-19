@@ -33,14 +33,14 @@ jobs:
       - name: Run Tests and Update README
         run: |
           TEMP_FILE=$(mktemp)
-          
+
           # Tambahkan Header Hasil Test
           echo "### Latest Test Results - $(date)" > "$TEMP_FILE"
           echo '```' >> "$TEMP_FILE"
-          
+
           # Jalankan test dan simpan hasilnya
-          node test.js >> "$TEMP_FILE" || echo "Test script failed!" >> "$TEMP_FILE"
-          
+          node test.js 2>&1 | tee -a "$TEMP_FILE" || echo "Test script encountered an error!" >> "$TEMP_FILE"
+
           echo '```' >> "$TEMP_FILE"
 
           # Debug: Lihat isi hasil test
