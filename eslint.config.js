@@ -23,9 +23,8 @@ module.exports = [
     },
     rules: {
       'prettier/prettier': 'error',
-      'no-unused-vars': 'off', // Gunakan plugin unused-imports
-      'unused-imports/no-unused-vars': 'warn',
-      'unused-imports/no-unused-imports': 'error',
+      'no-unused-vars': 'off', // Digantikan oleh unused-imports
+      'unused-imports/no-unused-imports': 'error', // Hanya gunakan aturan ini
       'no-console': 'off', // Izinkan console.log
       'no-undef': 'off' // Matikan aturan no-undef karena kita sudah atur globals
     }
