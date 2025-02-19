@@ -16,13 +16,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Ensure node_modules is ignored
+        run: |
+          echo "node_modules" >> .gitignore
+          git rm -r --cached node_modules || echo "node_modules not found in repo"
+          git commit -m "🚀 Ensure node_modules is ignored" || echo "No changes to commit"
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install @er-npm/scraper
-        run: npm install @er-npm/scraper
+      - name: Install @er-npm/scraper (without saving)
+        run: npm install @er-npm/scraper --no-save
 
       - name: Run Tests
         run: node test.js
@@ -34,12 +40,15 @@ jobs:
           node test.js >> Testing.md
           echo '```' >> Testing.md
 
+      - name: Remove node_modules before commit
+        run: rm -rf node_modules
+
       - name: Commit & Push Updated Testing
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Testing.md
-          git commit -m "🔄 Auto-update test results in TESTING" || echo "No changes to commit"
+          git add .gitignore Testing.md
+          git commit -m "🔄 Auto-update test results & ensure node_modules is ignored" || echo "No changes to commit"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
