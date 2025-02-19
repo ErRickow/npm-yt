@@ -30,25 +30,92 @@ jobs:
       - name: Install @er-npm/scraper (without saving)
         run: npm install @er-npm/scraper --no-save
 
-      - name: Run Tests
-        run: node test.js
-
-      - name: Append Test Results to Testing
+      - name: Run Tests and Update README
         run: |
-          echo "## Test Results - $(date)" >> Testing.md
-          echo '```' >> Testing.md
-          node test.js >> Testing.md
-          echo '```' >> Testing.md
+          TEMP_FILE=$(mktemp)
+          
+          echo "### Latest Test Results - $(date)" > "$TEMP_FILE"
+          echo '```' >> "$TEMP_FILE"
+          node test.js >> "$TEMP_FILE"
+          echo '```' >> "$TEMP_FILE"
+
+          sed -i '/<!-- status-start -->/,/<!-- status-end -->/c\
+          <!-- status-start -->\n'"$(cat "$TEMP_FILE")"'\n<!-- status-end -->' README.md
+          
+          rm "$TEMP_FILE"
 
       - name: Remove node_modules before commit
         run: rm -rf node_modules
 
-      - name: Commit & Push Updated Testing
+name: Test @er-npm/scraper
+
+on:
+  workflow_dispatch: # Bisa dijalankan manual lewat GitHub Actions
+  schedule:
+    - cron: "0 0 * * *" # Jalankan setiap hari pukul 00:00 UTC
+
+permissions:
+  contents: write
+
+jobs:
+  test-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Ensure node_modules is ignored
+        run: |
+          echo "node_modules" >> .gitignore
+          git rm -r --cached node_modules || echo "node_modules not found in repo"
+          git commit -m "chore: Ensure node_modules is ignored" || echo "No changes to commit"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install @er-npm/scraper (without saving)
+        run: npm install @er-npm/scraper --no-save
+
+      - name: Run Tests and Update README
+        run: |
+          TEMP_FILE=$(mktemp)
+          
+          # Jalankan test dan simpan ke file sementara
+          echo "### Latest Test Results - $(date)" > "$TEMP_FILE"
+          echo '```' >> "$TEMP_FILE"
+          node test.js >> "$TEMP_FILE"
+          echo '```' >> "$TEMP_FILE"
+
+          # Cek apakah README.md memiliki status-start
+          if grep -q "<!-- status-start -->" README.md; then
+            sed -i '/<!-- status-start -->/,/<!-- status-end -->/c\
+            <!-- status-start -->\n'"$(cat "$TEMP_FILE")"'\n<!-- status-end -->' README.md
+          else
+            echo "Tidak ada <!-- status-start --> di README.md. Tidak ada perubahan yang dibuat."
+            exit 0
+          fi
+
+          rm "$TEMP_FILE"
+
+      - name: Remove node_modules before commit
+        run: rm -rf node_modules
+
+      - name: Commit & Push Updated README
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .gitignore Testing.md
-          git commit -m "🔄 Auto-update test results & ensure node_modules is ignored" || echo "No changes to commit"
+          git add .gitignore README.md
+          
+          # Commit hanya jika ada perubahan
+          if git diff --cached --quiet; then
+            echo "Tidak ada perubahan pada README.md. Tidak perlu commit."
+            exit 0
+          fi
+          
+          git commit -m "chore: Auto-update test results in README"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
