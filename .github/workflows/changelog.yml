@@ -50,11 +50,24 @@ jobs:
             echo "No CHANGELOG.md found, skipping conversion."
           fi
 
+      - name: Stash local changes (if any)
+        run: |
+          git diff --quiet || git stash
+
       - name: Commit and Push Changelog
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Reset any unintended changes in package-lock.json
+          git restore package-lock.json
+          
           git add CHANGELOG.md history.rst
           git commit -m "docs(changelog): update changelog [skip ci]" || echo "No changes to commit"
+          
           git pull --ff-only
           git push || echo "No changes to push"
+
+      - name: Restore stashed changes (if any)
+        run: |
+          git stash list | grep "WIP" && git stash pop || echo "No stash to pop"
