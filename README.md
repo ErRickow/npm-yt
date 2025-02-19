@@ -61,6 +61,7 @@ khodam(name).then(forget => console.log(forget)); //output ini akan menghasilkan
 ## Status
 
 <!-- status-start -->
+```
 <!-- status-end -->
 
 > [!WARNING]
