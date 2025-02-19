@@ -59,7 +59,7 @@ async function findValidCookie() {
 async function testCookie(cookiePath) {
   const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
   const args = ['--no-cache-dir', '-F', '--cookies', cookiePath, url];
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     execFile(PathErDL, args, (error, stdout, stderr) => {
       if (error) {
         if (PathErDL.includes('ErLib_py')) {
@@ -406,11 +406,11 @@ async function ermp4(url) {
 //     `${Math.floor(Math.random() * 100000)}_${Math.floor(Math.random() * 100000)}`
 //   );
 //   const outputTemplate = path.join(tempPathDl, '%(title)s_%(id)s.%(ext)s');
-// 
+//
 //   try {
 //     await ensureExecutable(PathErDL);
 //     const validCookiePath = await findValidCookie();
-// 
+//
 //     // Argumentos para listar formatos disponíveis
 //     const formatArgs = [
 //       '--no-cache-dir',
@@ -419,14 +419,14 @@ async function ermp4(url) {
 //       validCookiePath,
 //       url
 //     ];
-// 
+//
 //     const formats = await new Promise((resolve, reject) => {
 //       execFile(PathErDL, formatArgs, (error, stdout) => {
 //         if (error) return reject(error);
 //         resolve(stdout.trim());
 //       });
 //     });
-// 
+//
 //     // Detecta tipos de arquivos suportados
 //     const hasAudio =
 //       /\.(mp3|m4a|aac|wav|flac|ogg|opus)$/i.test(formats) ||
@@ -440,9 +440,9 @@ async function ermp4(url) {
 //     const hasDocument =
 //       /\.(pdf|doc|docx|xls|xlsx|txt|ppt|pptx|zip|apk)$/i.test(formats) ||
 //       formats.includes('document');
-// 
+//
 //     const downloadArgsList = [];
-// 
+//
 //     // Vídeo + Áudio com qualidade média
 //     if (hasVideo || !hasAudio) {
 //       downloadArgsList.push([
@@ -458,7 +458,7 @@ async function ermp4(url) {
 //         '--no-warnings'
 //       ]);
 //     }
-// 
+//
 //     // Áudio com qualidade mais baixa e rápido
 //     if (hasAudio) {
 //       downloadArgsList.push([
@@ -476,7 +476,7 @@ async function ermp4(url) {
 //         '16'
 //       ]);
 //     }
-// 
+//
 //     // Imagens
 //     if (hasImages) {
 //       downloadArgsList.push([
@@ -491,7 +491,7 @@ async function ermp4(url) {
 //         '--yes-playlist'
 //       ]);
 //     }
-// 
+//
 //     // Documentos
 //     if (hasDocument) {
 //       downloadArgsList.push([
@@ -505,12 +505,12 @@ async function ermp4(url) {
 //         '--no-warnings'
 //       ]);
 //     }
-// 
+//
 //     // Executa os downloads
 //     for (const args of downloadArgsList) {
 //       let attempt = 0;
 //       let success = false;
-// 
+//
 //       while (attempt < 3 && !success) {
 //         attempt++;
 //         try {
@@ -542,7 +542,7 @@ async function ermp4(url) {
 //               }
 //             );
 //           });
-// 
+//
 //           // Se não houver erro, marca como sucesso
 //           success = true;
 //           console.log(`Tentativa ${attempt} bem-sucedida para args: ${args}`);
@@ -558,7 +558,7 @@ async function ermp4(url) {
 //         }
 //       }
 //     }
-// 
+//
 //     // Processa os arquivos baixados
 //     const files = fs.readdirSync(tempPathDl);
 //     for (const file of files) {
@@ -568,7 +568,7 @@ async function ermp4(url) {
 //         tempPathDl,
 //         `converted_${path.basename(file, extension)}.mp4`
 //       );
-// 
+//
 //       if (['.mp4', '.mkv', '.webm'].includes(extension)) {
 //         try {
 //           await convertToCompatibleVideo(filePath, convertedFilePath); // Converte o vídeo para formato compatível
@@ -635,7 +635,7 @@ async function ermp4(url) {
 //   } catch (err) {
 //     console.error('Errr:', err);
 //   }
-// 
+//
 //   return results;
 // }
 
@@ -784,7 +784,8 @@ async function samehadakuDL(url) {
  *   .catch((error) => console.error(error));
  */
 async function tiktokDl(url) {
-  return new Promise((resolve, reject) => { // <- Tambahkan `=>` setelah reject
+  return new Promise((resolve, reject) => {
+    // <- Tambahkan `=>` setelah reject
     try {
       let data = [];
 
@@ -810,32 +811,37 @@ async function tiktokDl(url) {
       let startTime = Date.now();
 
       axios
-        .post(domain, {}, {
-          headers: {
-            'Accept': 'application/json, text/javascript, */*; q=0.01',
-            'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Origin': 'https://www.tikwm.com',
-            'Referer': 'https://www.tikwm.com/',
-            'Sec-Ch-Ua': '"Not)A;Brand";v="24", "Chromium";v="116"',
-            'Sec-Ch-Ua-Mobile': '?1',
-            'Sec-Ch-Ua-Platform': 'Android',
-            'Sec-Fetch-Dest': 'empty',
-            'Sec-Fetch-Mode': 'cors',
-            'Sec-Fetch-Site': 'same-origin',
-            'User-Agent':
-              'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, seperti Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
-            'X-Requested-With': 'XMLHttpRequest'
-          },
-          params: {
-            url: url,
-            count: 12,
-            cursor: 0,
-            web: 1,
-            hd: 1
+        .post(
+          domain,
+          {},
+          {
+            headers: {
+              'Accept': 'application/json, text/javascript, */*; q=0.01',
+              'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
+              'Content-Type':
+                'application/x-www-form-urlencoded; charset=UTF-8',
+              'Origin': 'https://www.tikwm.com',
+              'Referer': 'https://www.tikwm.com/',
+              'Sec-Ch-Ua': '"Not)A;Brand";v="24", "Chromium";v="116"',
+              'Sec-Ch-Ua-Mobile': '?1',
+              'Sec-Ch-Ua-Platform': 'Android',
+              'Sec-Fetch-Dest': 'empty',
+              'Sec-Fetch-Mode': 'cors',
+              'Sec-Fetch-Site': 'same-origin',
+              'User-Agent':
+                'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, seperti Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            params: {
+              url: url,
+              count: 12,
+              cursor: 0,
+              web: 1,
+              hd: 1
+            }
           }
-        })
-        .then((response) => {
+        )
+        .then(response => {
           let res = response.data.data;
           let responseTime = Date.now() - startTime;
 
@@ -895,7 +901,7 @@ async function tiktokDl(url) {
 
           resolve(json);
         })
-        .catch((e) => {
+        .catch(e => {
           console.log('Error in tiktokDl:', e.message);
           reject(e);
         });

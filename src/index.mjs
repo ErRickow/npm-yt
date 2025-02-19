@@ -17,7 +17,6 @@ const tempPath = path.join(__dirname, '../temp');
 const tempDirSystem = os.tmpdir();
 let PathErDL = '';
 
-
 function loadAndShuffleCookies() {
   const cookiesPath = path.join(__dirname, '../dist/cookies.json');
   const cookiesArray = JSON.parse(fs.readFileSync(cookiesPath, 'utf8'));
@@ -566,7 +565,8 @@ async function samehadakuDL(url) {
 }
 
 async function tiktokDl(url) {
-  return new Promise((resolve, reject) => { // <- Tambahkan `=>` setelah reject
+  return new Promise((resolve, reject) => {
+    // <- Tambahkan `=>` setelah reject
     try {
       let data = [];
 
@@ -592,32 +592,37 @@ async function tiktokDl(url) {
       let startTime = Date.now();
 
       axios
-        .post(domain, {}, {
-          headers: {
-            'Accept': 'application/json, text/javascript, */*; q=0.01',
-            'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Origin': 'https://www.tikwm.com',
-            'Referer': 'https://www.tikwm.com/',
-            'Sec-Ch-Ua': '"Not)A;Brand";v="24", "Chromium";v="116"',
-            'Sec-Ch-Ua-Mobile': '?1',
-            'Sec-Ch-Ua-Platform': 'Android',
-            'Sec-Fetch-Dest': 'empty',
-            'Sec-Fetch-Mode': 'cors',
-            'Sec-Fetch-Site': 'same-origin',
-            'User-Agent':
-              'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, seperti Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
-            'X-Requested-With': 'XMLHttpRequest'
-          },
-          params: {
-            url: url,
-            count: 12,
-            cursor: 0,
-            web: 1,
-            hd: 1
+        .post(
+          domain,
+          {},
+          {
+            headers: {
+              'Accept': 'application/json, text/javascript, */*; q=0.01',
+              'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
+              'Content-Type':
+                'application/x-www-form-urlencoded; charset=UTF-8',
+              'Origin': 'https://www.tikwm.com',
+              'Referer': 'https://www.tikwm.com/',
+              'Sec-Ch-Ua': '"Not)A;Brand";v="24", "Chromium";v="116"',
+              'Sec-Ch-Ua-Mobile': '?1',
+              'Sec-Ch-Ua-Platform': 'Android',
+              'Sec-Fetch-Dest': 'empty',
+              'Sec-Fetch-Mode': 'cors',
+              'Sec-Fetch-Site': 'same-origin',
+              'User-Agent':
+                'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, seperti Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            params: {
+              url: url,
+              count: 12,
+              cursor: 0,
+              web: 1,
+              hd: 1
+            }
           }
-        })
-        .then((response) => {
+        )
+        .then(response => {
           let res = response.data.data;
           let responseTime = Date.now() - startTime;
 
@@ -677,7 +682,7 @@ async function tiktokDl(url) {
 
           resolve(json);
         })
-        .catch((e) => {
+        .catch(e => {
           console.log('Error in tiktokDl:', e.message);
           reject(e);
         });
