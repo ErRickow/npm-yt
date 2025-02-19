@@ -327,13 +327,11 @@ async function igdl(url) {
 async function ermp3(url) {
   const base64Url = 'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXAzP3U9';
   const decodedUrl = atob(base64Url);
-  const apiUrl = `${decodedUrl}${url}`;
+  const apiUrl = `${decodedUrl}${encodeURIComponent(url)}`;
 
   try {
     const response = await axios.get(apiUrl);
-    const hasil = Array.isArray(response.data.hasil)
-      ? response.data.hasil[0]
-      : null;
+    const hasil = Array.isArray(response.data.hasil) ? response.data.hasil[0] : null;
 
     return {
       status: true,
@@ -418,13 +416,11 @@ async function playstore(query) {
 async function ermp4(url) {
   const base64Url = 'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXA0P3U9';
   const decodedUrl = atob(base64Url);
-  const apiUrl = `${decodedUrl}${url}`;
+  const apiUrl = `${decodedUrl}${encodeURIComponent(url)}`;
 
   try {
     const response = await axios.get(apiUrl);
-    const hasil = Array.isArray(response.data.hasil)
-      ? response.data.hasil[0]
-      : null;
+    const hasil = Array.isArray(response.data.hasil) ? response.data.hasil[0] : null;
 
     return {
       status: true,
