@@ -1,6 +1,7 @@
 index.d.ts
 eslint.config.js
 .prettierrc
+.prettierignore
 .node-version
 .eslintrc.json
 install.js
