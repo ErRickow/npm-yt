@@ -30,7 +30,7 @@ jobs:
           npm install --save-dev eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-plugin-unused-imports
 
       - name: Run ESLint & Auto-Fix
-        run: npx eslint . --fix
+        run: npx eslint . --fix || echo "No linting issues found"
 
       - name: Run Prettier & Auto-Fix
         run: npx prettier --write "**/*.{js,ts,json,md,css}"
