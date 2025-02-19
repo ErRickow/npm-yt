@@ -70,7 +70,7 @@ async function testCookie(cookiePath) {
               if (pyErr) {
                 if (
                   pyStderr.includes('This content isn') ||
-                  (pyErr.message && pyErr.message.includes('This content isn'))
+                  (pyErr?.message?.includes('This content isn'))
                 ) {
                   resolve(false);
                 } else {
@@ -83,7 +83,7 @@ async function testCookie(cookiePath) {
           );
         } else if (
           stderr.includes('This content isn') ||
-          (error.message && error.message.includes('This content isn'))
+          (error?.message?.includes('This content isn'))
         ) {
           resolve(false);
         } else {
@@ -197,25 +197,6 @@ async function khodam(name) {
     };
   }
 }
-
-// async function ermp3(input) {
-//   const url = getVideoUrl(input);
-//   const output = path.join(tempPath, generateRandomName('m4a'));
-//   const validCookiePath = await findValidCookie();
-//
-//   const args = [
-//     '--no-cache-dir',
-//     '-f',
-//     'worstaudio',
-//     '--cookies',
-//     validCookiePath,
-//     '-o',
-//     output,
-//     url,
-//   ];
-//
-//   return await processOutput(args, output);
-// }
 
 /**
  * Mengunduh media dari Instagram.
