@@ -146,7 +146,7 @@ function getModel(modelim) {
     'gpt-4o': 'gpt-4o-2024-08-06',
     'grok-2': 'grok-2',
     'claude-3-opus': 'claude-3-opus-20240229',
-    gemini: 'gemini-1.5-flash-exp-0827'
+    'gemini': 'gemini-1.5-flash-exp-0827'
   };
   return modelMap[modelim] || 'gpt-4o-2024-08-06';
 }
@@ -202,7 +202,7 @@ async function imageGenV2(teksnya, model = 'dalle') {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: ApiKeyHercai
+      'Authorization': ApiKeyHercai
     }
   });
 
@@ -394,7 +394,7 @@ async function textV3(input, model = 'v3') {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: ApiKeyHercai
+      'Authorization': ApiKeyHercai
     }
   });
 

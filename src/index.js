@@ -870,11 +870,11 @@ async function tiktokDl(url) {
         {},
         {
           headers: {
-            Accept: 'application/json, text/javascript, */*; q=0.01',
+            'Accept': 'application/json, text/javascript, */*; q=0.01',
             'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            Origin: 'https://www.tikwm.com',
-            Referer: 'https://www.tikwm.com/',
+            'Origin': 'https://www.tikwm.com',
+            'Referer': 'https://www.tikwm.com/',
             'Sec-Ch-Ua': '"Not)A;Brand";v="24", "Chromium";v="116"',
             'Sec-Ch-Ua-Mobile': '?1',
             'Sec-Ch-Ua-Platform': 'Android',
