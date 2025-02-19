@@ -203,7 +203,7 @@ async function textV3(input, model = 'v3') {
   if (!response.ok) throw new Error(`Error: ${response.status}`);
   const result = await response.json();
   return result.reply;
-};
+}
 
 const ai = Object.assign(ia, {
   models,
