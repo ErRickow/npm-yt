@@ -23,7 +23,8 @@
     "streaming",
     "ai",
     "media-processing",
-    "npm-package"
+    "npm-package",
+    "api-compiler"
   ],
   "dependencies": {
     "axios": "latest",
