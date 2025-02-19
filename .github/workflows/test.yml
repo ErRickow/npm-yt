@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: "0 0 * * *" # Jalankan setiap hari pukul 00:00 UTC
 
+permissions:
+  contents: write
+
 jobs:
   test-scraper:
     runs-on: ubuntu-latest
@@ -38,3 +41,5 @@ jobs:
           git add Testing.md
           git commit -m "🔄 Auto-update test results in TESTING" || echo "No changes to commit"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
