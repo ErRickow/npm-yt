@@ -16,12 +16,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js (without cache)
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: "https://registry.npmjs.org"
-
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
@@ -46,9 +40,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install --ignore-scripts --frozen-lockfile
 
+      - name: Validate package.json
+        run: |
+          if [ ! -f package.json ]; then
+            echo "Error: package.json not found!"
+            exit 1
+          fi
+          cat package.json | jq . > /dev/null || { echo "Error: Invalid JSON in package.json"; exit 1; }
+
       - name: Get package version
         id: package_version
-        run: echo "VERSION=$(node -p 'require(\"./package.json\").version')" >> $GITHUB_ENV
+        run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
 
       - name: Publish package to NPM
         run: |
@@ -57,9 +59,9 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
           NPM_CONFIG_PROVENANCE: true
 
-      - name: Deprecate
+      - name: Deprecate old versions
         run: |
-          ALL_VERSIONS=$(npm show @er-npm/scraper versions --json | jq -r '.[0:-1] | join("\n")') # Pastikan formatnya benar
+          ALL_VERSIONS=$(npm show @er-npm/scraper versions --json | jq -r '.[0:-1] | join("\n")')
           for VERSION in $ALL_VERSIONS; do
             DEPRECATED=$(npm show @er-npm/scraper@$VERSION deprecated --json | jq -r '.')
             if [ "$DEPRECATED" == "null" ]; then
