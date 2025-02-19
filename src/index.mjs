@@ -1,6 +1,5 @@
 import {
   detectSystemInfo,
-  ensureExecutable,
   handleFile,
   updateFile
 } from './../dist/utils.js';
