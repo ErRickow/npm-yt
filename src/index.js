@@ -325,8 +325,7 @@ async function igdl(url) {
  * ermp3(url).then(result => console.log(result)); // Menampilkan status dan URL unduhan
  */
 async function ermp3(url) {
-  const base64Url =
-    'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXAzP3U9';
+  const base64Url = 'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXAzP3U9';
   const decodedUrl = atob(base64Url);
   const apiUrl = `${decodedUrl}${url}`;
 
@@ -412,8 +411,7 @@ async function playstore(query) {
  */
 
 async function ermp4(url) {
-  const urlnya =
-    'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXA0P3U9';
+  const urlnya = 'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXA0P3U9';
   const decodedUrl = atob(urlnya);
   const apiUrl = `${decodedUrl}${url}`;
 
@@ -445,10 +443,10 @@ async function ermp4(url) {
  * @throws {Error} Jika permintaan gagal, akan mengembalikan pesan error.
  */
 async function erai(t) {
-  const ur = "aHR0cHM6Ly9lci1hcGkuYml6LmlkL2dldC9lcmFpP3Q9";
+  const ur = 'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2dldC9lcmFpP3Q9';
   const ril = atob(ur);
   const ai = `${ril}${t}`;
-  
+
   try {
     const res = await axios.get(ai);
     return {
@@ -1010,5 +1008,5 @@ module.exports = {
   ttdl: tiktokDl,
   khodam,
   igdl,
-  erai,
+  erai
 };
