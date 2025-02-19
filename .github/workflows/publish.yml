@@ -72,15 +72,15 @@ jobs:
 
       - name: Deprecate previous version
         run: |
-          PREV_VERSION=$(npm show @er-npm/scraper versions --json | jq -r '.[-2]')
-          if [ "$PREV_VERSION" != "null" ] && [ ! -z "$PREV_VERSION" ]; then
-            echo "Checking if previous version is already deprecated..."
+          PREV_VERSION=$(npm show @er-npm/scraper versions --json | jq -r 'sort | reverse | .[1]')
+          if [ -n "$PREV_VERSION" ]; then
+            echo "Checking if previous version ($PREV_VERSION) is already deprecated..."
             DEPRECATED=$(npm show @er-npm/scraper@$PREV_VERSION deprecated --json | jq -r '.')
-            if [ "$DEPRECATED" == "null" ]; then
-              echo "Deprecating previous version: $PREV_VERSION"
-              pnpm deprecate "@er-npm/scraper@$PREV_VERSION" "Versi ini telah usang, silakan perbarui ke versi terbaru."
-            else
-              echo "Previous version $PREV_VERSION is already deprecated. Skipping deprecation."
+          if [ "$DEPRECATED" == "null" ] || [ -z "$DEPRECATED" ]; then
+            echo "Deprecating previous version: $PREV_VERSION"
+            pnpm deprecate "@er-npm/scraper@$PREV_VERSION" "Versi ini telah usang, silakan perbarui ke versi terbaru."
+          else
+            echo "Previous version $PREV_VERSION is already deprecated. Skipping."
             fi
           else
             echo "No previous version found or only one version exists, skipping deprecation."
