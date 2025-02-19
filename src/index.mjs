@@ -17,19 +17,6 @@ const tempPath = path.join(__dirname, '../temp');
 const tempDirSystem = os.tmpdir();
 let PathErDL = '';
 
-async function clearSystemTempDir() {
-  try {
-    const command = 'rm -rf ' + tempDirSystem + '/*';
-    exec(command, err => {
-      if (err) {
-        console.error('Gagal membersihkan direktori sementara:', err.message);
-      } else {
-      }
-    });
-  } catch (err) {
-    console.error('Kesalahan umum:', err.message);
-  }
-}
 
 function loadAndShuffleCookies() {
   const cookiesPath = path.join(__dirname, '../dist/cookies.json');
@@ -579,7 +566,7 @@ async function samehadakuDL(url) {
 }
 
 async function tiktokDl(url) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(resolve, reject) => {
     try {
       let data = [];
 
