@@ -89,23 +89,23 @@ function getModel(modelim) {
     'claude-3-sonnet': 'claude-3-sonnet-20240229',
     'claude-3-5-sonnet': 'claude-3-5-sonnet-20240620',
     'claude-3-5-sonnet-2': 'claude-3-5-sonnet-20241022',
-    gemini: 'gemini-1.5-flash-exp-0827'
+    'gemini': 'gemini-1.5-flash-exp-0827'
   };
   return modelMap[modelim] || 'gpt-4o-2024-08-06';
 }
 
 function getModelImage(modelim) {
   const modelMap = {
-    dalle: 'v3/text2image',
-    v1: 'v1/text2image',
-    v2: 'v2/text2image',
+    'dalle': 'v3/text2image',
+    'v1': 'v1/text2image',
+    'v2': 'v2/text2image',
     'v2-beta': 'v2-beta/text2image',
-    lexica: 'lexica/text2image',
-    prodia: 'prodia/text2image',
-    simurg: 'simurg/text2image',
-    animefy: 'animefy/text2image',
-    raava: 'raava/text2image',
-    shonin: 'shonin/text2image'
+    'lexica': 'lexica/text2image',
+    'prodia': 'prodia/text2image',
+    'simurg': 'simurg/text2image',
+    'animefy': 'animefy/text2image',
+    'raava': 'raava/text2image',
+    'shonin': 'shonin/text2image'
   };
   return modelMap[modelim] || 'v3/text2image';
 }
@@ -116,7 +116,10 @@ async function imageGenV2(textin, model = 'dalle') {
   const url = `https://hercai.onrender.com/${modelOfc}?prompt=${encodeURIComponent(textin)}&negative_prompt=${encodeURIComponent('Bad quality, missing body parts, deformed body, meaningless image, poor quality, Deformed body parts, missing limbs, extra limbs')}`;
   const response = await fetch(url, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', Authorization: ApiKeyHercai }
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': ApiKeyHercai
+    }
   });
   if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
   const apiResponse = await response.json();
@@ -196,7 +199,7 @@ async function textV3(input, model = 'v3') {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: ApiKeyHercai
+      'Authorization': ApiKeyHercai
     }
   });
 
