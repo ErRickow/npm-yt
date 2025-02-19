@@ -5,7 +5,6 @@ const {
   samehadakuSearch,
   erai,
   tiktokDL,
-  ttdl,
   igdl,
   khodam,
   playstore,
@@ -15,17 +14,19 @@ const {
 async function testScraper() {
   const url = 'https://www.youtube.com/watch?v=vx2u5uUu3DE';
   const tt = 'https://vt.tiktok.com/ZSMM112cS/';
-  const ig =
-    'https://www.instagram.com/reel/DEjX54Rv-PQ/?igsh=MXRjb2NhcTltYzJzaw==';
+  const ig = 'https://www.instagram.com/reel/DEjX54Rv-PQ/?igsh=MXRjb2NhcTltYzJzaw==';
   let results = [];
 
   async function checkService(name, func, ...args) {
     try {
+      const startTime = Date.now(); // Waktu mulai
       const res = await func(...args);
+      const duration = Date.now() - startTime; // Hitung durasi
+
       const status = res.status === true ? 'true ✅' : 'false ❌';
-      results.push(`${name}: ${status}`);
+      results.push(`${name}: ${status} (${duration}ms)`);
     } catch (err) {
-      results.push(`${name}: false ❌`);
+      results.push(`${name}: false ❌ (Error: ${err.message})`);
     }
   }
 
@@ -39,9 +40,11 @@ async function testScraper() {
   await checkService('igdl', igdl, ig);
   await checkService('samehadakuSearch', samehadakuSearch, 'boruto');
   await checkService('playstore', playstore, 'ff');
-  await checkService('aiGambar', ai.gambar, 'soto');
-  await checkService('aiV2', ai.v2, 'hi');
-  await checkService('aiV3', ai.v3, 'hai');
+
+  // Cek apakah objek `ai` memiliki properti yang dipanggil
+  if (ai?.gambar) await checkService('aiGambar', ai.gambar, 'soto');
+  if (ai?.v2) await checkService('aiV2', ai.v2, 'hi');
+  if (ai?.v3) await checkService('aiV3', ai.v3, 'hai');
 
   console.log(results.join('\n'));
 }
