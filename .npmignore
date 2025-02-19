@@ -11,7 +11,7 @@ jsdoc.json
 action.yml
 docs/*
 .github/*
-test
+test.js
 tests
 *.spec.js
 *.test.js
