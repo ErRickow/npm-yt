@@ -1,4 +1,4 @@
-name: Lint & Format Code
+name: Lint Code
 
 on:
   push:
@@ -9,39 +9,17 @@ on:
       - master
 
 jobs:
-  lint-format:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.TOKEN }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: |
-          npm install --save-dev eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-plugin-unused-imports
-
-      - name: Run ESLint & Auto-Fix
-        run: |
-          npx eslint . --fix --config eslint.config.js || true
-          npx eslint . --config eslint.config.js
-
-      - name: Run Prettier & Auto-Fix
-        run: |
-          npx prettier --write "**/*.{js,ts,json,md,css}"
-
-      - name: Commit & Push Changes
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "chore: auto-format & linting fixes" || echo "No changes to commit"
-          git push || echo "No changes to push"
+      - name: Lint Code
+        uses: github/super-linter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LINTER_RULES_PATH: .github/linters
+          VALIDATE_ALL_CODEBASE: true
+          DEFAULT_BRANCH: master
