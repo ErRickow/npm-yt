@@ -784,7 +784,7 @@ async function samehadakuDL(url) {
  *   .catch((error) => console.error(error));
  */
 async function tiktokDl(url) {
-  return new Promise(resolve, reject) => {
+  return new Promise(resolve, reject) {
     try {
       let data = [];
 
