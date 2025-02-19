@@ -1,8 +1,4 @@
-import {
-  detectSystemInfo,
-  handleFile,
-  updateFile
-} from './../dist/utils.js';
+import { detectSystemInfo, handleFile, updateFile } from './../dist/utils.js';
 import { Innertube, UniversalCache } from 'youtubei.js';
 import { execFile } from 'child_process';
 import ai from './ia/index.js';
@@ -52,7 +48,7 @@ async function testCookie(cookiePath) {
               if (pyErr) {
                 if (
                   pyStderr.includes('This content isn') ||
-                  (pyErr?.message?.includes('This content isn'))
+                  pyErr?.message?.includes('This content isn')
                 ) {
                   resolve(false);
                 } else {
@@ -65,7 +61,7 @@ async function testCookie(cookiePath) {
           );
         } else if (
           stderr.includes('This content isn') ||
-          (error?.message?.includes('This content isn'))
+          error?.message?.includes('This content isn')
         ) {
           resolve(false);
         } else {
