@@ -24,7 +24,8 @@
     "ai",
     "media-processing",
     "npm-package",
-    "api-compiler"
+    "api-compiler",
+    "apis"
   ],
   "dependencies": {
     "axios": "latest",
