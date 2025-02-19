@@ -30,10 +30,12 @@ jobs:
           npm install --save-dev eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-plugin-unused-imports
 
       - name: Run ESLint & Auto-Fix
-        run: npx eslint . --fix || echo "No linting issues found"
+        run: |
+          npx eslint . --fix --config eslint.config.js || echo "No linting issues found"
 
       - name: Run Prettier & Auto-Fix
-        run: npx prettier --write "**/*.{js,ts,json,md,css}"
+        run: |
+          npx prettier --write "**/*.{js,ts,json,md,css}"
 
       - name: Commit & Push Changes
         run: |
@@ -41,5 +43,4 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "chore: auto-format & linting fixes" || echo "No changes to commit"
-          git pull --rebase
           git push || echo "No changes to push"
