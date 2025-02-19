@@ -33,7 +33,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           git-message: "docs(changelog): update changelog [skip ci]"
           output-file: "CHANGELOG.md"
-          skip-on-empty: true
+          skip-on-empty: false
           skip-version-file: false
           create-summary: true
           skip-bump: true
