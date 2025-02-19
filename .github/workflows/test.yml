@@ -71,9 +71,16 @@ jobs:
       
           git commit -m "chore: Auto-update test results in README"
       
-          # Pastikan perubahan terbaru dari remote diambil sebelum push
+          # Simpan perubahan sementara sebelum pull
+          git stash
+      
+          # Tarik perubahan terbaru dari remote tanpa merge commit
           git pull --rebase origin master
       
+          # Kembalikan perubahan yang disimpan sebelumnya
+          git stash pop || echo "Tidak ada perubahan yang perlu diambil kembali"
+      
+          # Push perubahan
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
