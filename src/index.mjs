@@ -183,17 +183,20 @@ async function ermp3(url) {
 
   try {
     const response = await axios.get(apiUrl);
+    const hasil = Array.isArray(response.data.hasil) ? response.data.hasil[0] : null;
+
     return {
       status: true,
-      judul: response.data.hasil.judul,
-      url: response.data.hasil.link_download,
+      judul: hasil?.judul || 'Judul tidak ditemukan',
+      url: hasil?.link_download || 'Link tidak tersedia',
       from: '@er-npm/scraper'
     };
   } catch (error) {
-    // Menangani error jika terjadi
+    console.log('Error:', error); // Debugging: lihat error di console
+
     return {
       status: false,
-      why: 'eror njing.' + error.message,
+      why: 'eror njing. ' + error.message,
       terus_gmna: 'visit: t.me/er_support_group'
     };
   }
@@ -204,23 +207,26 @@ async function ermp3(url) {
 // ermp3(url).then(result => console.log(result));
 
 async function ermp4(url) {
-  const urlnya = 'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXA0P3U9';
-  const decodedUrl = atob(urlnya);
+  const base64Url = 'aHR0cHM6Ly9lci1hcGkuYml6LmlkL2RsL2VybXA0P3U9';
+  const decodedUrl = atob(base64Url);
   const apiUrl = `${decodedUrl}${url}`;
 
   try {
     const response = await axios.get(apiUrl);
+    const hasil = Array.isArray(response.data.hasil) ? response.data.hasil[0] : null;
+
     return {
       status: true,
-      judul: response.data.hasil.judul,
-      url: response.data.hasil.link_download,
+      judul: hasil?.judul || 'Judul tidak ditemukan',
+      url: hasil?.link_download || 'Link tidak tersedia',
       from: '@er-npm/scraper'
     };
   } catch (error) {
-    // Menangani error jika terjadi
+    console.log('Error:', error); // Debugging: lihat error di console
+
     return {
       status: false,
-      why: 'eror njing.' + error.message,
+      why: 'eror njing. ' + error.message,
       terus_gmna: 'visit: t.me/er_support_group'
     };
   }
