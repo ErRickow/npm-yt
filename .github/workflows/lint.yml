@@ -31,7 +31,8 @@ jobs:
 
       - name: Run ESLint & Auto-Fix
         run: |
-          npx eslint . --fix --config eslint.config.js || echo "No linting issues found"
+          npx eslint . --fix --config eslint.config.js || true
+          npx eslint . --config eslint.config.js
 
       - name: Run Prettier & Auto-Fix
         run: |
