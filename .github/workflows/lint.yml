@@ -30,8 +30,8 @@ jobs:
 
       - name: Run ESLint & Auto-Fix
         run: |
-          npx eslint "**/*.{js,mjs}" --fix --quite || true
-          npx eslint "**/*.{js,mjs}" --fix --quite
+          npx eslint "**/*.{js,mjs}" --fix --quiet || true
+          npx eslint "**/*.{js,mjs}" --fix --quiet
 
       - name: Run Prettier & Auto-Fix
         run: |
