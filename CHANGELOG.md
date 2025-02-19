@@ -1,4 +1,9 @@
-## [1.1.19](https://github.com/ErBots/npm-yt/compare/v1.1.6...v1.1.19) (2025-02-19)
+## [1.1.21](https://github.com/ErBots/npm-yt/compare/v1.1.6...v1.1.21) (2025-02-19)
+
+
+### Bug Fixes
+
+* Unnecessary ([f4a9d26](https://github.com/ErBots/npm-yt/commit/f4a9d26538d544a75863809cb3391a5ca2e1d061))
 
 
 
