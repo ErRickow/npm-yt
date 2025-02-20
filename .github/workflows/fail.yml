@@ -1,0 +1,22 @@
+name: Open Issue on Failure
+
+on:
+  workflow_run:
+    workflows: ["Lint & Auto-Fix JavaScript"]
+    types:
+      - completed
+
+permissions:
+  issues: write
+
+jobs:
+  open_issue:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub Issue
+        uses: JasonEtco/create-an-issue@v2
+        with:
+          filename: .github/workf.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
